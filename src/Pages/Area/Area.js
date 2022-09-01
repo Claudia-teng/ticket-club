@@ -2,8 +2,9 @@ import axios from "axios";
 import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import io from "socket.io-client";
 
-function Area({ setSelectedAreaId }) {
+function Area({ setSelectedAreaId, ws, setWs }) {
   const [areas, setAreas] = useState([]);
 
   async function getArea() {
@@ -16,9 +17,20 @@ function Area({ setSelectedAreaId }) {
     setSelectedAreaId(areaId);
   }
 
+  function connectWebSocket() {
+    setWs(io("http://localhost:3000"));
+  }
+
   useEffect(() => {
     getArea();
+    connectWebSocket();
   }, []);
+
+  useEffect(() => {
+    if (ws) {
+      console.log("success connect!");
+    }
+  }, [ws]);
 
   return (
     <>

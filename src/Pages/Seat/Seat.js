@@ -3,7 +3,7 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Seat({ selectedAreaId, setOrderConfirmInfo }) {
+function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
   let navigate = useNavigate();
 
   const [seats, setSeats] = useState([]);
@@ -18,16 +18,24 @@ function Seat({ selectedAreaId, setOrderConfirmInfo }) {
   }
 
   function onSelectSeat(event, rowIndex, columnIndex) {
+    const seatInfo = {
+      rowIndex,
+      columnIndex,
+    };
     if (seats[rowIndex][columnIndex].status_id === 1) {
       seats[rowIndex][columnIndex].status_id = 4;
+      seatInfo.status_id = 4;
     } else {
       seats[rowIndex][columnIndex].status_id = 1;
+      seatInfo.status_id = 1;
     }
     setSeats(seats);
     setSelectedSeats((current) => [...current, seats[rowIndex][columnIndex]]);
+    ws.emit("seatChange", seatInfo);
   }
 
   async function onSubmitSeats(event) {
+    // todo - validate selectedSeats (> 0 && <= 4)
     console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId: 1,
@@ -51,6 +59,22 @@ function Seat({ selectedAreaId, setOrderConfirmInfo }) {
 
   useEffect(() => {
     getSeats();
+  }, []);
+
+  // useEffect(() => {
+  //   ws.on("seatChange", (data) => {
+  //     console.log("data", data);
+  //     if (seats.length) {
+  //       seats[data.rowIndex][data.columnIndex].status_id = data.status_id;
+  //       setSeats(seats);
+  //     }
+  //   });
+  // }, [seats]);
+
+  useEffect(() => {
+    ws.on("seatChange", (data) => {
+      console.log("hi");
+    });
   }, []);
 
   return (

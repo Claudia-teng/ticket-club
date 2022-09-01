@@ -10,6 +10,7 @@ import { useState } from "react";
 function App() {
   const [selectedAreaId, setSelectedAreaId] = useState(1);
   const [orderConfirmInfo, setOrderConfirmInfo] = useState({});
+  const [ws, setWs] = useState(null);
 
   return (
     <>
@@ -18,10 +19,12 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />}></Route>
-          <Route path="/area" element={<Area setSelectedAreaId={setSelectedAreaId} />}></Route>
+          <Route path="/area" element={<Area setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} />}></Route>
           <Route
             path="/seat"
-            element={<Seat selectedAreaId={selectedAreaId} setOrderConfirmInfo={setOrderConfirmInfo} />}
+            element={
+              <Seat selectedAreaId={selectedAreaId} setOrderConfirmInfo={setOrderConfirmInfo} ws={ws} setWs={setWs} />
+            }
           ></Route>
           <Route path="/order" element={<Order orderConfirmInfo={orderConfirmInfo} />}></Route>
         </Routes>
