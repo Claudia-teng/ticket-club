@@ -25,7 +25,6 @@ function Seat({ selectedAreaId, setOrderConfirmInfo }) {
     }
     setSeats(seats);
     setSelectedSeats((current) => [...current, seats[rowIndex][columnIndex]]);
-    console.log("seats", seats);
   }
 
   async function onSubmitSeats(event) {
@@ -62,12 +61,28 @@ function Seat({ selectedAreaId, setOrderConfirmInfo }) {
           <>
             <div className={styles.row}>
               {row.map((column, columnIndex) => {
-                if (seats[rowIndex][columnIndex].status_id !== 1) {
+                if (seats[rowIndex][columnIndex].status_id === 2) {
                   return (
                     <>
                       <p>
-                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
+                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - LOCK
                       </p>
+                    </>
+                  );
+                } else if (seats[rowIndex][columnIndex].status_id === 3) {
+                  return (
+                    <>
+                      <p>
+                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - SOLD
+                      </p>
+                    </>
+                  );
+                } else if (seats[rowIndex][columnIndex].status_id === 4) {
+                  return (
+                    <>
+                      <Link onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)} to="">
+                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
+                      </Link>
                     </>
                   );
                 } else {
