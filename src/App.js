@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ScrollToTop from "./Components/ScrollToTop";
+import Index from "./Pages/Index/Index";
+import Area from "./Pages/Area/Area";
+import Seat from "./Pages/Seat/Seat";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [selectedAreaId, setSelectedAreaId] = useState(1);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        {/* <Navbar /> */}
+        <ScrollToTop />
+        <Routes>
+          <Route path="/" element={<Index />}></Route>
+          <Route path="/area" element={<Area setSelectedAreaId={setSelectedAreaId} />}></Route>
+          <Route path="/seat" element={<Seat selectedAreaId={selectedAreaId} />}></Route>
+        </Routes>
+        {/* <Footer /> */}
+      </BrowserRouter>
+    </>
   );
 }
 
