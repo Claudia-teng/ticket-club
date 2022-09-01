@@ -3,7 +3,7 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Seat({ selectedAreaId }) {
+function Seat({ selectedAreaId, setOrderConfirmInfo }) {
   let navigate = useNavigate();
 
   const [seats, setSeats] = useState([]);
@@ -17,14 +17,14 @@ function Seat({ selectedAreaId }) {
     setSeats(data.data);
   }
 
-  function onSelectSeat(event, rowIndex, columnINdex) {
-    if (seats[rowIndex][columnINdex].status_id === 1) {
-      seats[rowIndex][columnINdex].status_id = 4;
+  function onSelectSeat(event, rowIndex, columnIndex) {
+    if (seats[rowIndex][columnIndex].status_id === 1) {
+      seats[rowIndex][columnIndex].status_id = 4;
     } else {
-      seats[rowIndex][columnINdex].status_id = 1;
+      seats[rowIndex][columnIndex].status_id = 1;
     }
     setSeats(seats);
-    setSelectedSeats((current) => [...current, seats[rowIndex][columnINdex]]);
+    setSelectedSeats((current) => [...current, seats[rowIndex][columnIndex]]);
     console.log("seats", seats);
   }
 
@@ -38,6 +38,7 @@ function Seat({ selectedAreaId }) {
     console.log("info", info);
     try {
       const data = await axios.post("http://localhost:3000/ticket/lock", info);
+      setOrderConfirmInfo(data.data);
       navigate("/order");
     } catch (err) {
       console.log("err", err.response.data.error);
