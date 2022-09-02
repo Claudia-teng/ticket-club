@@ -15,6 +15,11 @@ function Area({ setSelectedAreaId, ws, setWs }) {
 
   function onSelectArea(e, areaId) {
     setSelectedAreaId(areaId);
+    const data = {
+      sessionId: 1,
+      areaId,
+    };
+    ws.emit("join room", data);
   }
 
   function connectWebSocket() {
@@ -41,7 +46,7 @@ function Area({ setSelectedAreaId, ws, setWs }) {
             <p>{price}</p>
             {areas[price].map((data) => {
               return (
-                <Link onClick={(event) => onSelectArea(event, data.id)} to="/seat">
+                <Link onClick={(event) => onSelectArea(event, data.id)} to="/seat" key={data.id}>
                   {data.area} - {data.seats}
                 </Link>
               );

@@ -8,6 +8,7 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
 
   const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
+
   async function getSeats() {
     const info = {
       sessionId: 1,
@@ -22,16 +23,17 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
       rowIndex,
       columnIndex,
     };
-    if (seats[rowIndex][columnIndex].status_id === 1) {
-      seats[rowIndex][columnIndex].status_id = 4;
+    const _seats = JSON.parse(JSON.stringify(seats));
+    if (_seats[rowIndex][columnIndex].status_id === 1) {
+      _seats[rowIndex][columnIndex].status_id = 4;
       seatInfo.status_id = 4;
     } else {
-      seats[rowIndex][columnIndex].status_id = 1;
+      _seats[rowIndex][columnIndex].status_id = 1;
       seatInfo.status_id = 1;
     }
-    setSeats(seats);
-    setSelectedSeats((current) => [...current, seats[rowIndex][columnIndex]]);
-    ws.emit("seatChange", seatInfo);
+    setSeats(_seats);
+    setSelectedSeats((current) => [...current, _seats[rowIndex][columnIndex]]);
+    ws.emit("select seat", seatInfo);
   }
 
   async function onSubmitSeats(event) {
@@ -44,38 +46,27 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
     };
     console.log("info", info);
     try {
-      const data = await axios.post("http://localhost:3000/ticket/lock", info);
+      const data = await axios.post("http://localhost:3000/seat/lock", info);
       setOrderConfirmInfo(data.data);
       navigate("/order");
     } catch (err) {
       console.log("err", err.response.data.error);
     }
-
-    // if (data.data.total) {
-    // } else {
-    //   console.log("err", data.data.error);
-    // }
   }
 
   useEffect(() => {
     getSeats();
   }, []);
 
-  // useEffect(() => {
-  //   ws.on("seatChange", (data) => {
-  //     console.log("data", data);
-  //     if (seats.length) {
-  //       seats[data.rowIndex][data.columnIndex].status_id = data.status_id;
-  //       setSeats(seats);
-  //     }
-  //   });
-  // }, [seats]);
-
   useEffect(() => {
-    ws.on("seatChange", (data) => {
-      console.log("hi");
-    });
-  }, []);
+    if (seats.length) {
+      ws.on("select seat", (data) => {
+        const _seats = JSON.parse(JSON.stringify(seats));
+        _seats[data.rowIndex][data.columnIndex].status_id = data.status_id;
+        setSeats(_seats);
+      });
+    }
+  }, [seats]);
 
   return (
     <>
@@ -88,7 +79,7 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
                 if (seats[rowIndex][columnIndex].status_id === 2) {
                   return (
                     <>
-                      <p>
+                      <p key={`${rowIndex}-${columnIndex}`}>
                         {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - LOCK
                       </p>
                     </>
@@ -96,7 +87,7 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
                 } else if (seats[rowIndex][columnIndex].status_id === 3) {
                   return (
                     <>
-                      <p>
+                      <p key={`${rowIndex}-${columnIndex}`}>
                         {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - SOLD
                       </p>
                     </>
@@ -104,15 +95,31 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
                 } else if (seats[rowIndex][columnIndex].status_id === 4) {
                   return (
                     <>
-                      <Link onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)} to="">
+                      <Link
+                        onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                        to=""
+                        key={`${rowIndex}-${columnIndex}`}
+                      >
                         {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
                       </Link>
+                    </>
+                  );
+                } else if (seats[rowIndex][columnIndex].status_id === 5) {
+                  return (
+                    <>
+                      <p>
+                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
+                      </p>
                     </>
                   );
                 } else {
                   return (
                     <>
-                      <Link onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)} to="">
+                      <Link
+                        onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                        to=""
+                        key={`${rowIndex}-${columnIndex}`}
+                      >
                         {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - O
                       </Link>
                     </>

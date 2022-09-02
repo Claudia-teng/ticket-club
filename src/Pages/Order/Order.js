@@ -12,7 +12,7 @@ function Order({ orderConfirmInfo }) {
     };
     console.log("info", info);
     try {
-      const data = await axios.post("http://localhost:3000/ticket/order", info);
+      const data = await axios.post("http://localhost:3000/order", info);
       console.log(data.data.ok);
     } catch (err) {
       console.log(err.response.data.error);

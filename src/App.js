@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ScrollToTop from "./Components/ScrollToTop";
+import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import Index from "./Pages/Index/Index";
 import Area from "./Pages/Area/Area";
 import Seat from "./Pages/Seat/Seat";
 import Order from "./Pages/Order/Order";
+import Countdown from "./Components/Countdown/Countdown";
 import "./App.css";
 import { useState } from "react";
 
@@ -16,6 +17,7 @@ function App() {
     <>
       <BrowserRouter>
         {/* <Navbar /> */}
+        <Countdown />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />}></Route>
