@@ -110,6 +110,14 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
         }
         setSeats(_seats);
       });
+
+      return () => {
+        ws.off("select seat");
+        ws.off("lock seat");
+        ws.off("book seat");
+        ws.off("unselect seat");
+        ws.off("unlock seat");
+      };
     }
   }, [seats]);
 
