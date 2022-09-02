@@ -3,6 +3,7 @@ import { useState } from "react";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import Index from "./Pages/Index/Index";
 import BuyTicket from "./Pages/BuyTicket/BuyTicket";
+import EventDetail from "./Pages/EventDetail/EventDetail";
 import Area from "./Components/Area/Area";
 import Seat from "./Components/Seat/Seat";
 import Order from "./Components/Order/Order";
@@ -17,6 +18,7 @@ function App() {
   const [seats, setSeats] = useState([]);
   const [ws, setWs] = useState(null);
   const [timer, setTimer] = useState(null);
+  const [waitPeople, setWaitPeople] = useState(null);
 
   return (
     <>
@@ -25,6 +27,10 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />}></Route>
+          <Route
+            path="/event/:id"
+            element={<EventDetail ws={ws} setWs={setWs} setWaitPeople={setWaitPeople} />}
+          ></Route>
           <Route path="/ticket" element={<BuyTicket timer={timer} setTimer={setTimer} />}>
             <Route
               path="area"
@@ -50,7 +56,7 @@ function App() {
               }
             ></Route>
           </Route>
-          <Route path="/wait" element={<Waiting />}></Route>
+          <Route path="/wait" element={<Waiting waitPeople={waitPeople} />}></Route>
         </Routes>
         <Footer />
       </BrowserRouter>

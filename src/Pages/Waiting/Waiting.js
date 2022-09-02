@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Waiting({}) {
-  const [waitPeople, setWaitPeople] = useState(null);
+function Waiting({ waitPeople }) {
   return (
     <>
       <p>前面還有：{waitPeople}人</p>
