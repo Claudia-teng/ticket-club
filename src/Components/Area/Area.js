@@ -40,7 +40,7 @@ function Area({ setSelectedAreaId, ws, setWs, timer }) {
 
   useEffect(() => {
     if (timer === "00:00") {
-      navigate("/index");
+      navigate("/");
     }
   }, [timer]);
 
@@ -53,7 +53,7 @@ function Area({ setSelectedAreaId, ws, setWs, timer }) {
             <p>{price}</p>
             {areas[price].map((data) => {
               return (
-                <Link onClick={(event) => onSelectArea(event, data.id)} to="/seat" key={data.id}>
+                <Link onClick={(event) => onSelectArea(event, data.id)} to="/ticket/seat" key={data.id}>
                   {data.area} - {data.seats}
                 </Link>
               );

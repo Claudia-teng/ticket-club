@@ -26,7 +26,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
         });
       }
       ws.emit("book seat", soldSeats);
-      navigate("/index");
+      navigate("/");
     } catch (err) {
       console.log(err.response.data.error);
     }
@@ -34,7 +34,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
 
   useEffect(() => {
     if (timer === "00:00") {
-      navigate("/index");
+      navigate("/");
       ws.emit("unlock seat", orderConfirmInfo);
     }
   }, [timer]);

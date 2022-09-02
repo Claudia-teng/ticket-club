@@ -51,7 +51,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
     try {
       const data = await axios.post("http://localhost:3000/seat/lock", info);
       setOrderConfirmInfo(data.data);
-      navigate("/order");
+      navigate("/ticket/order");
       let lockedSeats = JSON.parse(JSON.stringify(selectedSeats));
       lockedSeats.map((seat) => (seat.status_id = 2));
       // console.log("lockedSeats", lockedSeats);
@@ -123,7 +123,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
 
   useEffect(() => {
     if (timer === "00:00") {
-      navigate("/index");
+      navigate("/");
       ws.emit("unselect seat", selectedSeats);
     }
   }, [timer]);
