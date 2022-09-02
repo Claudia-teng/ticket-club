@@ -6,11 +6,12 @@ import Seat from "./Pages/Seat/Seat";
 import Order from "./Pages/Order/Order";
 import Countdown from "./Components/Countdown/Countdown";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
   const [selectedAreaId, setSelectedAreaId] = useState(1);
   const [orderConfirmInfo, setOrderConfirmInfo] = useState({});
+  const [seats, setSeats] = useState([]);
   const [ws, setWs] = useState(null);
   const [timer, setTimer] = useState(null);
 
@@ -29,10 +30,22 @@ function App() {
           <Route
             path="/seat"
             element={
-              <Seat selectedAreaId={selectedAreaId} setOrderConfirmInfo={setOrderConfirmInfo} ws={ws} timer={timer} />
+              <Seat
+                seats={seats}
+                setSeats={setSeats}
+                selectedAreaId={selectedAreaId}
+                setOrderConfirmInfo={setOrderConfirmInfo}
+                ws={ws}
+                timer={timer}
+              />
             }
           ></Route>
-          <Route path="/order" element={<Order orderConfirmInfo={orderConfirmInfo} ws={ws} timer={timer} />}></Route>
+          <Route
+            path="/order"
+            element={
+              <Order seats={seats} setSeats={setSeats} orderConfirmInfo={orderConfirmInfo} ws={ws} timer={timer} />
+            }
+          ></Route>
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

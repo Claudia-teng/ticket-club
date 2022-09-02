@@ -3,10 +3,9 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Seat({ selectedAreaId, setOrderConfirmInfo, ws, timer }) {
+function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
 
-  const [seats, setSeats] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   async function getSeats() {
@@ -27,12 +26,16 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, timer }) {
     if (_seats[rowIndex][columnIndex].status_id === 1) {
       _seats[rowIndex][columnIndex].status_id = 4;
       seatInfo.status_id = 4;
+      setSelectedSeats((current) => [...current, Object.assign(_seats[rowIndex][columnIndex], seatInfo)]);
     } else {
       _seats[rowIndex][columnIndex].status_id = 1;
       seatInfo.status_id = 1;
+      setSelectedSeats((current) => {
+        return current.filter((item) => item.rowIndex !== rowIndex || item.columnIndex !== columnIndex);
+      });
+      // console.log("selectedSeats", selectedSeats);
     }
     setSeats(_seats);
-    setSelectedSeats((current) => [...current, Object.assign(_seats[rowIndex][columnIndex], seatInfo)]);
     ws.emit("select seat", seatInfo);
   }
 

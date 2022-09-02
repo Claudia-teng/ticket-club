@@ -1,7 +1,8 @@
 import styles from "./Order.module.sass";
+import { useEffect } from "react";
 import axios from "axios";
 
-function Order({ orderConfirmInfo, ws }) {
+function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
   async function onSubmitOrder(event) {
     console.log("orderConfirmInfo", orderConfirmInfo);
     const seatIds = [];
@@ -27,6 +28,23 @@ function Order({ orderConfirmInfo, ws }) {
       console.log(err.response.data.error);
     }
   }
+
+  useEffect(() => {
+    ws.on("unlock seat", (data) => {
+      // const _seats = JSON.parse(JSON.stringify(seats));
+      // for (let seat of data) {
+      //   _seats[seat.rowIndex][seat.columnIndex].status_id = 1;
+      // }
+      // setSeats(_seats);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (timer === "00:00") {
+      // navigate("/index");
+      ws.emit("unlock seat", orderConfirmInfo);
+    }
+  }, [timer]);
 
   return (
     <>
