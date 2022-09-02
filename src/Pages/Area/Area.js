@@ -1,10 +1,11 @@
 import axios from "axios";
 import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
-function Area({ setSelectedAreaId, ws, setWs }) {
+function Area({ setSelectedAreaId, ws, setWs, timer }) {
+  let navigate = useNavigate();
   const [areas, setAreas] = useState([]);
 
   async function getArea() {
@@ -36,6 +37,12 @@ function Area({ setSelectedAreaId, ws, setWs }) {
       console.log("success connect!");
     }
   }, [ws]);
+
+  useEffect(() => {
+    if (timer === "00:00") {
+      // navigate("/index");
+    }
+  }, [timer]);
 
   return (
     <>

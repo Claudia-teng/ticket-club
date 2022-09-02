@@ -12,23 +12,27 @@ function App() {
   const [selectedAreaId, setSelectedAreaId] = useState(1);
   const [orderConfirmInfo, setOrderConfirmInfo] = useState({});
   const [ws, setWs] = useState(null);
+  const [timer, setTimer] = useState(null);
 
   return (
     <>
       <BrowserRouter>
         {/* <Navbar /> */}
-        <Countdown />
+        <Countdown timer={timer} setTimer={setTimer} />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />}></Route>
-          <Route path="/area" element={<Area setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} />}></Route>
+          <Route
+            path="/area"
+            element={<Area setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} timer={timer} />}
+          ></Route>
           <Route
             path="/seat"
             element={
-              <Seat selectedAreaId={selectedAreaId} setOrderConfirmInfo={setOrderConfirmInfo} ws={ws} setWs={setWs} />
+              <Seat selectedAreaId={selectedAreaId} setOrderConfirmInfo={setOrderConfirmInfo} ws={ws} timer={timer} />
             }
           ></Route>
-          <Route path="/order" element={<Order orderConfirmInfo={orderConfirmInfo} ws={ws} />}></Route>
+          <Route path="/order" element={<Order orderConfirmInfo={orderConfirmInfo} ws={ws} timer={timer} />}></Route>
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

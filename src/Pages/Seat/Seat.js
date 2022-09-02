@@ -3,7 +3,7 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
+function Seat({ selectedAreaId, setOrderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
 
   const [seats, setSeats] = useState([]);
@@ -88,8 +88,24 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
         }
         setSeats(_seats);
       });
+
+      ws.on("unselect seat", (data) => {
+        console.log("unselect seat", data);
+        const _seats = JSON.parse(JSON.stringify(seats));
+        for (let seat of data) {
+          _seats[seat.rowIndex][seat.columnIndex].status_id = 1;
+        }
+        setSeats(_seats);
+      });
     }
   }, [seats]);
+
+  useEffect(() => {
+    if (timer === "00:00") {
+      // navigate("/index");
+      ws.emit("unselect seat", selectedSeats);
+    }
+  }, [timer]);
 
   return (
     <>
