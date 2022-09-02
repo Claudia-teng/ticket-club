@@ -32,13 +32,13 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
       seatInfo.status_id = 1;
     }
     setSeats(_seats);
-    setSelectedSeats((current) => [...current, _seats[rowIndex][columnIndex]]);
+    setSelectedSeats((current) => [...current, Object.assign(_seats[rowIndex][columnIndex], seatInfo)]);
     ws.emit("select seat", seatInfo);
   }
 
   async function onSubmitSeats(event) {
     // todo - validate selectedSeats (> 0 && <= 4)
-    console.log("selectedSeats", selectedSeats);
+    // console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId: 1,
       areaId: selectedAreaId,
@@ -49,6 +49,10 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
       const data = await axios.post("http://localhost:3000/seat/lock", info);
       setOrderConfirmInfo(data.data);
       navigate("/order");
+      let lockedSeats = JSON.parse(JSON.stringify(selectedSeats));
+      lockedSeats.map((seat) => (seat.status_id = 2));
+      // console.log("lockedSeats", lockedSeats);
+      ws.emit("lock seat", lockedSeats);
     } catch (err) {
       console.log("err", err.response.data.error);
     }
@@ -63,6 +67,16 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
       ws.on("select seat", (data) => {
         const _seats = JSON.parse(JSON.stringify(seats));
         _seats[data.rowIndex][data.columnIndex].status_id = data.status_id;
+        console.log("_seats", _seats);
+        setSeats(_seats);
+      });
+
+      ws.on("lock seat", (data) => {
+        console.log("data", data);
+        const _seats = JSON.parse(JSON.stringify(seats));
+        for (let seat of data) {
+          _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
+        }
         setSeats(_seats);
       });
     }
