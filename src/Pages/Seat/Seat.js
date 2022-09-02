@@ -79,6 +79,15 @@ function Seat({ selectedAreaId, setOrderConfirmInfo, ws, setWs }) {
         }
         setSeats(_seats);
       });
+
+      ws.on("book seat", (data) => {
+        console.log("book seat data", data);
+        const _seats = JSON.parse(JSON.stringify(seats));
+        for (let seat of data) {
+          _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
+        }
+        setSeats(_seats);
+      });
     }
   }, [seats]);
 

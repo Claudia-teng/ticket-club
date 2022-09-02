@@ -28,7 +28,7 @@ function App() {
               <Seat selectedAreaId={selectedAreaId} setOrderConfirmInfo={setOrderConfirmInfo} ws={ws} setWs={setWs} />
             }
           ></Route>
-          <Route path="/order" element={<Order orderConfirmInfo={orderConfirmInfo} />}></Route>
+          <Route path="/order" element={<Order orderConfirmInfo={orderConfirmInfo} ws={ws} />}></Route>
         </Routes>
         {/* <Footer /> */}
       </BrowserRouter>

@@ -1,7 +1,7 @@
 import styles from "./Order.module.sass";
 import axios from "axios";
 
-function Order({ orderConfirmInfo }) {
+function Order({ orderConfirmInfo, ws }) {
   async function onSubmitOrder(event) {
     console.log("orderConfirmInfo", orderConfirmInfo);
     const seatIds = [];
@@ -14,6 +14,15 @@ function Order({ orderConfirmInfo }) {
     try {
       const data = await axios.post("http://localhost:3000/order", info);
       console.log(data.data.ok);
+      const soldSeats = [];
+      for (let seat of orderConfirmInfo.tickets) {
+        soldSeats.push({
+          columnIndex: seat.column - 1,
+          rowIndex: seat.row - 1,
+          status_id: 3,
+        });
+      }
+      ws.emit("book seat", soldSeats);
     } catch (err) {
       console.log(err.response.data.error);
     }
