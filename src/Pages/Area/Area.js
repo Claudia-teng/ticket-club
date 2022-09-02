@@ -40,7 +40,7 @@ function Area({ setSelectedAreaId, ws, setWs, timer }) {
 
   useEffect(() => {
     if (timer === "00:00") {
-      // navigate("/index");
+      navigate("/index");
     }
   }, [timer]);
 

@@ -115,7 +115,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
 
   useEffect(() => {
     if (timer === "00:00") {
-      // navigate("/index");
+      navigate("/index");
       ws.emit("unselect seat", selectedSeats);
     }
   }, [timer]);

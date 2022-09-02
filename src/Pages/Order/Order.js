@@ -1,8 +1,10 @@
 import styles from "./Order.module.sass";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
+  let navigate = useNavigate();
   async function onSubmitOrder(event) {
     console.log("orderConfirmInfo", orderConfirmInfo);
     const seatIds = [];
@@ -24,6 +26,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
         });
       }
       ws.emit("book seat", soldSeats);
+      navigate("/index");
     } catch (err) {
       console.log(err.response.data.error);
     }
@@ -31,7 +34,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
 
   useEffect(() => {
     if (timer === "00:00") {
-      // navigate("/index");
+      navigate("/index");
       ws.emit("unlock seat", orderConfirmInfo);
     }
   }, [timer]);

@@ -24,7 +24,7 @@ function Countdown({ timer, setTimer }) {
   }
 
   useEffect(() => {
-    startTimer(20);
+    startTimer(50);
   }, []);
 
   return (
