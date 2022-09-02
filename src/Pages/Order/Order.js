@@ -30,16 +30,6 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
   }
 
   useEffect(() => {
-    ws.on("unlock seat", (data) => {
-      // const _seats = JSON.parse(JSON.stringify(seats));
-      // for (let seat of data) {
-      //   _seats[seat.rowIndex][seat.columnIndex].status_id = 1;
-      // }
-      // setSeats(_seats);
-    });
-  }, []);
-
-  useEffect(() => {
     if (timer === "00:00") {
       // navigate("/index");
       ws.emit("unlock seat", orderConfirmInfo);

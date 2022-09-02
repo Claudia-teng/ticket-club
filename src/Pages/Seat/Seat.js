@@ -100,6 +100,16 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
         }
         setSeats(_seats);
       });
+
+      ws.on("unlock seat", (data) => {
+        console.log("unlock seat", data);
+        const _seats = JSON.parse(JSON.stringify(seats));
+        for (let seat of data.tickets) {
+          console.log("seat", seat);
+          _seats[seat.row - 1][seat.column - 1].status_id = 1;
+        }
+        setSeats(_seats);
+      });
     }
   }, [seats]);
 
