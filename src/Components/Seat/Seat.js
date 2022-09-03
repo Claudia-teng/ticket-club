@@ -58,6 +58,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
       ws.emit("lock seat", lockedSeats);
     } catch (err) {
       console.log("err", err.response.data.error);
+      // todo - modal show error msg & navigate to /ticket/area
     }
   }
 

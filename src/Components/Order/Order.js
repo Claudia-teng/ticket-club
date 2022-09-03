@@ -5,6 +5,7 @@ import axios from "axios";
 
 function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
+
   async function onSubmitOrder(event) {
     console.log("orderConfirmInfo", orderConfirmInfo);
     const seatIds = [];
@@ -26,7 +27,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
         });
       }
       ws.emit("book seat", soldSeats);
-      navigate("/");
+      navigate("/success");
     } catch (err) {
       console.log(err.response.data.error);
     }

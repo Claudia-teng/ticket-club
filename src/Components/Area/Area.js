@@ -28,6 +28,8 @@ function Area({ setSelectedAreaId, ws, timer }) {
 
   useEffect(() => {
     if (timer === "00:00") {
+      ws.disconnect();
+      // todo - modal show expires
       navigate("/");
     }
   }, [timer]);

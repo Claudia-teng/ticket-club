@@ -9,7 +9,9 @@ function EventDetail({ ws, setWs, setWaitPeople }) {
   function onBuyTicket(event, sessionId) {
     setWs(
       io("http://localhost:3000", {
-        auth: 1,
+        auth: {
+          token: 4,
+        },
       })
     );
     setSessionId(sessionId);

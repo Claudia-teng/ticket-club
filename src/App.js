@@ -8,6 +8,7 @@ import Area from "./Components/Area/Area";
 import Seat from "./Components/Seat/Seat";
 import Order from "./Components/Order/Order";
 import Waiting from "./Pages/Waiting/Waiting";
+import Success from "./Pages/Success/Success";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
 import "./App.css";
@@ -56,7 +57,11 @@ function App() {
               }
             ></Route>
           </Route>
-          <Route path="/wait" element={<Waiting waitPeople={waitPeople} />}></Route>
+          <Route path="/success" element={<Success ws={ws} />}></Route>
+          <Route
+            path="/wait"
+            element={<Waiting waitPeople={waitPeople} setWaitPeople={setWaitPeople} ws={ws} />}
+          ></Route>
         </Routes>
         <Footer />
       </BrowserRouter>
