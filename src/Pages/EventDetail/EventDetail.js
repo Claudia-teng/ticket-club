@@ -10,12 +10,18 @@ function EventDetail({ ws, setWs, setWaitPeople }) {
     setWs(
       io("http://localhost:3000", {
         auth: {
-          token: 4,
+          token: 1,
         },
       })
     );
     setSessionId(sessionId);
   }
+
+  useEffect(() => {
+    if (ws) {
+      ws.disconnect();
+    }
+  }, []);
 
   useEffect(() => {
     if (ws) {
