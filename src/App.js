@@ -20,6 +20,7 @@ function App() {
   const [ws, setWs] = useState(null);
   const [timer, setTimer] = useState(null);
   const [waitPeople, setWaitPeople] = useState(null);
+  const [leftSeconds, setLeftSeconds] = useState(null);
 
   return (
     <>
@@ -30,9 +31,16 @@ function App() {
           <Route path="/" element={<Index />}></Route>
           <Route
             path="/event/:id"
-            element={<EventDetail ws={ws} setWs={setWs} setWaitPeople={setWaitPeople} />}
+            element={
+              <EventDetail ws={ws} setWs={setWs} setWaitPeople={setWaitPeople} setLeftSeconds={setLeftSeconds} />
+            }
           ></Route>
-          <Route path="/ticket" element={<BuyTicket timer={timer} setTimer={setTimer} />}>
+          <Route
+            path="/ticket"
+            element={
+              <BuyTicket timer={timer} setTimer={setTimer} leftSeconds={leftSeconds} setLeftSeconds={setLeftSeconds} />
+            }
+          >
             <Route
               path="area"
               element={<Area setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} timer={timer} />}
@@ -60,7 +68,15 @@ function App() {
           <Route path="/success" element={<Success ws={ws} />}></Route>
           <Route
             path="/wait"
-            element={<Waiting waitPeople={waitPeople} setWaitPeople={setWaitPeople} ws={ws} />}
+            element={
+              <Waiting
+                waitPeople={waitPeople}
+                setWaitPeople={setWaitPeople}
+                ws={ws}
+                leftSeconds={leftSeconds}
+                setLeftSeconds={setLeftSeconds}
+              />
+            }
           ></Route>
         </Routes>
         <Footer />

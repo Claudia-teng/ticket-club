@@ -2,10 +2,15 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Countdown from "../../Components/Countdown/Countdown";
 import { useEffect, useState } from "react";
 
-function BuyTicket({ timer, setTimer }) {
+function BuyTicket({ timer, setTimer, leftSeconds, setLeftSeconds }) {
+  useEffect(() => {
+    setLeftSeconds(60);
+  }, []);
+
   return (
     <>
-      <Countdown timer={timer} setTimer={setTimer} />
+      <p>Countdown</p>
+      <Countdown timer={timer} setTimer={setTimer} leftSeconds={leftSeconds} />
       <Outlet />
     </>
   );

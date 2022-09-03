@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import io from "socket.io-client";
 
-function EventDetail({ ws, setWs, setWaitPeople }) {
+function EventDetail({ ws, setWs, setWaitPeople, setLeftSeconds }) {
   let navigate = useNavigate();
   const [sessionId, setSessionId] = useState(null);
 
@@ -10,7 +10,7 @@ function EventDetail({ ws, setWs, setWaitPeople }) {
     setWs(
       io("http://localhost:3000", {
         auth: {
-          token: 1,
+          token: 2,
         },
       })
     );
@@ -28,8 +28,18 @@ function EventDetail({ ws, setWs, setWaitPeople }) {
       console.log("success connect!");
       ws.on("check limit", (data) => {
         // console.log("data", data);
-        setWaitPeople(data.wait);
-        data.pass ? navigate("/ticket/area") : navigate("/wait");
+        setWaitPeople(data.waitPeople);
+        if (data.pass) {
+          navigate("/ticket/area");
+        } else {
+          console.log("data", data);
+          setWaitPeople(data.waitPeople);
+          const expires = +data.milliseconds + 60 * 1000;
+          const seconds = Math.floor((expires - +data.milliseconds) / 1000);
+          console.log("seconds", seconds);
+          setLeftSeconds(seconds);
+          navigate("/wait");
+        }
       });
     }
   }, [ws]);
