@@ -10,8 +10,6 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
   let interval;
 
   function startTimer(duration) {
-    clearInterval(interval);
-
     var time = duration,
       minutes,
       seconds;
@@ -33,6 +31,7 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
 
   useEffect(() => {
     if (leftSeconds !== null) {
+      clearInterval(interval);
       startTimer(leftSeconds);
     }
   }, [leftSeconds]);
@@ -46,6 +45,7 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
       const expires = +data.milliseconds + 610 * 1000;
       const seconds = Math.floor((expires - +data.timeStamp) / 1000);
       console.log("seconds", seconds);
+      clearInterval(interval);
       startTimer(seconds);
     });
   }, []);
@@ -53,8 +53,10 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
   return (
     <>
       <p>前面還有：{waitPeople}人</p>
-      <span>最多可能要等</span>
-      <div>{timer}</div>
+      <p>
+        <span>最多可能要等:</span>
+        <span>{timer}</span>
+      </p>
     </>
   );
 }

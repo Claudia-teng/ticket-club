@@ -9,7 +9,7 @@ function BuyTicket({ timer, setTimer, leftSeconds, setLeftSeconds }) {
 
   return (
     <>
-      <p>Countdown</p>
+      <span>Countdown: </span>
       <Countdown timer={timer} setTimer={setTimer} leftSeconds={leftSeconds} />
       <Outlet />
     </>

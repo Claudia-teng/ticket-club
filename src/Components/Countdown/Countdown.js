@@ -5,7 +5,6 @@ function Countdown({ timer, setTimer, leftSeconds }) {
   let interval;
 
   function startTimer(duration) {
-    clearInterval(interval);
     var time = duration,
       minutes,
       seconds;
@@ -27,13 +26,14 @@ function Countdown({ timer, setTimer, leftSeconds }) {
 
   useEffect(() => {
     if (leftSeconds !== null) {
+      clearInterval(interval);
       startTimer(leftSeconds);
     }
   }, [leftSeconds]);
 
   return (
     <>
-      <div>{timer}</div>
+      <span>{timer}</span>
     </>
   );
 }
