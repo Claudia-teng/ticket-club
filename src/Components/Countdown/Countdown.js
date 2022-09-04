@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Countdown({ timer, setTimer, leftSeconds }) {
+  let interval;
+
   function startTimer(duration) {
+    clearInterval(interval);
     var time = duration,
       minutes,
       seconds;
 
-    setInterval(function () {
+    interval = setInterval(function () {
       minutes = parseInt(time / 60, 10);
       seconds = parseInt(time % 60, 10);
 

@@ -7,13 +7,16 @@ import Countdown from "../../Components/Countdown/Countdown";
 function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds }) {
   let navigate = useNavigate();
   const [timer, setTimer] = useState(null);
+  let interval;
 
   function startTimer(duration) {
+    clearInterval(interval);
+
     var time = duration,
       minutes,
       seconds;
 
-    setInterval(function () {
+    interval = setInterval(function () {
       minutes = parseInt(time / 60, 10);
       seconds = parseInt(time % 60, 10);
 
@@ -38,13 +41,12 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
     ws.on("ready to go", () => {
       navigate("/ticket/area");
     });
-
     ws.on("minus waiting people", (data) => {
       setWaitPeople((current) => current - 1);
       const expires = +data.milliseconds + 610 * 1000;
       const seconds = Math.floor((expires - +data.timeStamp) / 1000);
       console.log("seconds", seconds);
-      setLeftSeconds(seconds);
+      startTimer(seconds);
     });
   }, []);
 
