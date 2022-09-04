@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function BuyTicket({ timer, setTimer, leftSeconds, setLeftSeconds }) {
   useEffect(() => {
-    setLeftSeconds(60);
+    setLeftSeconds(600);
   }, []);
 
   return (
