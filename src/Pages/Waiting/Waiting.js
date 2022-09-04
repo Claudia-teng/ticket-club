@@ -43,7 +43,7 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
       setWaitPeople((current) => current - 1);
       // todo - check time
       const expires = +data.milliseconds + 60 * 1000;
-      const seconds = Math.floor((expires - +data.milliseconds) / 1000);
+      const seconds = Math.floor((expires - +data.timeStamp) / 1000);
       setLeftSeconds(seconds);
     });
   }, []);
