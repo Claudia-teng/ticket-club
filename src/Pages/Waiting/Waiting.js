@@ -42,11 +42,11 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
     });
     ws.on("minus waiting people", (data) => {
       setWaitPeople((current) => current - 1);
-      const expires = +data.milliseconds + 610 * 1000;
-      const seconds = Math.floor((expires - +data.timeStamp) / 1000);
-      console.log("seconds", seconds);
+      // const expires = +data.milliseconds + 600 * 1000;
+      // const seconds = Math.floor((expires - new Date().getTime()) / 1000) + 10;
+      console.log("seconds", data.seconds);
       clearInterval(interval);
-      startTimer(seconds);
+      startTimer(data.seconds);
     });
   }, []);
 

@@ -19,7 +19,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
     setWs(
       io("http://localhost:3000", {
         auth: {
-          token: 1,
+          token: 7,
         },
       })
     );
@@ -45,10 +45,10 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
         } else {
           console.log("data", data);
           setWaitPeople(data.waitPeople);
-          const expires = +data.milliseconds + 610 * 1000;
-          const seconds = Math.floor((expires - +data.timeStamp) / 1000);
-          console.log("seconds", seconds);
-          setLeftSeconds(seconds);
+          // const expires = +data.milliseconds + 600 * 1000;
+          // const seconds = Math.floor((expires - new Date().getTime()) / 1000) + 10;
+          console.log("seconds", data.seconds);
+          setLeftSeconds(data.seconds);
           navigate("/wait");
         }
       });
