@@ -11,13 +11,13 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   const [detail, setEventDetail] = useState(null);
 
   async function getEventDetail() {
-    const data = await axios.get(`http://localhost:3000/event/${id}`);
+    const data = await axios.get(`https://claudia-teng.com/api/event/${id}`);
     setEventDetail(data.data);
   }
 
   function onBuyTicket(event, id) {
     setWs(
-      io("http://localhost:3000", {
+      io("https://claudia-teng.com/api", {
         auth: {
           token: 7,
         },

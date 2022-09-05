@@ -27,7 +27,7 @@ function Index() {
 
   async function getEvents() {
     try {
-      const data = await axios.get(`http://localhost:3000/event`);
+      const data = await axios.get(`https://claudia-teng.com/api/event`);
       setEvents(data.data);
     } catch (err) {
       console.log("err", err);

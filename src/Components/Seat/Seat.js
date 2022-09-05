@@ -13,7 +13,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
       sessionId: 1,
       areaId: selectedAreaId,
     };
-    const data = await axios.post("http://localhost:3000/seat", info);
+    const data = await axios.post("https://claudia-teng.com/api/seat", info);
     setSeats(data.data);
   }
 
@@ -49,7 +49,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
     };
     console.log("info", info);
     try {
-      const data = await axios.post("http://localhost:3000/seat/lock", info);
+      const data = await axios.post("https://claudia-teng.com/api/lock", info);
       setOrderConfirmInfo(data.data);
       navigate("/ticket/order");
       let lockedSeats = JSON.parse(JSON.stringify(selectedSeats));
