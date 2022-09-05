@@ -3,12 +3,12 @@ import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Area({ setSelectedAreaId, ws, timer }) {
+function Area({ sessionId, setSelectedAreaId, ws, timer }) {
   let navigate = useNavigate();
   const [areas, setAreas] = useState([]);
 
   async function getArea() {
-    const data = await axios.get("http://localhost:3000/area/1");
+    const data = await axios.get(`http://localhost:3000/area/${sessionId}`);
     const areaData = data.data;
     setAreas(areaData);
   }

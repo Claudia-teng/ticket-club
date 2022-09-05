@@ -21,6 +21,7 @@ function App() {
   const [timer, setTimer] = useState(null);
   const [waitPeople, setWaitPeople] = useState(null);
   const [leftSeconds, setLeftSeconds] = useState(null);
+  const [sessionId, setSessionId] = useState(null);
 
   return (
     <>
@@ -32,7 +33,14 @@ function App() {
           <Route
             path="/event/:id"
             element={
-              <EventDetail ws={ws} setWs={setWs} setWaitPeople={setWaitPeople} setLeftSeconds={setLeftSeconds} />
+              <EventDetail
+                sessionId={sessionId}
+                setSessionId={setSessionId}
+                ws={ws}
+                setWs={setWs}
+                setWaitPeople={setWaitPeople}
+                setLeftSeconds={setLeftSeconds}
+              />
             }
           ></Route>
           <Route
@@ -43,7 +51,9 @@ function App() {
           >
             <Route
               path="area"
-              element={<Area setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} timer={timer} />}
+              element={
+                <Area sessionId={sessionId} setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} timer={timer} />
+              }
             ></Route>
             <Route
               path="seat"

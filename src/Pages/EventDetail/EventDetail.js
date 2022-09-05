@@ -1,12 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 import io from "socket.io-client";
+import styles from "./EventDetail.module.sass";
 
-function EventDetail({ ws, setWs, setWaitPeople, setLeftSeconds }) {
+function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLeftSeconds }) {
   let navigate = useNavigate();
-  const [sessionId, setSessionId] = useState(null);
+  let { id } = useParams();
+  const [detail, setEventDetail] = useState(null);
 
-  function onBuyTicket(event, sessionId) {
+  async function getEventDetail() {
+    const data = await axios.get(`http://localhost:3000/event/${id}`);
+    setEventDetail(data.data);
+  }
+
+  function onBuyTicket(event, id) {
     setWs(
       io("http://localhost:3000", {
         auth: {
@@ -14,10 +23,12 @@ function EventDetail({ ws, setWs, setWaitPeople, setLeftSeconds }) {
         },
       })
     );
-    setSessionId(sessionId);
+    setSessionId(id);
   }
 
   useEffect(() => {
+    getEventDetail();
+
     if (ws) {
       ws.disconnect();
     }
@@ -53,7 +64,26 @@ function EventDetail({ ws, setWs, setWaitPeople, setLeftSeconds }) {
   return (
     <>
       <div>EventDetail</div>
-      <button onClick={(event) => onBuyTicket(event, 1)}>購買票券</button>
+      {detail && (
+        <div className={styles.container}>
+          {/* <img alt="event-detail" src={detail.picture}/> */}
+
+          <p>{detail.title}</p>
+          <p>{detail.description}</p>
+          {detail.sessions.map((session) => {
+            return (
+              <>
+                <div className={styles.session}>
+                  <p>{session.time}</p>
+                  <p>{session.city}</p>
+                  <p>{session.venue}</p>
+                  <button onClick={(event) => onBuyTicket(event, session.session_id)}>購買票券</button>
+                </div>
+              </>
+            );
+          })}
+        </div>
+      )}
     </>
   );
 }

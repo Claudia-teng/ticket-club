@@ -42,18 +42,18 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
 
   return (
     <>
-      <p>Total: {orderConfirmInfo.total}</p>
+      <p className={styles.text}>Total: {orderConfirmInfo.total}</p>
       {orderConfirmInfo.tickets.map((ticket) => {
         return (
           <>
-            <p>{ticket.title}</p>
-            <p>{ticket.time}</p>
-            <p>{ticket.venue}</p>
-            <p>{ticket.area}</p>
-            <p>{ticket.seatId}</p>
-            <p>{ticket.row}</p>
-            <p>{ticket.column}</p>
-            <p>{ticket.price}</p>
+            <p className={styles.text}>{ticket.title}</p>
+            <p className={styles.text}>{ticket.time}</p>
+            <p className={styles.text}>{ticket.venue}</p>
+            <p className={styles.text}>{ticket.area}</p>
+            <p className={styles.text}>{ticket.seatId}</p>
+            <p className={styles.text}>{ticket.row}</p>
+            <p className={styles.text}>{ticket.column}</p>
+            <p className={styles.text}>{ticket.price}</p>
           </>
         );
       })}
