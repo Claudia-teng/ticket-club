@@ -16,7 +16,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
     };
     console.log("info", info);
     try {
-      const data = await axios.post("https://claudia-teng.com/api/order", info);
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/order`, info);
       console.log(data.data.ok);
       const soldSeats = [];
       for (let seat of orderConfirmInfo.tickets) {

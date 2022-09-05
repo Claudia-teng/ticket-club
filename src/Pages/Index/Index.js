@@ -14,7 +14,7 @@ function Index() {
 
   async function onSearchInput(event) {
     try {
-      const data = await axios.get(`https://claudia-teng.com/api/event?search=${searchText}`);
+      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event?search=${searchText}`);
       setEvents(data.data);
     } catch (err) {
       console.log("err", err);
@@ -27,7 +27,7 @@ function Index() {
 
   async function getEvents() {
     try {
-      const data = await axios.get(`https://claudia-teng.com/api/event`);
+      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event`);
       setEvents(data.data);
     } catch (err) {
       console.log("err", err);

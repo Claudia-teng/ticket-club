@@ -8,7 +8,7 @@ function Area({ sessionId, setSelectedAreaId, ws, timer }) {
   const [areas, setAreas] = useState([]);
 
   async function getArea() {
-    const data = await axios.get(`https://claudia-teng.com/api/area/${sessionId}`);
+    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`);
     const areaData = data.data;
     setAreas(areaData);
   }

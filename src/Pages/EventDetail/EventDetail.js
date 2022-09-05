@@ -11,13 +11,13 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   const [detail, setEventDetail] = useState(null);
 
   async function getEventDetail() {
-    const data = await axios.get(`https://claudia-teng.com/api/event/${id}`);
+    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
     setEventDetail(data.data);
   }
 
   function onBuyTicket(event, id) {
     setWs(
-      io("https://claudia-teng.com", {
+      io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
           token: 1,
         },
@@ -56,9 +56,9 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }, [ws]);
 
   useEffect(() => {
-    console.log("check limit")
+    console.log("check limit");
     if (sessionId) {
-      console.log("sessionId", sessionId)
+      console.log("sessionId", sessionId);
       ws.emit("check limit", sessionId);
     }
   }, [sessionId]);
