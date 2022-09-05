@@ -14,7 +14,7 @@ function Index() {
 
   async function onSearchInput(event) {
     try {
-      const data = await axios.get(`http://localhost:3000/event?search=${searchText}`);
+      const data = await axios.get(`https://claudia-teng.com/api/event?search=${searchText}`);
       setEvents(data.data);
     } catch (err) {
       console.log("err", err);
