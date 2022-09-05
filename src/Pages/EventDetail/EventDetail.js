@@ -17,9 +17,9 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
 
   function onBuyTicket(event, id) {
     setWs(
-      io("https://claudia-teng.com/api", {
+      io("https://claudia-teng.com", {
         auth: {
-          token: 7,
+          token: 1,
         },
       })
     );
@@ -56,7 +56,9 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }, [ws]);
 
   useEffect(() => {
+    console.log("check limit")
     if (sessionId) {
+      console.log("sessionId", sessionId)
       ws.emit("check limit", sessionId);
     }
   }, [sessionId]);
