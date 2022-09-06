@@ -13,7 +13,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
       sessionId: 1,
       areaId: selectedAreaId,
     };
-    const data = await axios.post("http://localhost:3000/seat", info);
+    const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info);
     setSeats(data.data);
   }
 
@@ -49,15 +49,16 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
     };
     console.log("info", info);
     try {
-      const data = await axios.post("http://localhost:3000/seat/lock", info);
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/lock`, info);
       setOrderConfirmInfo(data.data);
-      navigate("/order");
+      navigate("/ticket/order");
       let lockedSeats = JSON.parse(JSON.stringify(selectedSeats));
       lockedSeats.map((seat) => (seat.status_id = 2));
       // console.log("lockedSeats", lockedSeats);
       ws.emit("lock seat", lockedSeats);
     } catch (err) {
       console.log("err", err.response.data.error);
+      // todo - modal show error msg & navigate to /ticket/area
     }
   }
 
@@ -123,7 +124,7 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
 
   useEffect(() => {
     if (timer === "00:00") {
-      navigate("/index");
+      navigate("/");
       ws.emit("unselect seat", selectedSeats);
     }
   }, [timer]);

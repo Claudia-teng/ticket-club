@@ -5,6 +5,7 @@ import axios from "axios";
 
 function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
+
   async function onSubmitOrder(event) {
     console.log("orderConfirmInfo", orderConfirmInfo);
     const seatIds = [];
@@ -15,7 +16,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
     };
     console.log("info", info);
     try {
-      const data = await axios.post("http://localhost:3000/order", info);
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/order`, info);
       console.log(data.data.ok);
       const soldSeats = [];
       for (let seat of orderConfirmInfo.tickets) {
@@ -26,7 +27,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
         });
       }
       ws.emit("book seat", soldSeats);
-      navigate("/index");
+      navigate("/success");
     } catch (err) {
       console.log(err.response.data.error);
     }
@@ -34,25 +35,25 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
 
   useEffect(() => {
     if (timer === "00:00") {
-      navigate("/index");
+      navigate("/");
       ws.emit("unlock seat", orderConfirmInfo);
     }
   }, [timer]);
 
   return (
     <>
-      <p>Total: {orderConfirmInfo.total}</p>
+      <p className={styles.text}>Total: {orderConfirmInfo.total}</p>
       {orderConfirmInfo.tickets.map((ticket) => {
         return (
           <>
-            <p>{ticket.title}</p>
-            <p>{ticket.time}</p>
-            <p>{ticket.venue}</p>
-            <p>{ticket.area}</p>
-            <p>{ticket.seatId}</p>
-            <p>{ticket.row}</p>
-            <p>{ticket.column}</p>
-            <p>{ticket.price}</p>
+            <p className={styles.text}>{ticket.title}</p>
+            <p className={styles.text}>{ticket.time}</p>
+            <p className={styles.text}>{ticket.venue}</p>
+            <p className={styles.text}>{ticket.area}</p>
+            <p className={styles.text}>{ticket.seatId}</p>
+            <p className={styles.text}>{ticket.row}</p>
+            <p className={styles.text}>{ticket.column}</p>
+            <p className={styles.text}>{ticket.price}</p>
           </>
         );
       })}

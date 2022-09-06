@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Countdown({ timer, setTimer }) {
-  let navigate = useNavigate();
+function Countdown({ timer, setTimer, leftSeconds }) {
+  let interval;
 
   function startTimer(duration) {
     var time = duration,
       minutes,
       seconds;
-    setInterval(function () {
+
+    interval = setInterval(function () {
       minutes = parseInt(time / 60, 10);
       seconds = parseInt(time % 60, 10);
 
@@ -24,13 +25,15 @@ function Countdown({ timer, setTimer }) {
   }
 
   useEffect(() => {
-    startTimer(50);
-  }, []);
+    if (leftSeconds !== null) {
+      clearInterval(interval);
+      startTimer(leftSeconds);
+    }
+  }, [leftSeconds]);
 
   return (
     <>
-      <div>Countdown</div>
-      <div>{timer}</div>
+      <span>{timer}</span>
     </>
   );
 }
