@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import Index from "./Pages/Index/Index";
+import Login from "./Pages/Login/Login";
+import Signup from "./Pages/Signup/Signup";
 import BuyTicket from "./Pages/BuyTicket/BuyTicket";
 import EventDetail from "./Pages/EventDetail/EventDetail";
 import Area from "./Components/Area/Area";
@@ -30,6 +32,8 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
           <Route
             path="/event/:id"
             element={
