@@ -14,9 +14,12 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
       sessionId: 1,
       seatIds: seatIds,
     };
-    console.log("info", info);
+    // console.log("info", info);
     try {
-      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/order`, info);
+      let token = localStorage.getItem("jwt");
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/order`, info, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       console.log(data.data.ok);
       const soldSeats = [];
       for (let seat of orderConfirmInfo.tickets) {

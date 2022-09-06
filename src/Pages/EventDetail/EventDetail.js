@@ -19,7 +19,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
-          token: localStorage.get("jwt"),
+          token: localStorage.getItem("jwt"),
         },
       })
     );
@@ -37,8 +37,16 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   useEffect(() => {
     if (ws) {
       console.log("success connect!");
+
       ws.on("check limit", (data) => {
-        // console.log("data", data);
+        console.log("data", data);
+        if (!data) {
+          // to do - login hint
+          console.log("Login error.");
+          ws.disconnect();
+          navigate("/login");
+          return;
+        }
         setWaitPeople(data.waitPeople);
         if (data.pass) {
           navigate("/ticket/area");
@@ -52,13 +60,15 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
           navigate("/wait");
         }
       });
+
+      return () => {
+        ws.off("check limit");
+      };
     }
   }, [ws]);
 
   useEffect(() => {
-    console.log("check limit");
     if (sessionId) {
-      console.log("sessionId", sessionId);
       ws.emit("check limit", sessionId);
     }
   }, [sessionId]);

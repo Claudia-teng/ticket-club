@@ -48,6 +48,11 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
       clearInterval(interval);
       startTimer(data.seconds);
     });
+
+    return () => {
+      ws.off("ready to go");
+      ws.off("minus waiting people");
+    };
   }, []);
 
   return (
