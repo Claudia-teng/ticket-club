@@ -19,7 +19,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
-          token: 1,
+          token: localStorage.get("jwt"),
         },
       })
     );

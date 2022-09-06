@@ -3,6 +3,7 @@ import { useState } from "react";
 import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
 import Index from "./Pages/Index/Index";
 import Login from "./Pages/Login/Login";
+import Profile from "./Pages/Profile/Profile";
 import Signup from "./Pages/Signup/Signup";
 import BuyTicket from "./Pages/BuyTicket/BuyTicket";
 import EventDetail from "./Pages/EventDetail/EventDetail";
@@ -24,6 +25,7 @@ function App() {
   const [waitPeople, setWaitPeople] = useState(null);
   const [leftSeconds, setLeftSeconds] = useState(null);
   const [sessionId, setSessionId] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
 
   return (
     <>
@@ -32,8 +34,9 @@ function App() {
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
+          <Route path="/login" element={<Login setUserInfo={setUserInfo} />}></Route>
+          <Route path="/signup" element={<Signup setUserInfo={setUserInfo} />}></Route>
+          <Route path="/profile" element={<Profile ws={ws} userInfo={userInfo} />}></Route>
           <Route
             path="/event/:id"
             element={

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Signup() {
+function Signup({ setUserInfo }) {
   let navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,8 +29,10 @@ function Signup() {
 
     try {
       const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/user/signup`, signupInfo);
-      navigate("/");
-      // console.log("data", data.data);
+      console.log("data", data.data.data);
+      setUserInfo(data.data.data);
+      localStorage.setItem("jwt", data.data.data.access_token);
+      navigate("/profile");
     } catch (err) {
       console.log("err", err);
     }
