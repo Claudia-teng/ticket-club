@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Login() {
+function Login({ setUserInfo }) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,8 +22,10 @@ function Login() {
     };
     try {
       const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/user/signin`, loginInfo);
-      navigate("/");
-      // console.log("data", data.data);
+      console.log("data", data.data.data);
+      setUserInfo(data.data.data);
+      localStorage.setItem("jwt", data.data.data.access_token);
+      navigate("/profile");
     } catch (err) {
       console.log("err", err);
     }
