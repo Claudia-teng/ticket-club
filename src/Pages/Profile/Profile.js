@@ -17,6 +17,11 @@ function Profile({ ws }) {
     setUserInfo(data.data);
   }
 
+  function onLogout() {
+    localStorage.removeItem("jwt");
+    navigate("/");
+  }
+
   useEffect(() => {
     getProfileDetail();
     if (ws) {
@@ -31,6 +36,7 @@ function Profile({ ws }) {
         <div>
           <p>Name: {userInfo.name}</p>
           <p>Email: {userInfo.email}</p>
+          <button onClick={() => onLogout()}>Logout</button>
         </div>
       )}
     </>

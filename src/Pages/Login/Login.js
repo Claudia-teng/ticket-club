@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -30,6 +30,10 @@ function Login({ setUserInfo }) {
       console.log("err", err);
     }
   }
+
+  useEffect(() => {
+    // navigate to profile if logged in
+  }, []);
 
   return (
     <>

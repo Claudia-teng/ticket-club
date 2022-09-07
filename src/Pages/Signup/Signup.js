@@ -38,6 +38,10 @@ function Signup({ setUserInfo }) {
     }
   }
 
+  useEffect(() => {
+    // navigate to profile if logged in
+  }, []);
+
   return (
     <>
       <p>Sign Up</p>
