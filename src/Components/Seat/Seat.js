@@ -3,7 +3,7 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer }) {
+function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs, timer }) {
   let navigate = useNavigate();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -63,6 +63,10 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, timer 
   }
 
   useEffect(() => {
+    // handle refresh or navigate to other page
+    if (!ws) {
+      navigate("/");
+    }
     getSeats();
   }, []);
 

@@ -29,6 +29,11 @@ function Countdown({ timer, setTimer, leftSeconds }) {
       clearInterval(interval);
       startTimer(leftSeconds);
     }
+
+    return () => {
+      clearInterval(interval);
+      setTimer(null);
+    };
   }, [leftSeconds]);
 
   return (

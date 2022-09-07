@@ -31,6 +31,8 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
 
     if (ws) {
       ws.disconnect();
+      setWs(null);
+      setSessionId(null);
     }
   }, []);
 

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Profile({ ws }) {
+function Profile({ ws, setWs }) {
   const [userInfo, setUserInfo] = useState(null);
   let navigate = useNavigate();
 
@@ -26,6 +26,7 @@ function Profile({ ws }) {
     getProfileDetail();
     if (ws) {
       ws.disconnect();
+      setWs(null);
     }
   }, []);
 

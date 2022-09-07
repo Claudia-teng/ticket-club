@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Countdown from "../../Components/Countdown/Countdown";
 
-function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds }) {
+function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
   let navigate = useNavigate();
   const [timer, setTimer] = useState(null);
   let interval;
@@ -52,6 +52,8 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, setLeftSeconds })
     return () => {
       ws.off("ready to go");
       ws.off("minus waiting people");
+      clearInterval(interval);
+      setTimer(null);
     };
   }, []);
 

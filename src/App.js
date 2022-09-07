@@ -36,7 +36,7 @@ function App() {
           <Route path="/" element={<Index />}></Route>
           <Route path="/login" element={<Login setUserInfo={setUserInfo} />}></Route>
           <Route path="/signup" element={<Signup setUserInfo={setUserInfo} />}></Route>
-          <Route path="/profile" element={<Profile ws={ws} userInfo={userInfo} />}></Route>
+          <Route path="/profile" element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} />}></Route>
           <Route
             path="/event/:id"
             element={
@@ -71,6 +71,7 @@ function App() {
                   selectedAreaId={selectedAreaId}
                   setOrderConfirmInfo={setOrderConfirmInfo}
                   ws={ws}
+                  setWs={setWs}
                   timer={timer}
                 />
               }
@@ -82,7 +83,7 @@ function App() {
               }
             ></Route>
           </Route>
-          <Route path="/success" element={<Success ws={ws} />}></Route>
+          <Route path="/success" element={<Success ws={ws} setWs={setWs} />}></Route>
           <Route
             path="/wait"
             element={

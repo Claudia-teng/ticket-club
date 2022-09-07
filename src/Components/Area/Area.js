@@ -3,7 +3,7 @@ import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Area({ sessionId, setSelectedAreaId, ws, timer }) {
+function Area({ sessionId, setSelectedAreaId, ws, setWs, timer, setTimer }) {
   let navigate = useNavigate();
   const [areas, setAreas] = useState([]);
 
@@ -23,12 +23,17 @@ function Area({ sessionId, setSelectedAreaId, ws, timer }) {
   }
 
   useEffect(() => {
+    // handle refresh or navigate to other page
+    if (!ws) {
+      navigate("/");
+    }
     getArea();
   }, []);
 
   useEffect(() => {
     if (timer === "00:00") {
       ws.disconnect();
+      setWs(null);
       // todo - modal show expires
       navigate("/");
     }

@@ -36,6 +36,20 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
     }
   }
 
+  const unlockSeats = (e) => {
+    // todo - handle refresh then unlock
+    ws.emit("unlock seat", orderConfirmInfo);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", unlockSeats);
+    return () => {
+      ws.emit("unlock seat", orderConfirmInfo);
+      window.removeEventListener("beforeunload", unlockSeats);
+    };
+  }, []);
+
   useEffect(() => {
     if (timer === "00:00") {
       navigate("/");
@@ -46,7 +60,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
   return (
     <>
       <p className={styles.text}>Total: {orderConfirmInfo.total}</p>
-      {orderConfirmInfo.tickets.map((ticket) => {
+      {orderConfirmInfo?.tickets?.map((ticket) => {
         return (
           <>
             <p className={styles.text}>{ticket.title}</p>
