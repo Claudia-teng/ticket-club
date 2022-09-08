@@ -3,14 +3,14 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs, timer }) {
+function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs, timer }) {
   let navigate = useNavigate();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   async function getSeats() {
     const info = {
-      sessionId: 1,
+      sessionId: sessionId,
       areaId: selectedAreaId,
     };
     let token = localStorage.getItem("jwt");
@@ -78,16 +78,20 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs,
   }, []);
 
   useEffect(() => {
-    if (seats.length) {
+    if (ws && seats.length) {
       ws.on("select seat", (data) => {
+        console.log("select seat data", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         _seats[data.rowIndex][data.columnIndex].status_id = data.status_id;
         console.log("_seats", _seats);
+        for (const seat of selectedSeats) {
+          if (seat.columnIndex === data.columnIndex && seat.rowIndex === data.rowIndex) return;
+        }
         setSeats(_seats);
       });
 
       ws.on("lock seat", (data) => {
-        console.log("data", data);
+        console.log("lock seat data", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data) {
           _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
@@ -202,7 +206,9 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs,
           </>
         );
       })}
-      <button onClick={(event) => onSubmitSeats(event)}>確認</button>
+      <button onClick={(event) => onSubmitSeats(event)} disabled={!selectedSeats.length}>
+        確認
+      </button>
     </>
   );
 }

@@ -19,7 +19,7 @@ function Area({ sessionId, setSelectedAreaId, ws, setWs, timer, setTimer }) {
   function onSelectArea(e, areaId) {
     setSelectedAreaId(areaId);
     const data = {
-      sessionId: 1,
+      sessionId,
       areaId,
     };
     ws.emit("join room", data);
@@ -50,11 +50,19 @@ function Area({ sessionId, setSelectedAreaId, ws, setWs, timer, setTimer }) {
           <>
             <p>{price}</p>
             {areas[price].map((data) => {
-              return (
-                <Link onClick={(event) => onSelectArea(event, data.id)} to="/ticket/seat" key={data.id}>
-                  {data.area} - {data.seats}
-                </Link>
-              );
+              if (!data.seats) {
+                return (
+                  <p className={styles.zero}>
+                    {data.area} - {data.seats}
+                  </p>
+                );
+              } else {
+                return (
+                  <Link onClick={(event) => onSelectArea(event, data.id)} to="/ticket/seat" key={data.id}>
+                    {data.area} - {data.seats}
+                  </Link>
+                );
+              }
             })}
           </>
         );

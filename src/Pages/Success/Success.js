@@ -4,8 +4,10 @@ import axios from "axios";
 
 function Success({ ws, setWs }) {
   useEffect(() => {
-    ws.disconnect();
-    setWs(null);
+    if (ws) {
+      ws.disconnect();
+      setWs(null);
+    }
   }, []);
 
   return (

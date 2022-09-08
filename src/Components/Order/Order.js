@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
+function Order({ sessionId, orderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
 
   async function onSubmitOrder(event) {
@@ -11,7 +11,7 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
     const seatIds = [];
     orderConfirmInfo.tickets.map((ticket) => seatIds.push(ticket.seatId));
     const info = {
-      sessionId: 1,
+      sessionId: sessionId,
       seatIds: seatIds,
     };
     // console.log("info", info);
@@ -36,18 +36,18 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
     }
   }
 
-  const unlockSeats = (e) => {
-    // todo - handle refresh then unlock
-    ws.emit("unlock seat", orderConfirmInfo);
-    navigate("/");
-  };
+  // const unlockSeats = (e) => {
+  //   ws.emit("unlock seat", orderConfirmInfo);
+  //   navigate("/");
+  // };
 
   useEffect(() => {
-    window.addEventListener("beforeunload", unlockSeats);
-    return () => {
-      ws.emit("unlock seat", orderConfirmInfo);
-      window.removeEventListener("beforeunload", unlockSeats);
-    };
+    // todo - handle refresh then unlock
+    // window.addEventListener("beforeunload", unlockSeats);
+    // return () => {
+    //   ws.emit("unlock seat", orderConfirmInfo);
+    //   window.removeEventListener("beforeunload", unlockSeats);
+    // };
   }, []);
 
   useEffect(() => {

@@ -37,6 +37,10 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
   }, [leftSeconds]);
 
   useEffect(() => {
+    if (!ws) {
+      return navigate("/");
+    }
+
     ws.on("ready to go", () => {
       navigate("/ticket/area");
     });

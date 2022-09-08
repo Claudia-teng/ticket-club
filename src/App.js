@@ -66,6 +66,7 @@ function App() {
               path="seat"
               element={
                 <Seat
+                  sessionId={sessionId}
                   seats={seats}
                   setSeats={setSeats}
                   selectedAreaId={selectedAreaId}
@@ -79,7 +80,14 @@ function App() {
             <Route
               path="order"
               element={
-                <Order seats={seats} setSeats={setSeats} orderConfirmInfo={orderConfirmInfo} ws={ws} timer={timer} />
+                <Order
+                  sessionId={sessionId}
+                  seats={seats}
+                  setSeats={setSeats}
+                  orderConfirmInfo={orderConfirmInfo}
+                  ws={ws}
+                  timer={timer}
+                />
               }
             ></Route>
           </Route>
