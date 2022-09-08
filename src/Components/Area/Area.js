@@ -8,7 +8,10 @@ function Area({ sessionId, setSelectedAreaId, ws, setWs, timer, setTimer }) {
   const [areas, setAreas] = useState([]);
 
   async function getArea() {
-    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`);
+    let token = localStorage.getItem("jwt");
+    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     const areaData = data.data;
     setAreas(areaData);
   }

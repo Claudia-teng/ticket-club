@@ -13,11 +13,15 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs,
       sessionId: 1,
       areaId: selectedAreaId,
     };
-    const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info);
+    let token = localStorage.getItem("jwt");
+    const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     setSeats(data.data);
   }
 
   function onSelectSeat(event, rowIndex, columnIndex) {
+    // check only seats limit
     const seatInfo = {
       rowIndex,
       columnIndex,
@@ -49,7 +53,10 @@ function Seat({ seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs,
     };
     console.log("info", info);
     try {
-      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/lock`, info);
+      let token = localStorage.getItem("jwt");
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/lock`, info, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setOrderConfirmInfo(data.data);
       navigate("/ticket/order");
       let lockedSeats = JSON.parse(JSON.stringify(selectedSeats));
