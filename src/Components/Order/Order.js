@@ -29,8 +29,8 @@ function Order({ seats, setSeats, orderConfirmInfo, ws, timer }) {
           status_id: 3,
         });
       }
-      ws.emit("book seat", soldSeats);
       navigate("/success");
+      ws.emit("book seat", soldSeats);
     } catch (err) {
       console.log(err.response.data.error);
     }
