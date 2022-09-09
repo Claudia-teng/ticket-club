@@ -55,8 +55,6 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
         } else {
           console.log("data", data);
           setWaitPeople(data.waitPeople);
-          // const expires = +data.milliseconds + 600 * 1000;
-          // const seconds = Math.floor((expires - new Date().getTime()) / 1000) + 10;
           console.log("seconds", data.seconds);
           setLeftSeconds(data.seconds);
           navigate("/wait");
