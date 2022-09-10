@@ -1,7 +1,11 @@
+import styles from "./Footer.module.sass";
+
 function Footer() {
   return (
     <>
-      <div>Footer</div>
+      <div className={styles.footer}>
+        <p>&copy; 2022 Ticket Club. All Rights Reserved.</p>
+      </div>
     </>
   );
 }

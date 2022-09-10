@@ -1,6 +1,7 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import styles from "./Login.module.sass";
 
 function Login({ setUserInfo }) {
   let navigate = useNavigate();
@@ -37,15 +38,23 @@ function Login({ setUserInfo }) {
 
   return (
     <>
-      <p>Login</p>
-
-      <p>Email:</p>
-      <input type="text" onChange={(event) => onEmailChange(event)} value={email} />
-      <p>Password:</p>
-      <input type="password" onChange={(event) => onPasswordChange(event)} value={password} />
-      <p>
-        <button onClick={(event) => onLogin(event)}>Login</button>
-      </p>
+      <div className={styles.login}>
+        <div className={styles.card}>
+          <h1>LOGIN</h1>
+          <div className={styles.form}>
+            <div className={styles.formContainer}>
+              <input type="text" placeholder="Email" onChange={(event) => onEmailChange(event)} value={email} />
+              <input
+                type="password"
+                placeholder="Password"
+                onChange={(event) => onPasswordChange(event)}
+                value={password}
+              />
+              <button onClick={(event) => onLogin(event)}>Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

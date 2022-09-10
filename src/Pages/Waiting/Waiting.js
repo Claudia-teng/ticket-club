@@ -46,8 +46,6 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
     });
     ws.on("minus waiting people", (data) => {
       setWaitPeople((current) => current - 1);
-      // const expires = +data.milliseconds + 600 * 1000;
-      // const seconds = Math.floor((expires - new Date().getTime()) / 1000) + 10;
       console.log("seconds", data.seconds);
       clearInterval(interval);
       startTimer(data.seconds);
