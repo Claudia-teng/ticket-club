@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./Index.module.sass";
 import { useNavigate } from "react-router-dom";
+import IndexImg from "../../assets/index.png";
 
 function Index() {
   let navigate = useNavigate();
@@ -40,7 +41,19 @@ function Index() {
 
   return (
     <>
-      <div>Index</div>
+      <div className={styles.container}>
+        <div className={styles.imgContainer}>
+          <img alt="index" src={IndexImg} />
+        </div>
+        <div className={styles.sloganContainer}>
+          <div className={styles.divider}></div>
+          <div>
+            <h2>AMAZING ARTIST</h2>
+            <p>music for your soul</p>
+          </div>
+          <div className={styles.divider}></div>
+        </div>
+      </div>
       <div className={styles.input}>
         <input value={searchText} onChange={(event) => onInputChange(event)} />
         <button onClick={(event) => onSearchInput(event)}>搜尋</button>
