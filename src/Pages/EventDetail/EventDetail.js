@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import io from "socket.io-client";
 import styles from "./EventDetail.module.sass";
+import placeIcon from "../../assets/place.png";
 
 function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLeftSeconds }) {
   let navigate = useNavigate();
@@ -78,25 +79,62 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
 
   return (
     <>
-      <div>EventDetail</div>
       {detail && (
         <div className={styles.container}>
-          {/* <img alt="event-detail" src={detail.picture}/> */}
+          <img alt="event-detail" src={detail.detailPicture} />
+          <div className={styles.singerContainer}>
+            <div className={styles.divider}></div>
+            <div className={styles.singer}>
+              <div>
+                <h2>{detail.singer}</h2>
+              </div>
+            </div>
+            <div className={styles.divider}></div>
+          </div>
+          <div className={styles.descriptionContainer}>
+            <div dangerouslySetInnerHTML={{ __html: detail.description }}></div>
+            <iframe src={detail.videoLink}></iframe>
+          </div>
 
-          <p>{detail.title}</p>
-          <p>{detail.description}</p>
-          {detail.sessions.map((session) => {
-            return (
-              <>
-                <div className={styles.session}>
-                  <p>{session.time}</p>
-                  <p>{session.city}</p>
-                  <p>{session.venue}</p>
-                  <button onClick={(event) => onBuyTicket(event, session.session_id)}>購買票券</button>
-                </div>
-              </>
-            );
-          })}
+          <div className={styles.concertContainer}>
+            <div className={styles.divider}></div>
+            <div className={styles.text}>
+              <div>
+                <h2>All Concerts</h2>
+              </div>
+            </div>
+            <div className={styles.divider}></div>
+          </div>
+
+          <div className={styles.sessionContainer}>
+            {detail.sessions.map((session) => {
+              return (
+                <>
+                  <div className={styles.sessionCard}>
+                    <div>
+                      <p>{new Date(session.time).getDate()}</p>
+                      <p>
+                        {new Date(session.time).getMonth() + 1} 月 {new Date(session.time).getFullYear()}
+                      </p>
+                      <p>{`${new Date(session.time).getHours()}:${
+                        (new Date(session.time).getMinutes() < 10 ? "0" : "") + new Date(session.time).getMinutes()
+                      }`}</p>
+                    </div>
+                    <div>
+                      <div>
+                        <img alt="place" src={placeIcon} />
+                        <span>{session.city}</span> - <span>{session.venue}</span>
+                      </div>
+                      <p>{detail.title}</p>
+                    </div>
+                    <div>
+                      <button onClick={(event) => onBuyTicket(event, session.session_id)}>購買票券</button>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
         </div>
       )}
     </>

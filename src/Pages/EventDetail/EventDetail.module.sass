@@ -1,5 +1,113 @@
+@import 'styles/_variables.sass'
+
 .container
-  width: 80%
+  background-color: $black
+  padding-bottom: 5rem
+  img
+    width: 100%
+    object-fit: cover
+    max-height: 25rem
+.singerContainer
+  display: flex
+  padding: 1rem 8rem
+  margin-top: 2rem
+  align-items: center
+  div
+    flex: 1
+  .singer 
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 1rem 2rem
+    height: 5rem
+    > div
+      text-align: center
+  h2
+    color: $white
+    font-weight: 700
+    font-size: 28px
+  .divider
+    height: 1px
+    background-color: $gray
+.descriptionContainer
+  width: 60%
   margin: 0 auto
-.session
-  border: 1px solid gray
+  > div
+    color: $light-gray
+    line-height: 20px
+  iframe
+    margin: 5rem 0rem
+    width: 100%
+    height: 30rem
+.concertContainer
+  display: flex
+  padding: 1rem 8rem
+  align-items: center
+  .divider
+    height: 1px
+    background-color: $gray
+  > div:first-child
+    flex: 0.1
+  > div:nth-child(2)
+    display: flex
+    align-items: center
+    justify-content: center
+    flex: 0.2
+  > div:nth-child(3)
+    flex: 0.7
+  h2
+    color: $white
+    font-weight: 700
+    font-size: 1.5rem
+
+.sessionContainer
+  padding: 1rem 8rem
+  .sessionCard
+    display: flex
+    align-items: center
+    padding: 1rem 0rem
+    > div:first-child
+      flex: 0.1
+      text-align: center
+      color: $light-gray
+      > p
+        margin: 0.5rem
+        font-size: 16px
+      > p:first-child
+        font-weight: bold
+        font-size: 28px
+        color: $purple
+    > div:nth-child(2)
+      padding-left: 3rem
+      color: $light-gray
+      flex: 0.8
+      height: fit-content
+      > div, p
+        margin: 0.7rem 0rem
+        font-size: 0.9rem
+      > div
+        display: flex
+        align-items: center
+        span
+          font-size: 18px
+        img
+          margin-right: 0.5rem
+          width: 10px
+      p
+        color: $white
+        font-weight: bold
+        font-size: 24px
+    > div:nth-child(3)
+      flex: 0.1
+      button
+        cursor: pointer
+        width: max-content
+        font-size: 18px
+        color: $white
+        border: none
+        background-color: $purple
+        padding: 0.6rem 1.8rem
+        border-radius: 10px
+    &:not(:last-child)
+      border-bottom: 1px solid $gray
+    
