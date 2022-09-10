@@ -16,10 +16,13 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }
 
   function onBuyTicket(event, id) {
+    let token = "Bearer ";
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
-          token: localStorage.getItem("jwt"),
+          token:
+            token +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjYyNjkwMTUxLCJleHAiOjE2NjMyOTQ5NTF9.b-PkIhjh5XBLq6BCvzeC9nZBV_atU4IP9bO3D5wf91k",
         },
       })
     );
