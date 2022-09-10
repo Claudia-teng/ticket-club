@@ -51,7 +51,7 @@ function Index() {
           <div className={styles.divider}></div>
           <div className={styles.slogan}>
             <div>
-              <h2>AMAZING ARTIST</h2>
+              <h2>AMAZING ARTISTS</h2>
               <p>music for your soul</p>
             </div>
           </div>
