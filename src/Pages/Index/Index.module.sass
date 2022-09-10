@@ -1,24 +1,61 @@
+@import 'styles/_variables.sass'
+
+.container
+  background-color: $black
+  padding-bottom: 2rem
+
 .imgContainer
+  position: relative
+  .layer
+    position: absolute
+    background-color: #fff
+    width: 100%
+    height: 10rem
+    bottom: 0px
+    background: linear-gradient(360deg, #0D0D10 0%, rgba(13, 13, 16, 0) 100%)
   img
     width: 100%
 
 .sloganContainer
   display: flex
-  padding: 1rem 2rem
+  padding: 1rem 10rem
   align-items: center
   div
     flex: 1
-  .divider
-    height: 2px solid #333333
-  
-.input
-  width: 20%
-  margin: 0 auto
-  input
-    width: 60%
-.card
-  width: 30%
-  margin: 2rem
-  img
-    width: 100%
+  .slogan 
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 1rem 2rem
     height: 10rem
+    > div
+      text-align: center
+  h2
+    color: $white
+    font-weight: 700
+    font-size: 1.5rem
+  p
+    margin-top: 1rem
+    color: $purple
+  .divider
+    height: 1px
+    background-color: $gray
+  
+// .input
+//   width: 20%
+//   margin: 0 auto
+//   input
+//     width: 60%
+.cardContainer
+  display: flex
+  justify-content: center
+  > div
+    display: flex
+    a
+      text-decoration: none
+      margin: 0rem 1rem 2rem 1rem
+    .card
+      flex: 1
+      p
+        margin-top: 1rem
+        color: $white

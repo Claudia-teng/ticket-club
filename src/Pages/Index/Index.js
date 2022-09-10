@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./Index.module.sass";
 import { useNavigate } from "react-router-dom";
@@ -44,33 +45,40 @@ function Index() {
       <div className={styles.container}>
         <div className={styles.imgContainer}>
           <img alt="index" src={IndexImg} />
+          <div className={styles.layer}></div>
         </div>
         <div className={styles.sloganContainer}>
           <div className={styles.divider}></div>
-          <div>
-            <h2>AMAZING ARTIST</h2>
-            <p>music for your soul</p>
+          <div className={styles.slogan}>
+            <div>
+              <h2>AMAZING ARTIST</h2>
+              <p>music for your soul</p>
+            </div>
           </div>
           <div className={styles.divider}></div>
         </div>
+        <div className={styles.cardContainer}>
+          <div>
+            {events &&
+              events.map((event) => {
+                return (
+                  <>
+                    <Link to={`event/${event.id}`}>
+                      <div className={styles.card}>
+                        <img alt="event" src={event.picture} />
+                        <p>{event.singer}</p>
+                      </div>
+                    </Link>
+                  </>
+                );
+              })}
+          </div>
+        </div>
       </div>
-      <div className={styles.input}>
+      {/* <div className={styles.input}>
         <input value={searchText} onChange={(event) => onInputChange(event)} />
         <button onClick={(event) => onSearchInput(event)}>搜尋</button>
-      </div>
-      <div className={styles.container}>
-        {events &&
-          events.map((event) => {
-            return (
-              <>
-                <div className={styles.card}>
-                  <p>{event.title}</p>
-                  <button onClick={(e) => onClickEvent(e, event.id)}>購買票券</button>
-                </div>
-              </>
-            );
-          })}
-      </div>
+      </div> */}
     </>
   );
 }
