@@ -44,29 +44,30 @@ function Area({ sessionId, setSelectedAreaId, ws, setWs, timer, setTimer }) {
 
   return (
     <>
-      <div>Area</div>
-      {Object.keys(areas).map((price) => {
-        return (
-          <>
-            <p>{price}</p>
-            {areas[price].map((data) => {
-              if (!data.seats) {
-                return (
-                  <p className={styles.zero}>
-                    {data.area} - {data.seats}
-                  </p>
-                );
-              } else {
-                return (
-                  <Link onClick={(event) => onSelectArea(event, data.id)} to="/ticket/seat" key={data.id}>
-                    {data.area} - {data.seats}
-                  </Link>
-                );
-              }
-            })}
-          </>
-        );
-      })}
+      <div className={styles.areaContainer}>
+        {Object.keys(areas).map((price) => {
+          return (
+            <>
+              <p>{price}</p>
+              {areas[price].map((data) => {
+                if (!data.seats) {
+                  return (
+                    <p className={styles.zero}>
+                      {data.area} - {data.seats}
+                    </p>
+                  );
+                } else {
+                  return (
+                    <Link onClick={(event) => onSelectArea(event, data.id)} to="/ticket/seat" key={data.id}>
+                      {data.area} - {data.seats}
+                    </Link>
+                  );
+                }
+              })}
+            </>
+          );
+        })}
+      </div>
     </>
   );
 }

@@ -146,66 +146,67 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
 
   return (
     <>
-      <div>Seat</div>
-      {seats.map((row, rowIndex) => {
-        return (
-          <>
-            <div className={styles.row}>
-              {row.map((column, columnIndex) => {
-                if (seats[rowIndex][columnIndex].status_id === 2) {
-                  return (
-                    <>
-                      <p key={`${rowIndex}-${columnIndex}`}>
-                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - LOCK
-                      </p>
-                    </>
-                  );
-                } else if (seats[rowIndex][columnIndex].status_id === 3) {
-                  return (
-                    <>
-                      <p key={`${rowIndex}-${columnIndex}`}>
-                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - SOLD
-                      </p>
-                    </>
-                  );
-                } else if (seats[rowIndex][columnIndex].status_id === 4) {
-                  return (
-                    <>
-                      <Link
-                        onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
-                        to=""
-                        key={`${rowIndex}-${columnIndex}`}
-                      >
-                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
-                      </Link>
-                    </>
-                  );
-                } else if (seats[rowIndex][columnIndex].status_id === 5) {
-                  return (
-                    <>
-                      <p>
-                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
-                      </p>
-                    </>
-                  );
-                } else {
-                  return (
-                    <>
-                      <Link
-                        onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
-                        to=""
-                        key={`${rowIndex}-${columnIndex}`}
-                      >
-                        {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - O
-                      </Link>
-                    </>
-                  );
-                }
-              })}
-            </div>
-          </>
-        );
-      })}
+      <div className={styles.seatContainer}>
+        {seats.map((row, rowIndex) => {
+          return (
+            <>
+              <div className={styles.row}>
+                {row.map((column, columnIndex) => {
+                  if (seats[rowIndex][columnIndex].status_id === 2) {
+                    return (
+                      <>
+                        <p key={`${rowIndex}-${columnIndex}`}>
+                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - LOCK
+                        </p>
+                      </>
+                    );
+                  } else if (seats[rowIndex][columnIndex].status_id === 3) {
+                    return (
+                      <>
+                        <p key={`${rowIndex}-${columnIndex}`}>
+                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - SOLD
+                        </p>
+                      </>
+                    );
+                  } else if (seats[rowIndex][columnIndex].status_id === 4) {
+                    return (
+                      <>
+                        <Link
+                          onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                          to=""
+                          key={`${rowIndex}-${columnIndex}`}
+                        >
+                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
+                        </Link>
+                      </>
+                    );
+                  } else if (seats[rowIndex][columnIndex].status_id === 5) {
+                    return (
+                      <>
+                        <p>
+                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
+                        </p>
+                      </>
+                    );
+                  } else {
+                    return (
+                      <>
+                        <Link
+                          onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                          to=""
+                          key={`${rowIndex}-${columnIndex}`}
+                        >
+                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - O
+                        </Link>
+                      </>
+                    );
+                  }
+                })}
+              </div>
+            </>
+          );
+        })}
+      </div>
       <button onClick={(event) => onSubmitSeats(event)} disabled={!selectedSeats.length}>
         確認
       </button>
