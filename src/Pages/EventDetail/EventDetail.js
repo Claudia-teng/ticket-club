@@ -17,13 +17,10 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }
 
   function onBuyTicket(event, id) {
-    let token = "Bearer ";
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
-          token:
-            token +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNjYyNjkwMTUxLCJleHAiOjE2NjMyOTQ5NTF9.b-PkIhjh5XBLq6BCvzeC9nZBV_atU4IP9bO3D5wf91k",
+          token: localStorage.getItem("jwt"),
         },
       })
     );
@@ -46,11 +43,17 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
 
       ws.on("check limit", (data) => {
         console.log("data", data);
-        if (!data) {
+        if (data === "not login") {
           // to do - login hint
           console.log("Login error.");
           ws.disconnect();
           navigate("/login");
+          return;
+        }
+        if (data === "duplicate") {
+          // to do - login hint
+          console.log("You are already in event page or in queue.");
+          ws.disconnect();
           return;
         }
         setWaitPeople(data.waitPeople);
@@ -72,10 +75,10 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }, [ws]);
 
   useEffect(() => {
-    if (sessionId) {
+    if (ws && sessionId) {
       ws.emit("check limit", sessionId);
     }
-  }, [sessionId]);
+  }, [ws, sessionId]);
 
   return (
     <>

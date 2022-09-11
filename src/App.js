@@ -33,7 +33,7 @@ function App() {
         <Navbar />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index />}></Route>
+          <Route path="/" element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} />}></Route>
           <Route path="/login" element={<Login setUserInfo={setUserInfo} />}></Route>
           <Route path="/signup" element={<Signup setUserInfo={setUserInfo} />}></Route>
           <Route path="/profile" element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} />}></Route>

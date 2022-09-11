@@ -5,7 +5,7 @@ import styles from "./Index.module.sass";
 import { useNavigate } from "react-router-dom";
 import IndexImg from "../../assets/index.png";
 
-function Index() {
+function Index({ ws, setWs, setSessionId }) {
   let navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
   const [events, setEvents] = useState([]);
@@ -38,6 +38,12 @@ function Index() {
 
   useEffect(() => {
     getEvents();
+
+    if (ws) {
+      ws.disconnect();
+      setWs(null);
+      setSessionId(null);
+    }
   }, []);
 
   return (

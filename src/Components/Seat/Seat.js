@@ -47,7 +47,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
     // todo - validate selectedSeats (> 0 && <= 4)
     // console.log("selectedSeats", selectedSeats);
     const info = {
-      sessionId: 1,
+      sessionId,
       areaId: selectedAreaId,
       tickets: selectedSeats,
     };
