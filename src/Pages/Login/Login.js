@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./Login.module.sass";
 
 function Login({ setUserInfo }) {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(true);
+  const [validPassword, setValidPassword] = useState(true);
   const [password, setPassword] = useState("");
+  const [emailErrorMsg, setEmailErrorMsg] = useState("");
+  const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   function onEmailChange(event) {
     setEmail(event.target.value);
@@ -14,6 +19,26 @@ function Login({ setUserInfo }) {
 
   function onPasswordChange(event) {
     setPassword(event.target.value);
+  }
+
+  function onValidateEmail(event) {
+    if (!/\S+@\S+\.\S+/.test(event.target.value)) {
+      setValidEmail(false);
+      return setEmailErrorMsg("Email格式錯誤");
+    } else {
+      setValidEmail(true);
+      setEmailErrorMsg("");
+    }
+  }
+
+  function onValidatePassword(event) {
+    if (!event.target.value) {
+      setValidPassword(false);
+      setPasswordErrorMsg("請輸入密碼");
+    } else {
+      setValidPassword(true);
+      setPasswordErrorMsg("");
+    }
   }
 
   async function onLogin(event) {
@@ -29,6 +54,7 @@ function Login({ setUserInfo }) {
       navigate("/profile");
     } catch (err) {
       console.log("err", err);
+      setErrorMsg(err.response.data.error);
     }
   }
 
@@ -43,14 +69,29 @@ function Login({ setUserInfo }) {
           <h1>LOGIN</h1>
           <div className={styles.form}>
             <div className={styles.formContainer}>
-              <input type="text" placeholder="Email" onChange={(event) => onEmailChange(event)} value={email} />
+              <input
+                type="text"
+                placeholder="Email"
+                className={validEmail ? "" : styles.error}
+                value={email}
+                onChange={(event) => onEmailChange(event)}
+                onBlur={(event) => onValidateEmail(event)}
+              />
+              <p className={styles.error}>{emailErrorMsg}</p>
               <input
                 type="password"
                 placeholder="Password"
+                className={validPassword ? "" : styles.error}
                 onChange={(event) => onPasswordChange(event)}
+                onBlur={(event) => onValidatePassword(event)}
                 value={password}
               />
-              <button onClick={(event) => onLogin(event)}>Submit</button>
+              <p className={styles.error}>{passwordErrorMsg}</p>
+              <button onClick={(event) => onLogin(event)} disabled={!validEmail || !validPassword}>
+                Submit
+              </button>
+              <p className={styles.reqError}>{errorMsg}</p>
+              <Link to="/signup">Don't have an account? Sign Up</Link>
             </div>
           </div>
         </div>
