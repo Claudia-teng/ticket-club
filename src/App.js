@@ -1,19 +1,19 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
-import ScrollToTop from "./Components/ScrollToTop/ScrollToTop";
-import Index from "./Pages/Index/Index";
-import Login from "./Pages/Login/Login";
-import Profile from "./Pages/Profile/Profile";
-import Signup from "./Pages/Signup/Signup";
-import BuyTicket from "./Pages/BuyTicket/BuyTicket";
-import EventDetail from "./Pages/EventDetail/EventDetail";
-import Area from "./Components/Area/Area";
-import Seat from "./Components/Seat/Seat";
-import Order from "./Components/Order/Order";
-import Waiting from "./Pages/Waiting/Waiting";
-import Success from "./Pages/Success/Success";
-import Navbar from "./Components/Navbar/Navbar";
-import Footer from "./Components/Footer/Footer";
+import ScrollToTop from "./components/ScrollToTop/ScrollToTop";
+import Index from "./pages/Index/Index";
+import Login from "./pages/Login/Login";
+import Profile from "./pages/Profile/Profile";
+import Signup from "./pages/Signup/Signup";
+import BuyTicket from "./pages/BuyTicket/BuyTicket";
+import EventDetail from "./pages/EventDetail/EventDetail";
+import Area from "./components/Area/Area";
+import Seat from "./components/Seat/Seat";
+import Order from "./components/Order/Order";
+import Waiting from "./pages/Waiting/Waiting";
+import Success from "./pages/Success/Success";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/Footer";
 import "./App.css";
 
 function App() {

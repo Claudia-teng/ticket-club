@@ -2,7 +2,7 @@ import styles from "./Waiting.module.sass";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Countdown from "../../Components/Countdown/Countdown";
+import Countdown from "../../components/Countdown/Countdown";
 
 function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
   let navigate = useNavigate();

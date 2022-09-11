@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Countdown from "../../Components/Countdown/Countdown";
+import Countdown from "../../components/Countdown/Countdown";
 import { useEffect, useState } from "react";
 import styles from "./BuyTicket.module.sass";
 
