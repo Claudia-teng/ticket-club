@@ -5,6 +5,7 @@ import styles from "./Login.module.sass";
 
 function Login({ setUserInfo }) {
   let navigate = useNavigate();
+  const [init, setInit] = useState(true);
   const [email, setEmail] = useState("");
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
@@ -14,14 +15,8 @@ function Login({ setUserInfo }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   function onEmailChange(event) {
+    setInit(false);
     setEmail(event.target.value);
-  }
-
-  function onPasswordChange(event) {
-    setPassword(event.target.value);
-  }
-
-  function onValidateEmail(event) {
     if (!/\S+@\S+\.\S+/.test(event.target.value)) {
       setValidEmail(false);
       return setEmailErrorMsg("Email格式錯誤");
@@ -31,7 +26,9 @@ function Login({ setUserInfo }) {
     }
   }
 
-  function onValidatePassword(event) {
+  function onPasswordChange(event) {
+    setInit(false);
+    setPassword(event.target.value);
     if (!event.target.value) {
       setValidPassword(false);
       setPasswordErrorMsg("請輸入密碼");
@@ -75,7 +72,6 @@ function Login({ setUserInfo }) {
                 className={validEmail ? "" : styles.error}
                 value={email}
                 onChange={(event) => onEmailChange(event)}
-                onBlur={(event) => onValidateEmail(event)}
               />
               <p className={styles.error}>{emailErrorMsg}</p>
               <input
@@ -83,11 +79,13 @@ function Login({ setUserInfo }) {
                 placeholder="Password"
                 className={validPassword ? "" : styles.error}
                 onChange={(event) => onPasswordChange(event)}
-                onBlur={(event) => onValidatePassword(event)}
                 value={password}
               />
               <p className={styles.error}>{passwordErrorMsg}</p>
-              <button onClick={(event) => onLogin(event)} disabled={!validEmail || !validPassword}>
+              <button
+                onClick={(event) => onLogin(event)}
+                disabled={init || !validEmail || !validPassword || !email || !password}
+              >
                 Submit
               </button>
               <p className={styles.reqError}>{errorMsg}</p>

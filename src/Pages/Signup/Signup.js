@@ -5,6 +5,7 @@ import styles from "./Signup.module.sass";
 
 function Signup({ setUserInfo }) {
   let navigate = useNavigate();
+  const [init, setInit] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,18 +18,20 @@ function Signup({ setUserInfo }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   function onNameChange(event) {
+    setInit(false);
     setName(event.target.value);
+    if (!event.target.value) {
+      setValidName(false);
+      setNameErrorMsg("請輸入使用者名稱");
+    } else {
+      setValidName(true);
+      setNameErrorMsg("");
+    }
   }
 
   function onEmailChange(event) {
+    setInit(false);
     setEmail(event.target.value);
-  }
-
-  function onPasswordChange(event) {
-    setPassword(event.target.value);
-  }
-
-  function onValidateEmail(event) {
     if (!/\S+@\S+\.\S+/.test(event.target.value)) {
       setValidEmail(false);
       return setEmailErrorMsg("Email格式錯誤");
@@ -38,7 +41,9 @@ function Signup({ setUserInfo }) {
     }
   }
 
-  function onValidatePassword(event) {
+  function onPasswordChange(event) {
+    setInit(false);
+    setPassword(event.target.value);
     if (!event.target.value) {
       setValidPassword(false);
       setPasswordErrorMsg("請輸入密碼");
@@ -63,16 +68,7 @@ function Signup({ setUserInfo }) {
       navigate("/profile");
     } catch (err) {
       console.log("err", err);
-    }
-  }
-
-  function onValidateName(event) {
-    if (!event.target.value) {
-      setValidName(false);
-      setNameErrorMsg("請輸入使用者名稱");
-    } else {
-      setValidName(true);
-      setNameErrorMsg("");
+      setErrorMsg(err.response.data.error);
     }
   }
 
@@ -93,7 +89,6 @@ function Signup({ setUserInfo }) {
                 className={validName ? "" : styles.error}
                 onChange={(event) => onNameChange(event)}
                 value={name}
-                onBlur={(event) => onValidateName(event)}
               />
               <p className={styles.error}>{nameErrorMsg}</p>
               <input
@@ -102,7 +97,6 @@ function Signup({ setUserInfo }) {
                 className={validEmail ? "" : styles.error}
                 value={email}
                 onChange={(event) => onEmailChange(event)}
-                onBlur={(event) => onValidateEmail(event)}
               />
               <p className={styles.error}>{emailErrorMsg}</p>
               <input
@@ -110,11 +104,13 @@ function Signup({ setUserInfo }) {
                 placeholder="Password"
                 className={validPassword ? "" : styles.error}
                 onChange={(event) => onPasswordChange(event)}
-                onBlur={(event) => onValidatePassword(event)}
                 value={password}
               />
               <p className={styles.error}>{passwordErrorMsg}</p>
-              <button onClick={(event) => onSignUp(event)} disabled={!validName || !validEmail || !validPassword}>
+              <button
+                onClick={(event) => onSignUp(event)}
+                disabled={init || !name || !email || !password || !validName || !validEmail || !validPassword}
+              >
                 Submit
               </button>
               <p className={styles.reqError}>{errorMsg}</p>
