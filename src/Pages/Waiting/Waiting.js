@@ -61,11 +61,13 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
 
   return (
     <>
-      <p>前面還有：{waitPeople}人</p>
-      <p>
-        <span>最多可能要等:</span>
-        <span>{timer}</span>
-      </p>
+      <div className={styles.waitContainer}>
+        <p>前面還有：{waitPeople}人</p>
+        <p>
+          <span>最多可能要等:</span>
+          <span>{timer}</span>
+        </p>
+      </div>
     </>
   );
 }
