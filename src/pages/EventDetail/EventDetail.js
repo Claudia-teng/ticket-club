@@ -148,11 +148,23 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
                     </div>
                     <div>
                       <button
-                        className={new Date(detail.onSale).getTime() > new Date().getTime() ? styles.disabled : ""}
+                        className={
+                          new Date(detail.onSale).getTime() > new Date().getTime() ||
+                          new Date(session.time).getTime() <= new Date().getTime()
+                            ? styles.disabled
+                            : ""
+                        }
                         onClick={(event) => onBuyTicket(event, session.session_id)}
-                        disabled={new Date(detail.onSale).getTime() > new Date().getTime()}
+                        disabled={
+                          new Date(detail.onSale).getTime() > new Date().getTime() ||
+                          new Date(session.time).getTime() <= new Date().getTime()
+                        }
                       >
-                        {new Date(detail.onSale).getTime() > new Date().getTime() ? "尚未開賣" : "購買票券"}
+                        {new Date(detail.onSale).getTime() > new Date().getTime() && "尚未開賣"}
+                        {new Date(session.time).getTime() <= new Date().getTime() && "活動已結束"}
+                        {new Date(detail.onSale).getTime() <= new Date().getTime() &&
+                          new Date(session.time).getTime() > new Date().getTime() &&
+                          "購買票券"}
                       </button>
                     </div>
                   </div>
