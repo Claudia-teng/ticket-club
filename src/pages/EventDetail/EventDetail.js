@@ -75,7 +75,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }, [ws]);
 
   useEffect(() => {
-    if (ws && sessionId) {
+    if (ws && sessionId && detail) {
       ws.emit("check limit", sessionId);
       let _detail = JSON.parse(JSON.stringify(detail));
       _detail.sessions.map((session) => {
@@ -87,7 +87,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
       });
       setEventDetail(_detail);
     }
-  }, [ws, sessionId]);
+  }, [ws, sessionId, detail]);
 
   return (
     <>
