@@ -75,19 +75,19 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
   }, [ws]);
 
   useEffect(() => {
-    if (ws && sessionId && detail) {
+    if (ws && sessionId) {
       ws.emit("check limit", sessionId);
-      let _detail = JSON.parse(JSON.stringify(detail));
-      _detail.sessions.map((session) => {
-        if (session.session_id === sessionId) {
-          return (session.loading = true);
-        } else {
-          return (session.loading = false);
-        }
-      });
-      setEventDetail(_detail);
+      // let _detail = JSON.parse(JSON.stringify(detail));
+      // _detail.sessions.map((session) => {
+      //   if (session.session_id === sessionId) {
+      //     return (session.loading = true);
+      //   } else {
+      //     return (session.loading = false);
+      //   }
+      // });
+      // setEventDetail(_detail);
     }
-  }, [ws, sessionId, detail]);
+  }, [ws, sessionId]);
 
   return (
     <>
