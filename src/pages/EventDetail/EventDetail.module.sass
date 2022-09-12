@@ -111,8 +111,25 @@
         background-color: $purple
         padding: 0.6rem 1.8rem
         border-radius: 10px
+        width: 8.1rem
+        height: 3rem
+        display: flex
+        align-items: center
+        justify-content: center
         &.disabled
           opacity: 0.7
     &:not(:last-child)
       border-bottom: 1px solid $gray
-    
+.loader 
+  border: 5px solid #f3f3f3
+  border-top: 5px solid $purple
+  border-radius: 50%
+  width: 15px
+  height: 15px
+  animation: spin 1s linear infinite
+
+@keyframes spin 
+  0% 
+    transform: rotate(0deg)
+  100% 
+    transform: rotate(360deg)

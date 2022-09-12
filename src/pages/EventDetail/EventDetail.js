@@ -43,14 +43,14 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
 
       ws.on("check limit", (data) => {
         console.log("data", data);
-        if (data === "not login") {
+        if (data === "Not login") {
           // to do - login hint
           console.log("Login error.");
           ws.disconnect();
           navigate("/login");
           return;
         }
-        if (data === "duplicate") {
+        if (data === "Duplicate") {
           // to do - login hint
           console.log("You are already in event page or in queue.");
           ws.disconnect();
@@ -58,7 +58,16 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
         }
         setWaitPeople(data.waitPeople);
         if (data.pass) {
-          navigate("/ticket/area");
+          let _detail = JSON.parse(JSON.stringify(detail));
+          _detail.sessions.map((session) => {
+            if (session.session_id === sessionId) {
+              return (session.loading = true);
+            } else {
+              return (session.loading = false);
+            }
+          });
+          setEventDetail(_detail);
+          // navigate("/ticket/area");
         } else {
           console.log("data", data);
           setWaitPeople(data.waitPeople);
@@ -150,21 +159,25 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
                       <button
                         className={
                           new Date(detail.onSale).getTime() > new Date().getTime() ||
-                          new Date(session.time).getTime() <= new Date().getTime()
+                          new Date(session.time).getTime() <= new Date().getTime() ||
+                          session.loading
                             ? styles.disabled
                             : ""
                         }
                         onClick={(event) => onBuyTicket(event, session.session_id)}
                         disabled={
                           new Date(detail.onSale).getTime() > new Date().getTime() ||
-                          new Date(session.time).getTime() <= new Date().getTime()
+                          new Date(session.time).getTime() <= new Date().getTime() ||
+                          session.loading
                         }
                       >
                         {new Date(detail.onSale).getTime() > new Date().getTime() && "尚未開賣"}
                         {new Date(session.time).getTime() <= new Date().getTime() && "活動已結束"}
                         {new Date(detail.onSale).getTime() <= new Date().getTime() &&
                           new Date(session.time).getTime() > new Date().getTime() &&
+                          !session.loading &&
                           "購買票券"}
+                        {session.loading && <div className={styles.loader}></div>}
                       </button>
                     </div>
                   </div>
