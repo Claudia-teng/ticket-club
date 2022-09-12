@@ -25,18 +25,22 @@ function App() {
   const [waitPeople, setWaitPeople] = useState(null);
   const [leftSeconds, setLeftSeconds] = useState(null);
   const [sessionId, setSessionId] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
   return (
     <>
       <BrowserRouter>
-        <Navbar />
+        <Navbar isLogin={isLogin} setIsLogin={setIsLogin} />
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} />}></Route>
-          <Route path="/login" element={<Login setUserInfo={setUserInfo} />}></Route>
-          <Route path="/signup" element={<Signup setUserInfo={setUserInfo} />}></Route>
-          <Route path="/profile" element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} />}></Route>
+          <Route path="/login" element={<Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />}></Route>
+          <Route path="/signup" element={<Signup setUserInfo={setUserInfo} setIsLogin={setIsLogin} />}></Route>
+          <Route
+            path="/profile"
+            element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} setIsLogin={setIsLogin} />}
+          ></Route>
           <Route
             path="/event/:id"
             element={

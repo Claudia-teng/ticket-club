@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./Signup.module.sass";
 
-function Signup({ setUserInfo }) {
+function Signup({ setUserInfo, setIsLogin }) {
   let navigate = useNavigate();
   const [init, setInit] = useState(true);
   const [name, setName] = useState("");
@@ -63,11 +63,13 @@ function Signup({ setUserInfo }) {
     try {
       const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/user/signup`, signupInfo);
       console.log("data", data.data.data);
+      setIsLogin(true);
       setUserInfo(data.data.data);
       localStorage.setItem("jwt", data.data.data.access_token);
       navigate("/profile");
     } catch (err) {
       console.log("err", err);
+      setIsLogin(false);
       setErrorMsg(err.response.data.error);
     }
   }
