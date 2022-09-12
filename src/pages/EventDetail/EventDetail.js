@@ -103,6 +103,22 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
             <div className={styles.divider}></div>
             <div className={styles.text}>
               <div>
+                <h2>On Sale</h2>
+              </div>
+            </div>
+            <div className={styles.divider}></div>
+          </div>
+
+          <p className={styles.onSale}>
+            {new Date(detail.onSale).getFullYear().toString()} 年 {(new Date(detail.onSale).getMonth() + 1).toString()}
+            月 {new Date(detail.onSale).getDate().toString()} 日 {new Date(detail.onSale).getHours().toString()}:
+            {(new Date(detail.onSale).getMinutes() < 10 ? "0" : "") + new Date(detail.onSale).getMinutes()}
+          </p>
+
+          <div className={styles.concertContainer}>
+            <div className={styles.divider}></div>
+            <div className={styles.text}>
+              <div>
                 <h2>All Concerts</h2>
               </div>
             </div>
@@ -131,7 +147,13 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
                       <p>{detail.title}</p>
                     </div>
                     <div>
-                      <button onClick={(event) => onBuyTicket(event, session.session_id)}>購買票券</button>
+                      <button
+                        className={new Date(detail.onSale).getTime() > new Date().getTime() ? styles.disabled : ""}
+                        onClick={(event) => onBuyTicket(event, session.session_id)}
+                        disabled={new Date(detail.onSale).getTime() > new Date().getTime()}
+                      >
+                        {new Date(detail.onSale).getTime() > new Date().getTime() ? "尚未開賣" : "購買票券"}
+                      </button>
                     </div>
                   </div>
                 </>
