@@ -172,7 +172,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
                         }
                       >
                         {new Date(detail.onSale).getTime() > new Date().getTime() && "尚未開賣"}
-                        {new Date(session.time).getTime() <= new Date().getTime() && "活動已結束"}
+                        {new Date(session.time).getTime() <= new Date().getTime() && "活動結束"}
                         {new Date(detail.onSale).getTime() <= new Date().getTime() &&
                           new Date(session.time).getTime() > new Date().getTime() &&
                           !session.loading &&
