@@ -6,7 +6,7 @@ import io from "socket.io-client";
 import styles from "./EventDetail.module.sass";
 import placeIcon from "../../assets/place.png";
 
-function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLeftSeconds }) {
+function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLeftSeconds, setSessionInfo }) {
   let navigate = useNavigate();
   let { id } = useParams();
   const [detail, setEventDetail] = useState(null);
@@ -16,7 +16,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
     setEventDetail(data.data);
   }
 
-  function onBuyTicket(event, id) {
+  function onBuyTicket(event, session) {
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
@@ -24,7 +24,9 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
         },
       })
     );
-    setSessionId(id);
+    setSessionId(session.session_id);
+    session.title = detail.title;
+    setSessionInfo(session);
   }
 
   useEffect(() => {
@@ -164,7 +166,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
                             ? styles.disabled
                             : ""
                         }
-                        onClick={(event) => onBuyTicket(event, session.session_id)}
+                        onClick={(event) => onBuyTicket(event, session)}
                         disabled={
                           new Date(detail.onSale).getTime() > new Date().getTime() ||
                           new Date(session.time).getTime() <= new Date().getTime() ||

@@ -27,6 +27,7 @@ function App() {
   const [sessionId, setSessionId] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [sessionInfo, setSessionInfo] = useState({});
 
   return (
     <>
@@ -51,13 +52,20 @@ function App() {
                 setWs={setWs}
                 setWaitPeople={setWaitPeople}
                 setLeftSeconds={setLeftSeconds}
+                setSessionInfo={setSessionInfo}
               />
             }
           ></Route>
           <Route
             path="/ticket"
             element={
-              <BuyTicket timer={timer} setTimer={setTimer} leftSeconds={leftSeconds} setLeftSeconds={setLeftSeconds} />
+              <BuyTicket
+                timer={timer}
+                setTimer={setTimer}
+                leftSeconds={leftSeconds}
+                setLeftSeconds={setLeftSeconds}
+                sessionInfo={sessionInfo}
+              />
             }
           >
             <Route

@@ -1,7 +1,32 @@
+@import 'src/styles/_variables.sass'
+
 .seatContainer
+  width: fit-content
+  margin: 0 auto
+  > p
+    color: $white
+    font-size: 18px
+    margin-bottom: 1rem
+  .legend
+    display: flex
+    margin: 1rem 0rem 5rem 0rem
+    > div
+      display: flex
+      align-items: center  
+      margin-right: 2rem
+      p
+        color: $white
+        margin-left: 0.5rem
+        font-size: 14px
+      svg
+        width: 20px
+        height: 20px
+
   .row
     display: flex
-    p, a
-      margin: 0
-      margin-left: 2rem
-      width: 7rem
+    width: fit-content
+    margin: auto
+    svg
+      width: 30px
+      height: 30px
+      margin: 0.5rem

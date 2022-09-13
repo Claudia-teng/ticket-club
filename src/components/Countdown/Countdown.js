@@ -39,7 +39,7 @@ function Countdown({ timer, setTimer, leftSeconds }) {
 
   return (
     <>
-      <span>{timer}</span>
+      <h2 className={styles.timer}>{timer}</h2>
     </>
   );
 }

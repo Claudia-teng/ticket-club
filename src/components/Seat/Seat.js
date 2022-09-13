@@ -2,11 +2,18 @@ import axios from "axios";
 import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SeatIcon from "../SeatIcon/SeatIcon";
 
 function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs, timer }) {
   let navigate = useNavigate();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const colors = {
+    1: "#ffffff",
+    2: "#F93131",
+    3: "#292929",
+    4: "#FFF500",
+  };
 
   async function getSeats() {
     const info = {
@@ -147,6 +154,25 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
   return (
     <>
       <div className={styles.seatContainer}>
+        <p>請選擇座位</p>
+        <div className={styles.legend}>
+          <div>
+            <SeatIcon color={colors[1]} />
+            <p>空位</p>
+          </div>
+          <div>
+            <SeatIcon color={colors[2]} />
+            <p>已鎖定</p>
+          </div>
+          <div>
+            <SeatIcon color={colors[3]} />
+            <p>已售出</p>
+          </div>
+          <div>
+            <SeatIcon color={colors[4]} />
+            <p>目前選位</p>
+          </div>
+        </div>
         {seats.map((row, rowIndex) => {
           return (
             <>
@@ -155,17 +181,13 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
                   if (seats[rowIndex][columnIndex].status_id === 2) {
                     return (
                       <>
-                        <p key={`${rowIndex}-${columnIndex}`}>
-                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - LOCK
-                        </p>
+                        <SeatIcon color={colors[2]} />
                       </>
                     );
                   } else if (seats[rowIndex][columnIndex].status_id === 3) {
                     return (
                       <>
-                        <p key={`${rowIndex}-${columnIndex}`}>
-                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - SOLD
-                        </p>
+                        <SeatIcon color={colors[3]} />
                       </>
                     );
                   } else if (seats[rowIndex][columnIndex].status_id === 4) {
@@ -176,16 +198,14 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
                           to=""
                           key={`${rowIndex}-${columnIndex}`}
                         >
-                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
+                          <SeatIcon color={colors[4]} />
                         </Link>
                       </>
                     );
                   } else if (seats[rowIndex][columnIndex].status_id === 5) {
                     return (
                       <>
-                        <p>
-                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - V
-                        </p>
+                        <SeatIcon color={colors[1]} />
                       </>
                     );
                   } else {
@@ -196,7 +216,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
                           to=""
                           key={`${rowIndex}-${columnIndex}`}
                         >
-                          {seats[rowIndex][columnIndex].row} - {seats[rowIndex][columnIndex].column} - O
+                          <SeatIcon color={colors[1]} />
                         </Link>
                       </>
                     );

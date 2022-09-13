@@ -1,7 +1,52 @@
+@import 'src/styles/_variables.sass'
+
 .areaContainer
-  font-size: 1.5rem
-  a
-    display: block
-  p, a
-    margin: 1rem 5rem
+  display: flex
+  width: 70%
+  margin: 0 auto
+.selectContainer
+  flex: 1
+  p
+    color: $white
+  .priceContainer
+    padding: 1rem
+    .price
+      display: flex
+      align-items: center
+      > p
+        color: $white
+        font-weight: 700
+        margin: 1rem 0rem
+    > a
+      padding-left: 2rem
+    &:not(:last-child)
+      border-bottom: 1px solid $gray
+    a
+      display: block
+      text-decoration: none
+    .areaCard
+      border-radius: 12px
+      display: flex
+      align-items: center
+      padding: 0.5rem
+      transition: 0.3s
+      p
+        font-size: 18px
+      &:hover
+        background-color: $dark-gray
+      > div:nth-child(2)
+        display: flex
+        width: 100%
+        justify-content: space-between
+        p:first-child
+          color: $white
+        p:last-child
+          color: $purple
+    .box
+      width: 1.5rem
+      height: 1.5rem
+      background-color: #FFF500
+      border-radius: 6px
+      margin-right: 0.5rem
+      
   
