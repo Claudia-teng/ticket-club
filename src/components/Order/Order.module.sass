@@ -1,15 +1,94 @@
 @import 'src/styles/_variables.sass'
 
-.text
-  margin-left: 2rem
+.orderContainer
+  background-color: $black
+  width: 70%
+  margin: 0 auto
+  > div
+    margin: 3rem 0rem
+    > h1
+      color: $white
+      font-size: 18px
+      font-weight: 700
+      margin-bottom: 1rem
+  .payment
+    p
+      margin-left: 2rem
+    p:nth-child(2)
+      color: $white
+    p:last-child
+      color: $light-gray
+  .event
+    div
+      padding: 1rem 1.5rem
+      border-radius: 12px
+      background-color: $dark-gray
+    p
+      color: $white
+      margin: 0
+  .dateVenue
+    > div
+      display: flex
+      > div:first-child
+        margin-right: 2rem
+      > div 
+        flex: 1
+        > h1
+          color: $white
+          font-size: 18px
+          font-weight: 700
+          margin-bottom: 1rem
+        > div
+          padding: 1rem 1.5rem
+          border-radius: 12px
+          background-color: $dark-gray
+        p
+          color: $white
+          margin: 0
+  .summary
+    margin-top: 2rem
+    > div
+      color: $white
+      text-align: right
+      margin-bottom: 1rem
 .table
   table
+    width: 100% !important
     color: $white
     width: 70%
     margin: 0 auto
   thead
     background-color: $purple
+    /*第一欄第一列：左上*/
+    tr th:first-child
+      border-top-left-radius: 10px
+    /*最後欄第一列：右上*/
+    tr th:last-child
+      border-top-right-radius: 10px
+  th, td
+    text-align: center
+  tr
+    border-color: $gray
   tbody
     background-color: $dark-gray
-  tr
-    border-color: $light-gray
+    /*第一欄最後列：左下*/
+    tr:last-child td:first-child
+      border-bottom-left-radius: 10px
+    /*最後欄第一列：右下*/
+    tr:last-child td:last-child
+      border-bottom-right-radius: 10px
+    tr:last-child td
+      border-bottom: 0
+.button
+  text-align: right
+  button
+    cursor: pointer
+    width: max-content
+    font-size: 18px
+    color: $white
+    border: none
+    background-color: $purple
+    padding: 0.6rem 1.8rem
+    border-radius: 10px
+    width: 8.1rem
+    height: 3rem
