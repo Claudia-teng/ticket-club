@@ -132,3 +132,12 @@ body,
 #root {
   height: 100%;
 }
+
+.progress {
+  margin-bottom: 3rem;
+  height: 1.5rem !important;
+}
+
+.progress-bar {
+  background-color: #7844e6 !important;
+}

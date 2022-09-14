@@ -2,6 +2,7 @@ import styles from "./Order.module.sass";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Table from "react-bootstrap/Table";
 
 function Order({ sessionId, orderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
@@ -75,6 +76,37 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
         );
       })}
       <button onClick={(event) => onSubmitOrder(event)}>確認訂單</button>
+      <div className={styles.table}>
+        <Table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>區域</th>
+              <th>座位</th>
+              <th>價錢</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Jacob</td>
+              <td>Thornton</td>
+              <td>@fat</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td colSpan={2}>Larry the Bird</td>
+              <td>@twitter</td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
     </>
   );
 }

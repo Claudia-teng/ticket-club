@@ -22,6 +22,7 @@ function App() {
   const [seats, setSeats] = useState([]);
   const [ws, setWs] = useState(null);
   const [timer, setTimer] = useState(null);
+  const [queuePeople, setQueuePeople] = useState(null);
   const [waitPeople, setWaitPeople] = useState(null);
   const [leftSeconds, setLeftSeconds] = useState(null);
   const [sessionId, setSessionId] = useState(null);
@@ -51,6 +52,7 @@ function App() {
                 ws={ws}
                 setWs={setWs}
                 setWaitPeople={setWaitPeople}
+                setQueuePeople={setQueuePeople}
                 setLeftSeconds={setLeftSeconds}
                 setSessionInfo={setSessionInfo}
               />
@@ -108,6 +110,8 @@ function App() {
                 waitPeople={waitPeople}
                 setWaitPeople={setWaitPeople}
                 ws={ws}
+                sessionInfo={sessionInfo}
+                queuePeople={queuePeople}
                 leftSeconds={leftSeconds}
                 setLeftSeconds={setLeftSeconds}
               />

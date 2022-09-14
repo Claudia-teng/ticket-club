@@ -6,7 +6,16 @@ import io from "socket.io-client";
 import styles from "./EventDetail.module.sass";
 import placeIcon from "../../assets/place.png";
 
-function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLeftSeconds, setSessionInfo }) {
+function EventDetail({
+  sessionId,
+  setSessionId,
+  ws,
+  setWs,
+  setWaitPeople,
+  setLeftSeconds,
+  setSessionInfo,
+  setQueuePeople,
+}) {
   let navigate = useNavigate();
   let { id } = useParams();
   const [detail, setEventDetail] = useState(null);
@@ -59,6 +68,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
           return;
         }
         setWaitPeople(data.waitPeople);
+        setQueuePeople(data.waitPeople);
         if (data.pass) {
           navigate("/ticket/select");
         } else {

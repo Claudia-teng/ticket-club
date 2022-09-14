@@ -1,10 +1,10 @@
 import styles from "./Waiting.module.sass";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Countdown from "../../components/Countdown/Countdown";
+import SessionCard from "../../components/SessionCard/SessionCard";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
-function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
+function Waiting({ waitPeople, queuePeople, setWaitPeople, ws, leftSeconds, sessionInfo }) {
   let navigate = useNavigate();
   const [timer, setTimer] = useState(null);
   let interval;
@@ -62,11 +62,16 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
   return (
     <>
       <div className={styles.waitContainer}>
-        <p>前面還有：{waitPeople}人</p>
-        <p>
-          <span>最多可能要等:</span>
-          <span>{timer}</span>
-        </p>
+        {sessionInfo && <SessionCard sessionInfo={sessionInfo} />}
+        <div className={styles.container}>
+          <h1>排隊中，請稍候......</h1>
+          <ProgressBar animated now={45} />
+          <p>前面還有：{waitPeople} 人</p>
+          <p>
+            <span>預估等待時間：</span>
+            <span>{timer}</span>
+          </p>
+        </div>
       </div>
     </>
   );
