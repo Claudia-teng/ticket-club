@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import SeatIcon from "../SeatIcon/SeatIcon";
 import arrowIcon from "../../assets/arrow.png";
 
-function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInfo, ws, timer }) {
+function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInfo, ws, timer, setStep }) {
   let navigate = useNavigate();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -75,6 +75,10 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
       console.log("err", err.response.data.error);
       // todo - modal show error msg & navigate to /ticket/area
     }
+  }
+
+  function navigateToArea(event) {
+    setStep(1);
   }
 
   useEffect(() => {
@@ -236,11 +240,9 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
             );
           })}
         </div>
-        <div className={styles.arrow}>
-          <Link to="/ticket/area">
-            <img alt="arrow" src={arrowIcon} />
-            <p>選擇其他區座位</p>
-          </Link>
+        <div className={styles.arrow} onClick={(event) => navigateToArea(event)}>
+          <img alt="arrow" src={arrowIcon} />
+          <p>選擇其他區座位</p>
         </div>
         <button
           className={!selectedSeats.length ? styles.disabled : ""}

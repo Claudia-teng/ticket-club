@@ -3,7 +3,7 @@ import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg }) {
+function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg, setStep }) {
   let navigate = useNavigate();
   const [areas, setAreas] = useState([]);
   const colors = ["#FFF500", "#FF7A00", "#F93131"];
@@ -32,6 +32,7 @@ function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg }) {
       areaId: area.id,
     };
     ws.emit("join room", data);
+    setStep(2);
   }
 
   useEffect(() => {
@@ -73,15 +74,13 @@ function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg }) {
                     );
                   } else {
                     return (
-                      <Link onClick={(event) => onSelectArea(event, price, data)} to="/ticket/seat" key={data.id}>
-                        <div className={styles.areaCard}>
-                          <div className={styles.box} style={{ backgroundColor: colors[index] }}></div>
-                          <div>
-                            <p>{data.area}</p>
-                            <p>剩餘 {data.seats} 位</p>
-                          </div>
+                      <div className={styles.areaCard} onClick={(event) => onSelectArea(event, price, data)}>
+                        <div className={styles.box} style={{ backgroundColor: colors[index] }}></div>
+                        <div>
+                          <p>{data.area}</p>
+                          <p>剩餘 {data.seats} 位</p>
                         </div>
-                      </Link>
+                      </div>
                     );
                   }
                 })}

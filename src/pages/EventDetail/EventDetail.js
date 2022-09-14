@@ -60,7 +60,7 @@ function EventDetail({ sessionId, setSessionId, ws, setWs, setWaitPeople, setLef
         }
         setWaitPeople(data.waitPeople);
         if (data.pass) {
-          navigate("/ticket/area");
+          navigate("/ticket/select");
         } else {
           console.log("data", data);
           setWaitPeople(data.waitPeople);

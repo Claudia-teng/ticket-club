@@ -18,13 +18,14 @@ function AreaPicture({
   setOrderConfirmInfo,
 }) {
   const [img, setImg] = useState(null);
+  const [step, setStep] = useState(1);
   return (
     <>
       <div className={styles.container}>
         <div className={styles.picture}>
           <img alt="seat_map" src={img} />
         </div>
-        {type === "area" && (
+        {step === 1 && (
           <Area
             sessionId={sessionId}
             setSelectedAreaInfo={setSelectedAreaInfo}
@@ -32,9 +33,10 @@ function AreaPicture({
             setWs={setWs}
             timer={timer}
             setImg={setImg}
+            setStep={setStep}
           />
         )}
-        {type === "seat" && (
+        {step === 2 && (
           <Seat
             sessionId={sessionId}
             seats={seats}
@@ -44,6 +46,7 @@ function AreaPicture({
             ws={ws}
             setWs={setWs}
             timer={timer}
+            setStep={setStep}
           />
         )}
       </div>

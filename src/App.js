@@ -8,13 +8,13 @@ import Signup from "./pages/Signup/Signup";
 import BuyTicket from "./pages/BuyTicket/BuyTicket";
 import EventDetail from "./pages/EventDetail/EventDetail";
 import AreaPicture from "./components/AreaPicture/AreaPicture";
-import Seat from "./components/Seat/Seat";
 import Order from "./components/Order/Order";
 import Waiting from "./pages/Waiting/Waiting";
 import Success from "./pages/Success/Success";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [selectedAreaInfo, setSelectedAreaInfo] = useState(null);
@@ -70,7 +70,7 @@ function App() {
             }
           >
             <Route
-              path="area"
+              path="select"
               element={
                 <AreaPicture
                   type="area"
@@ -79,22 +79,10 @@ function App() {
                   ws={ws}
                   setWs={setWs}
                   timer={timer}
-                />
-              }
-            ></Route>
-            <Route
-              path="seat"
-              element={
-                <AreaPicture
-                  type="seat"
-                  sessionId={sessionId}
                   seats={seats}
                   setSeats={setSeats}
                   selectedAreaInfo={selectedAreaInfo}
                   setOrderConfirmInfo={setOrderConfirmInfo}
-                  ws={ws}
-                  setWs={setWs}
-                  timer={timer}
                 />
               }
             ></Route>

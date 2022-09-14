@@ -2,6 +2,8 @@
 
 .seatContainer
   text-align: center
+  p
+    margin-bottom: 0
   > p
     color: $white
     font-size: 18px
@@ -17,7 +19,7 @@
     > div
       display: flex
       align-items: center  
-      margin-right: 2rem
+      flex: 1
       p
         color: $white
         margin-left: 0.5rem
@@ -32,18 +34,18 @@
       svg
         width: 30px
         height: 30px
-        margin: 0.5rem
+        margin: 0.5rem 1rem 0.5rem 0rem
   .arrow
+    cursor: pointer
     margin: 1.5rem 0rem
-    a
-      display: flex
-      align-items: center
-      justify-content: center
-      text-decoration: none
-      img
-        margin-right: 1rem
-      p
-        color: $light-gray
+    display: flex
+    align-items: center
+    justify-content: center
+    text-decoration: none
+    img
+      margin-right: 1rem
+    p
+      color: $light-gray
   button
     cursor: pointer
     font-size: 18px

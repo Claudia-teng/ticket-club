@@ -42,7 +42,7 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds }) {
     }
 
     ws.on("ready to go", () => {
-      navigate("/ticket/area");
+      navigate("/ticket/select");
     });
     ws.on("minus waiting people", (data) => {
       setWaitPeople((current) => current - 1);
