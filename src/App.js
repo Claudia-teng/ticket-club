@@ -7,7 +7,7 @@ import Profile from "./pages/Profile/Profile";
 import Signup from "./pages/Signup/Signup";
 import BuyTicket from "./pages/BuyTicket/BuyTicket";
 import EventDetail from "./pages/EventDetail/EventDetail";
-import Area from "./components/Area/Area";
+import AreaPicture from "./components/AreaPicture/AreaPicture";
 import Seat from "./components/Seat/Seat";
 import Order from "./components/Order/Order";
 import Waiting from "./pages/Waiting/Waiting";
@@ -17,8 +17,8 @@ import Footer from "./components/Footer/Footer";
 import "./App.css";
 
 function App() {
-  const [selectedAreaId, setSelectedAreaId] = useState(1);
-  const [orderConfirmInfo, setOrderConfirmInfo] = useState({});
+  const [selectedAreaInfo, setSelectedAreaInfo] = useState(null);
+  const [orderConfirmInfo, setOrderConfirmInfo] = useState(null);
   const [seats, setSeats] = useState([]);
   const [ws, setWs] = useState(null);
   const [timer, setTimer] = useState(null);
@@ -27,7 +27,7 @@ function App() {
   const [sessionId, setSessionId] = useState(null);
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-  const [sessionInfo, setSessionInfo] = useState({});
+  const [sessionInfo, setSessionInfo] = useState(null);
 
   return (
     <>
@@ -60,6 +60,7 @@ function App() {
             path="/ticket"
             element={
               <BuyTicket
+                ws={ws}
                 timer={timer}
                 setTimer={setTimer}
                 leftSeconds={leftSeconds}
@@ -71,17 +72,25 @@ function App() {
             <Route
               path="area"
               element={
-                <Area sessionId={sessionId} setSelectedAreaId={setSelectedAreaId} ws={ws} setWs={setWs} timer={timer} />
+                <AreaPicture
+                  type="area"
+                  sessionId={sessionId}
+                  setSelectedAreaInfo={setSelectedAreaInfo}
+                  ws={ws}
+                  setWs={setWs}
+                  timer={timer}
+                />
               }
             ></Route>
             <Route
               path="seat"
               element={
-                <Seat
+                <AreaPicture
+                  type="seat"
                   sessionId={sessionId}
                   seats={seats}
                   setSeats={setSeats}
-                  selectedAreaId={selectedAreaId}
+                  selectedAreaInfo={selectedAreaInfo}
                   setOrderConfirmInfo={setOrderConfirmInfo}
                   ws={ws}
                   setWs={setWs}

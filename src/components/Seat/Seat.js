@@ -3,8 +3,9 @@ import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SeatIcon from "../SeatIcon/SeatIcon";
+import arrowIcon from "../../assets/arrow.png";
 
-function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo, ws, setWs, timer }) {
+function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -18,7 +19,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
   async function getSeats() {
     const info = {
       sessionId: sessionId,
-      areaId: selectedAreaId,
+      areaId: selectedAreaInfo.area.id,
     };
     let token = localStorage.getItem("jwt");
     const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
@@ -55,7 +56,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
     // console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId,
-      areaId: selectedAreaId,
+      areaId: selectedAreaInfo.area.id,
       tickets: selectedSeats,
     };
     console.log("info", info);
@@ -77,10 +78,14 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
   }
 
   useEffect(() => {
-    // handle refresh or navigate to other page
-    if (!ws) {
-      navigate("/");
-    }
+    // todo - handle refresh then unselect
+    // window.addEventListener("beforeunload", unlockSeats);
+    // return () => {
+    //   ws.emit("unlock seat", orderConfirmInfo);
+    //   window.removeEventListener("beforeunload", unlockSeats);
+    // };
+
+    if (!ws) return;
     getSeats();
   }, []);
 
@@ -154,6 +159,9 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
   return (
     <>
       <div className={styles.seatContainer}>
+        <p>
+          {selectedAreaInfo.price}區 - {selectedAreaInfo.area.area}
+        </p>
         <p>請選擇座位</p>
         <div className={styles.legend}>
           <div>
@@ -173,63 +181,75 @@ function Seat({ sessionId, seats, setSeats, selectedAreaId, setOrderConfirmInfo,
             <p>目前選位</p>
           </div>
         </div>
-        {seats.map((row, rowIndex) => {
-          return (
-            <>
-              <div className={styles.row}>
-                {row.map((column, columnIndex) => {
-                  if (seats[rowIndex][columnIndex].status_id === 2) {
-                    return (
-                      <>
-                        <SeatIcon color={colors[2]} />
-                      </>
-                    );
-                  } else if (seats[rowIndex][columnIndex].status_id === 3) {
-                    return (
-                      <>
-                        <SeatIcon color={colors[3]} />
-                      </>
-                    );
-                  } else if (seats[rowIndex][columnIndex].status_id === 4) {
-                    return (
-                      <>
-                        <Link
-                          onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
-                          to=""
-                          key={`${rowIndex}-${columnIndex}`}
-                        >
-                          <SeatIcon color={colors[4]} />
-                        </Link>
-                      </>
-                    );
-                  } else if (seats[rowIndex][columnIndex].status_id === 5) {
-                    return (
-                      <>
-                        <SeatIcon color={colors[1]} />
-                      </>
-                    );
-                  } else {
-                    return (
-                      <>
-                        <Link
-                          onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
-                          to=""
-                          key={`${rowIndex}-${columnIndex}`}
-                        >
+        <div className={styles.seatMap}>
+          {seats.map((row, rowIndex) => {
+            return (
+              <>
+                <div className={styles.row}>
+                  {row.map((column, columnIndex) => {
+                    if (seats[rowIndex][columnIndex].status_id === 2) {
+                      return (
+                        <>
+                          <SeatIcon color={colors[2]} />
+                        </>
+                      );
+                    } else if (seats[rowIndex][columnIndex].status_id === 3) {
+                      return (
+                        <>
+                          <SeatIcon color={colors[3]} />
+                        </>
+                      );
+                    } else if (seats[rowIndex][columnIndex].status_id === 4) {
+                      return (
+                        <>
+                          <Link
+                            onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                            to=""
+                            key={`${rowIndex}-${columnIndex}`}
+                          >
+                            <SeatIcon color={colors[4]} />
+                          </Link>
+                        </>
+                      );
+                    } else if (seats[rowIndex][columnIndex].status_id === 5) {
+                      return (
+                        <>
                           <SeatIcon color={colors[1]} />
-                        </Link>
-                      </>
-                    );
-                  }
-                })}
-              </div>
-            </>
-          );
-        })}
+                        </>
+                      );
+                    } else {
+                      return (
+                        <>
+                          <Link
+                            onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                            to=""
+                            key={`${rowIndex}-${columnIndex}`}
+                          >
+                            <SeatIcon color={colors[1]} />
+                          </Link>
+                        </>
+                      );
+                    }
+                  })}
+                </div>
+              </>
+            );
+          })}
+        </div>
+        <div className={styles.arrow}>
+          <Link to="/ticket/area">
+            <img alt="arrow" src={arrowIcon} />
+            <p>選擇其他區座位</p>
+          </Link>
+        </div>
+        <button
+          className={!selectedSeats.length ? styles.disabled : ""}
+          onClick={(event) => onSubmitSeats(event)}
+          disabled={!selectedSeats.length}
+        >
+          確認座位
+        </button>
       </div>
-      <button onClick={(event) => onSubmitSeats(event)} disabled={!selectedSeats.length}>
-        確認
-      </button>
     </>
   );
 }

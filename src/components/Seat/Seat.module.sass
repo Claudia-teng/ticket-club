@@ -1,15 +1,19 @@
 @import 'src/styles/_variables.sass'
 
 .seatContainer
-  width: fit-content
-  margin: 0 auto
+  text-align: center
   > p
     color: $white
     font-size: 18px
     margin-bottom: 1rem
+  .selectContainer
+    display: flex
+    > div
+      flex: 1
   .legend
     display: flex
-    margin: 1rem 0rem 5rem 0rem
+    justify-content: center
+    margin: 1rem 0rem 2rem 0rem
     > div
       display: flex
       align-items: center  
@@ -21,12 +25,35 @@
       svg
         width: 20px
         height: 20px
-
-  .row
-    display: flex
-    width: fit-content
-    margin: auto
-    svg
-      width: 30px
-      height: 30px
-      margin: 0.5rem
+  .seatMap
+    .row
+      display: flex
+      justify-content: center
+      svg
+        width: 30px
+        height: 30px
+        margin: 0.5rem
+  .arrow
+    margin: 1.5rem 0rem
+    a
+      display: flex
+      align-items: center
+      justify-content: center
+      text-decoration: none
+      img
+        margin-right: 1rem
+      p
+        color: $light-gray
+  button
+    cursor: pointer
+    font-size: 18px
+    color: $white
+    border: none
+    background-color: $purple
+    padding: 0.6rem 1.8rem
+    border-radius: 10px
+    width: 8.1rem
+    height: 3rem
+    margin-top: 1rem
+    &.disabled
+      opacity: 0.7
