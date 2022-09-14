@@ -102,7 +102,10 @@ function App() {
               }
             ></Route>
           </Route>
-          <Route path="/success" element={<Success ws={ws} setWs={setWs} />}></Route>
+          <Route
+            path="/success"
+            element={<Success ws={ws} setWs={setWs} orderConfirmInfo={orderConfirmInfo} />}
+          ></Route>
           <Route
             path="/wait"
             element={
