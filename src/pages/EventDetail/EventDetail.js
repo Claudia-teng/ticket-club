@@ -124,26 +124,29 @@ function EventDetail({
             <div className={styles.divider}></div>
             <div className={styles.text}>
               <div>
-                <h2>On Sale</h2>
+                <h2>All Concerts</h2>
               </div>
             </div>
             <div className={styles.divider}></div>
           </div>
 
-          <p className={styles.onSale}>
-            {new Date(detail.onSale).getFullYear().toString()} 年 {(new Date(detail.onSale).getMonth() + 1).toString()}
-            月 {new Date(detail.onSale).getDate().toString()} 日 {new Date(detail.onSale).getHours().toString()}:
-            {(new Date(detail.onSale).getMinutes() < 10 ? "0" : "") + new Date(detail.onSale).getMinutes()}
-          </p>
-
-          <div className={styles.concertContainer}>
-            <div className={styles.divider}></div>
-            <div className={styles.text}>
+          <div className={styles.onSaleContainer}>
+            <div>
               <div>
-                <h2>All Concerts</h2>
+                <h1>開始販售日期</h1>
+                <p>
+                  {new Date(detail.onSale).getFullYear().toString()}.
+                  {(new Date(detail.onSale).getMonth() + 1).toString()}.{new Date(detail.onSale).getDate().toString()}
+                </p>
+              </div>
+              <div>
+                <h1>開始販售時間</h1>
+                <p>
+                  {new Date(detail.onSale).getHours().toString()}:
+                  {(new Date(detail.onSale).getMinutes() < 10 ? "0" : "") + new Date(detail.onSale).getMinutes()}
+                </p>
               </div>
             </div>
-            <div className={styles.divider}></div>
           </div>
 
           <div className={styles.sessionContainer}>
