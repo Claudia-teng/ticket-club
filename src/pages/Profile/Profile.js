@@ -64,6 +64,7 @@ function Profile({ ws, setWs, setIsLogin }) {
           </div>
           <button onClick={() => onLogout()}>登出</button>
           <h2>個人訂單</h2>
+          {!userInfo?.tickets?.length && <p>還沒有任何票券</p>}
           {userInfo?.tickets?.map((ticket, index) => {
             return (
               <>
