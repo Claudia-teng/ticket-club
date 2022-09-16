@@ -5,6 +5,7 @@ import axios from "axios";
 import io from "socket.io-client";
 import styles from "./EventDetail.module.sass";
 import placeIcon from "../../assets/place.png";
+import ErrorModal from "../../components/Modal/Modal";
 
 function EventDetail({
   sessionId,
@@ -19,6 +20,8 @@ function EventDetail({
   let navigate = useNavigate();
   let { id } = useParams();
   const [detail, setEventDetail] = useState(null);
+  const [modal, setModal] = useState(false);
+  const [msg, setMsg] = useState("");
 
   async function getEventDetail() {
     const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
@@ -55,15 +58,14 @@ function EventDetail({
       ws.on("check limit", (data) => {
         console.log("data", data);
         if (data === "Not login") {
-          // to do - login hint
-          console.log("Login error.");
+          setModal(true);
+          setMsg("Please login first!");
           ws.disconnect();
-          navigate("/login");
           return;
         }
         if (data === "Duplicate") {
-          // to do - login hint
-          console.log("You are already in event page or in queue.");
+          setModal(true);
+          setMsg("You are already in the event / queue!");
           ws.disconnect();
           return;
         }
@@ -202,6 +204,7 @@ function EventDetail({
           </div>
         </div>
       )}
+      <ErrorModal modal={modal} setModal={setModal} msg={msg} />
     </>
   );
 }

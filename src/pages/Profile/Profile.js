@@ -62,7 +62,7 @@ function Profile({ ws, setWs, setIsLogin }) {
               <span>{userInfo?.email}</span>
             </div>
           </div>
-          {/* <button onClick={() => onLogout()}>登出</button> */}
+          <button onClick={() => onLogout()}>登出</button>
           <h2>個人訂單</h2>
           {userInfo?.tickets?.map((ticket, index) => {
             return (
