@@ -1,0 +1,99 @@
+@import 'src/styles/_variables.sass'
+
+.profileContainer
+  background-color: $black
+  padding-bottom: 5rem
+.titleContainer
+  display: flex
+  align-items: center
+  div
+    flex: 1
+  .singer 
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 1rem 2rem
+    height: 5rem
+    > div
+      text-align: center
+  h1
+    color: $white
+    font-weight: 700
+    font-size: 28px
+  .divider
+    height: 1px
+    background-color: $gray
+.container
+  width: 70%
+  margin: 0 auto
+  > h2
+    color: $white
+    font-size: 24px
+    margin: 2rem 0rem 1rem 0rem
+  .profile
+    display: flex
+    padding: 1rem 
+    > div
+      flex: 1
+      span:first-child
+        color: $light-gray
+        margin-right: 1rem
+      span:last-child
+        color: $white
+.fieldsetContainer
+  margin-top: 3rem
+  h2
+    font-size: 16px
+    color: $light-gray
+.fieldset
+  border: 1px solid $purple
+  border-radius: 12px
+  position: relative
+  padding: 2rem
+  margin: 2rem 0rem
+  legend
+    position: absolute
+    top: -20px
+    left: 20px
+    width: 2.5rem
+    height: 2.5rem
+    background-color: $purple
+    border-radius: 50%
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 16px
+    color: $white
+  > div
+    margin: 1.5rem 0rem
+    span:first-child
+      display: inline-block
+      width: 8rem
+      color: $light-gray
+    span:last-child
+      color: $white
+  .summary
+    text-align: right
+    margin: 1rem 0rem 0rem 0rem
+.table
+  table
+    width: 100% !important
+    color: $white
+    width: 70%
+    margin: 0rem auto 2rem auto
+  thead
+    background-color: $dark-gray
+  th, td
+    text-align: center
+  tr
+    border-color: $gray
+  tbody
+    background-color: $black
+    /*第一欄最後列：左下*/
+    tr:last-child td:first-child
+      border-bottom-left-radius: 10px
+    /*最後欄第一列：右下*/
+    tr:last-child td:last-child
+      border-bottom-right-radius: 10px
+    tr:last-child td
+      border-bottom: 0
