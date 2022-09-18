@@ -1,20 +1,22 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
-    image: 'claudiateng/ticket-club-web'
+    image: "claudiateng/ticket-club-web"
     container_name: ticket-club-web
     restart: always
     ports:
-      - '3000:3000'
+      - "3000:3000"
     env_file:
       - .env
   nginx:
-    image: 'claudiateng/ticket-club-nginx'
+    image: "claudiateng/ticket-club-nginx"
     container_name: ticket-club-nginx
     restart: always
     ports:
-      - '80:80'
+      - "80:80"
+    env_file:
+      - .env
     depends_on:
       - web
 networks:
