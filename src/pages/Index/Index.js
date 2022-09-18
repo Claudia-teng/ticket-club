@@ -16,7 +16,7 @@ function Index({ ws, setWs, setSessionId }) {
 
   async function onSearchInput(event) {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event?search=${searchText}`);
+      const data = await axios.get(`https://claudia-teng.com/api/event?search=${searchText}`);
       setEvents(data.data);
     } catch (err) {
       console.log("err", err);
@@ -29,7 +29,7 @@ function Index({ ws, setWs, setSessionId }) {
 
   async function getEvents() {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event`);
+      const data = await axios.get(`https://claudia-teng.com/api/event`);
       setEvents(data.data);
     } catch (err) {
       console.log("err", err);

@@ -18,7 +18,7 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
     // console.log("info", info);
     try {
       let token = localStorage.getItem("jwt");
-      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/order`, info, {
+      const data = await axios.post(`https://claudia-teng.com/api/order`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log(data.data.ok);

@@ -24,13 +24,13 @@ function EventDetail({
   const [msg, setMsg] = useState("");
 
   async function getEventDetail() {
-    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
+    const data = await axios.get(`https://claudia-teng.com/api/event/${id}`);
     setEventDetail(data.data);
   }
 
   function onBuyTicket(event, session) {
     setWs(
-      io(`${process.env.REACT_APP_SOCKET}`, {
+      io(`https://claudia-teng.com`, {
         auth: {
           token: localStorage.getItem("jwt"),
         },

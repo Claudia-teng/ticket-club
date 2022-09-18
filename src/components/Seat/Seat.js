@@ -22,7 +22,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
       areaId: selectedAreaInfo.area.id,
     };
     let token = localStorage.getItem("jwt");
-    const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
+    const data = await axios.post(`https://claudia-teng.com/api/seat`, info, {
       headers: { Authorization: `Bearer ${token}` },
     });
     setSeats(data.data);
@@ -62,7 +62,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
     console.log("info", info);
     try {
       let token = localStorage.getItem("jwt");
-      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/lock`, info, {
+      const data = await axios.post(`https://claudia-teng.com/api/seat/lock`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrderConfirmInfo(data.data);
