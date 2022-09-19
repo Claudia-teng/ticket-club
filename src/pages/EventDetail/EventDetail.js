@@ -59,13 +59,13 @@ function EventDetail({
         console.log("data", data);
         if (data === "Not login") {
           setModal(true);
-          setMsg("Please login first!");
+          setMsg("請先登入！");
           ws.disconnect();
           return;
         }
         if (data === "Duplicate") {
           setModal(true);
-          setMsg("You are already in the event / queue!");
+          setMsg("此帳號已在購票頁面 / 隊伍中！");
           ws.disconnect();
           return;
         }

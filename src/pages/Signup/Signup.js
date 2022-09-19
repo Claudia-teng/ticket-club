@@ -53,6 +53,12 @@ function Signup({ setUserInfo, setIsLogin }) {
     }
   }
 
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      onSignUp();
+    }
+  }
+
   async function onSignUp() {
     const signupInfo = {
       name,
@@ -90,6 +96,7 @@ function Signup({ setUserInfo, setIsLogin }) {
                 placeholder="Name"
                 className={validName ? "" : styles.error}
                 onChange={(event) => onNameChange(event)}
+                onKeyDown={(event) => handleKeyDown(event)}
                 value={name}
               />
               <p className={styles.error}>{nameErrorMsg}</p>
@@ -99,6 +106,7 @@ function Signup({ setUserInfo, setIsLogin }) {
                 className={validEmail ? "" : styles.error}
                 value={email}
                 onChange={(event) => onEmailChange(event)}
+                onKeyDown={(event) => handleKeyDown(event)}
               />
               <p className={styles.error}>{emailErrorMsg}</p>
               <input
@@ -106,6 +114,7 @@ function Signup({ setUserInfo, setIsLogin }) {
                 placeholder="Password"
                 className={validPassword ? "" : styles.error}
                 onChange={(event) => onPasswordChange(event)}
+                onKeyDown={(event) => handleKeyDown(event)}
                 value={password}
               />
               <p className={styles.error}>{passwordErrorMsg}</p>
