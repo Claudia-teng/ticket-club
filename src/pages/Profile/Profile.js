@@ -14,7 +14,7 @@ function Profile({ ws, setWs, setIsLogin }) {
       navigate("/login");
     }
     try {
-      const data = await axios.get(`https://claudia-teng.com/api/user/profile`, {
+      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/user/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserInfo(data.data);

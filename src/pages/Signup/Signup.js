@@ -61,7 +61,7 @@ function Signup({ setUserInfo, setIsLogin }) {
     };
 
     try {
-      const data = await axios.post(`https://claudia-teng.com/api/user/signup`, signupInfo);
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/user/signup`, signupInfo);
       console.log("data", data.data.data);
       setIsLogin(true);
       setUserInfo(data.data.data);

@@ -10,7 +10,7 @@ function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg, setSte
 
   async function getArea() {
     let token = localStorage.getItem("jwt");
-    const data = await axios.get(`https://claudia-teng.com/api/area/${sessionId}`, {
+    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const result = data.data;
