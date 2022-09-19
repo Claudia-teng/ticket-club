@@ -44,7 +44,6 @@ function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg, setSte
     if (timer === "00:00") {
       ws.disconnect();
       setWs(null);
-      // todo - modal show expires
       navigate("/");
     }
   }, [timer]);

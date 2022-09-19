@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SeatIcon from "../SeatIcon/SeatIcon";
 import arrowIcon from "../../assets/arrow.png";
+import ErrorModal from "../../components/Modal/Modal";
 
 function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInfo, ws, timer, setStep }) {
   let navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+  const [msg, setMsg] = useState("");
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const colors = {
@@ -52,7 +55,11 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
   }
 
   async function onSubmitSeats(event) {
-    // todo - validate selectedSeats (> 0 && <= 4)
+    if (selectedSeats > 4) {
+      setModal(true);
+      setMsg("一次最多只能購買四張！");
+      return;
+    }
     // console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId,
@@ -73,7 +80,8 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
       ws.emit("lock seat", lockedSeats);
     } catch (err) {
       console.log("err", err.response.data.error);
-      // todo - modal show error msg & navigate to /ticket/area
+      setModal(true);
+      setMsg(err.response.data.error);
     }
   }
 
@@ -251,6 +259,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
         >
           確認座位
         </button>
+        <ErrorModal modal={modal} setModal={setModal} msg={msg} />
       </div>
     </>
   );
