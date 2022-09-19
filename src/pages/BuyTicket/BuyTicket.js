@@ -25,6 +25,10 @@ function BuyTicket({ ws, timer, setTimer, leftSeconds, setLeftSeconds, sessionIn
           <h1>COUNTDOWN</h1>
           <Countdown timer={timer} setTimer={setTimer} leftSeconds={leftSeconds} />
         </div>
+        <div className={styles.warning}>
+          <p>1. 購票過程請勿重新整理，否則將需重新排隊進入</p>
+          <p>2. 一個帳號每個場次限購4張門票</p>
+        </div>
         <Outlet />
       </div>
     </>

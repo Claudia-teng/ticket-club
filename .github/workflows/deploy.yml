@@ -23,8 +23,8 @@ jobs:
         file: ./Dockerfile
         push: true
         build-args: |
-          REACT_APP_DOMAIN:${{ secrets.REACT_APP_DOMAIN }}
-          REACT_APP_SOCKET:${{ secrets.REACT_APP_SOCKET }}
+          REACT_APP_DOMAIN=${{ secrets.REACT_APP_DOMAIN }}
+          REACT_APP_SOCKET=${{ secrets.REACT_APP_SOCKET }}
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ticket-club-nginx:latest
   continuous-deployment:
     runs-on: ubuntu-latest
