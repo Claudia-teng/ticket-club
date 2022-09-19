@@ -24,8 +24,12 @@ function EventDetail({
   const [msg, setMsg] = useState("");
 
   async function getEventDetail() {
-    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
-    setEventDetail(data.data);
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
+      setEventDetail(data.data);
+    } catch(err) {
+      navigate('/')
+    }
   }
 
   function onBuyTicket(event, session) {

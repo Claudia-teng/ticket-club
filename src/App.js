@@ -120,6 +120,7 @@ function App() {
               />
             }
           ></Route>
+          <Route path="*" element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} />} />
         </Routes>
         <Footer />
       </BrowserRouter>
