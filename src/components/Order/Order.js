@@ -54,7 +54,6 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
   useEffect(() => {
     if (timer === "00:00") {
       navigate("/");
-      ws.emit("unlock seat", orderConfirmInfo);
     }
   }, [timer]);
 

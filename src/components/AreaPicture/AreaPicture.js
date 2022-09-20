@@ -21,7 +21,9 @@ function AreaPicture({
   const [step, setStep] = useState(1);
 
   useEffect(() => {
-    if (orderConfirmInfo) ws.emit("unlock seat", orderConfirmInfo);
+    if (orderConfirmInfo) {
+      ws.emit("unlock seat", orderConfirmInfo);
+    }
   }, []);
 
   return (

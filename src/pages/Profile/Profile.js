@@ -32,24 +32,11 @@ function Profile({ ws, setWs, setIsLogin, setSessionId, orderConfirmInfo }) {
 
   useEffect(() => {
     getProfileDetail();
+
     if (ws) {
-      if (orderConfirmInfo) {
-        ws.emit("unlock seat", orderConfirmInfo);
-      } else {
-        ws.disconnect();
-        setWs(null);
-        setSessionId(null);
-      }
-
-      ws.on("finish unlock", () => {
-        ws.disconnect();
-        setWs(null);
-        setSessionId(null);
-      });
-
-      return () => {
-        ws.off("finish unlock");
-      };
+      ws.disconnect();
+      setWs(null);
+      setSessionId(null);
     }
   }, []);
 

@@ -6,7 +6,17 @@ import SeatIcon from "../SeatIcon/SeatIcon";
 import arrowIcon from "../../assets/arrow.png";
 import ErrorModal from "../../components/Modal/Modal";
 
-function Seat({ sessionId, seats, setSeats, selectedAreaInfo, orderConfirmInfo, setOrderConfirmInfo, ws, timer, setStep }) {
+function Seat({
+  sessionId,
+  seats,
+  setSeats,
+  selectedAreaInfo,
+  orderConfirmInfo,
+  setOrderConfirmInfo,
+  ws,
+  timer,
+  setStep,
+}) {
   let navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [msg, setMsg] = useState("");
@@ -92,7 +102,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, orderConfirmInfo, 
     // todo - handle refresh then unselect
     // window.addEventListener("beforeunload", unlockSeats);
     // return () => {
-    //   ws.emit("unlock seat", orderConfirmInfo);
+    //   ws.emit("unselect seat", orderConfirmInfo);
     //   window.removeEventListener("beforeunload", unlockSeats);
     // };
 
@@ -142,6 +152,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, orderConfirmInfo, 
 
       ws.on("unlock seat", (data) => {
         console.log("unlock seat", data);
+        if (data.error) return;
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data.tickets) {
           console.log("seat", seat);

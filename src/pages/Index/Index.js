@@ -38,24 +38,11 @@ function Index({ ws, setWs, setSessionId, orderConfirmInfo }) {
 
   useEffect(() => {
     getEvents();
+
     if (ws) {
-      if (orderConfirmInfo) {
-        ws.emit("unlock seat", orderConfirmInfo);
-      } else {
-        ws.disconnect();
-        setWs(null);
-        setSessionId(null);
-      }
-
-      ws.on("finish unlock", () => {
-        ws.disconnect();
-        setWs(null);
-        setSessionId(null);
-      });
-
-      return () => {
-        ws.off("finish unlock");
-      };
+      ws.disconnect();
+      setWs(null);
+      setSessionId(null);
     }
   }, []);
 
