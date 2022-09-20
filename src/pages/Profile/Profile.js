@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "./Profile.module.sass";
 import Table from "react-bootstrap/Table";
 
-function Profile({ ws, setWs, setIsLogin }) {
+function Profile({ ws, setWs, setIsLogin, setSessionId, orderConfirmInfo }) {
   const [userInfo, setUserInfo] = useState(null);
   let navigate = useNavigate();
 
@@ -33,8 +33,23 @@ function Profile({ ws, setWs, setIsLogin }) {
   useEffect(() => {
     getProfileDetail();
     if (ws) {
-      ws.disconnect();
-      setWs(null);
+      if (orderConfirmInfo) {
+        ws.emit("unlock seat", orderConfirmInfo);
+      } else {
+        ws.disconnect();
+        setWs(null);
+        setSessionId(null);
+      }
+
+      ws.on("finish unlock", () => {
+        ws.disconnect();
+        setWs(null);
+        setSessionId(null);
+      });
+
+      return () => {
+        ws.off("finish unlock");
+      };
     }
   }, []);
 

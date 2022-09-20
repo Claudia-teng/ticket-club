@@ -4,7 +4,7 @@ import axios from "axios";
 import OrderConfirm from "../../components/OrderConfirm/OrderConfirm";
 import styles from "./Success.module.sass";
 
-function Success({ orderConfirmInfo }) {
+function Success({ orderConfirmInfo, setOrderConfirmInfo }) {
   let navigate = useNavigate();
 
   function navigateToProfile() {
@@ -13,6 +13,12 @@ function Success({ orderConfirmInfo }) {
   function navigateToIndex() {
     navigate("/");
   }
+
+  useEffect(() => {
+    return () => {
+      setOrderConfirmInfo(null);
+    };
+  }, []);
 
   return (
     <>

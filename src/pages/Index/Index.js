@@ -5,7 +5,7 @@ import styles from "./Index.module.sass";
 import { useNavigate } from "react-router-dom";
 import IndexImg from "../../assets/index.png";
 
-function Index({ ws, setWs, setSessionId }) {
+function Index({ ws, setWs, setSessionId, orderConfirmInfo }) {
   let navigate = useNavigate();
   const [searchText, setSearchText] = useState("");
   const [events, setEvents] = useState([]);
@@ -38,11 +38,24 @@ function Index({ ws, setWs, setSessionId }) {
 
   useEffect(() => {
     getEvents();
-
     if (ws) {
-      ws.disconnect();
-      setWs(null);
-      setSessionId(null);
+      if (orderConfirmInfo) {
+        ws.emit("unlock seat", orderConfirmInfo);
+      } else {
+        ws.disconnect();
+        setWs(null);
+        setSessionId(null);
+      }
+
+      ws.on("finish unlock", () => {
+        ws.disconnect();
+        setWs(null);
+        setSessionId(null);
+      });
+
+      return () => {
+        ws.off("finish unlock");
+      };
     }
   }, []);
 

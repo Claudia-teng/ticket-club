@@ -36,12 +36,12 @@ function App() {
         <Navbar isLogin={isLogin} setIsLogin={setIsLogin} />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} />}></Route>
+          <Route path="/" element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} orderConfirmInfo={orderConfirmInfo}/>}></Route>
           <Route path="/login" element={<Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />}></Route>
           <Route path="/signup" element={<Signup setUserInfo={setUserInfo} setIsLogin={setIsLogin} />}></Route>
           <Route
             path="/profile"
-            element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} setIsLogin={setIsLogin} />}
+            element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} setIsLogin={setIsLogin} setSessionId={setSessionId} orderConfirmInfo={orderConfirmInfo}/>}
           ></Route>
           <Route
             path="/event/:id"
@@ -55,6 +55,7 @@ function App() {
                 setQueuePeople={setQueuePeople}
                 setLeftSeconds={setLeftSeconds}
                 setSessionInfo={setSessionInfo}
+                orderConfirmInfo={orderConfirmInfo}
               />
             }
           ></Route>
@@ -75,7 +76,6 @@ function App() {
               path="select"
               element={
                 <AreaPicture
-                  type="area"
                   sessionId={sessionId}
                   setSelectedAreaInfo={setSelectedAreaInfo}
                   ws={ws}
@@ -84,6 +84,7 @@ function App() {
                   seats={seats}
                   setSeats={setSeats}
                   selectedAreaInfo={selectedAreaInfo}
+                  orderConfirmInfo={orderConfirmInfo}
                   setOrderConfirmInfo={setOrderConfirmInfo}
                 />
               }
@@ -104,7 +105,7 @@ function App() {
           </Route>
           <Route
             path="/success"
-            element={<Success ws={ws} setWs={setWs} orderConfirmInfo={orderConfirmInfo} />}
+            element={<Success ws={ws} setWs={setWs} orderConfirmInfo={orderConfirmInfo} setOrderConfirmInfo={setOrderConfirmInfo}/>}
           ></Route>
           <Route
             path="/wait"

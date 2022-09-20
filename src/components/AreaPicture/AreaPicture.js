@@ -6,7 +6,6 @@ import Area from "../Area/Area";
 import Seat from "../Seat/Seat";
 
 function AreaPicture({
-  type,
   sessionId,
   setSelectedAreaInfo,
   ws,
@@ -16,9 +15,15 @@ function AreaPicture({
   setSeats,
   selectedAreaInfo,
   setOrderConfirmInfo,
+  orderConfirmInfo,
 }) {
   const [img, setImg] = useState(null);
   const [step, setStep] = useState(1);
+
+  useEffect(() => {
+    if (orderConfirmInfo) ws.emit("unlock seat", orderConfirmInfo);
+  }, []);
+
   return (
     <>
       <div className={styles.container}>

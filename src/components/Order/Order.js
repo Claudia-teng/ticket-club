@@ -1,10 +1,11 @@
 import styles from "./Order.module.sass";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import OrderConfirm from "../OrderConfirm/OrderConfirm";
 
 function Order({ sessionId, orderConfirmInfo, ws, timer }) {
+  const token = localStorage.getItem("jwt");
   let navigate = useNavigate();
 
   async function onSubmitOrder(event) {
@@ -37,18 +38,17 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
     }
   }
 
-  // const unlockSeats = (e) => {
-  //   ws.emit("unlock seat", orderConfirmInfo);
-  //   navigate("/");
-  // };
+  async function unlockSeats() {
+    await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/unlock`, orderConfirmInfo, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 
   useEffect(() => {
-    // todo - handle refresh then unlock
-    // window.addEventListener("beforeunload", unlockSeats);
-    // return () => {
-    //   ws.emit("unlock seat", orderConfirmInfo);
-    //   window.removeEventListener("beforeunload", unlockSeats);
-    // };
+    window.addEventListener("beforeunload", unlockSeats);
+    return () => {
+      window.removeEventListener("beforeunload", unlockSeats);
+    };
   }, []);
 
   useEffect(() => {

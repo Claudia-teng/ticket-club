@@ -16,6 +16,7 @@ function EventDetail({
   setLeftSeconds,
   setSessionInfo,
   setQueuePeople,
+  orderConfirmInfo,
 }) {
   let navigate = useNavigate();
   let { id } = useParams();
@@ -27,8 +28,8 @@ function EventDetail({
     try {
       const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
       setEventDetail(data.data);
-    } catch(err) {
-      navigate('/')
+    } catch (err) {
+      navigate("/");
     }
   }
 
@@ -50,10 +51,23 @@ function EventDetail({
     getEventDetail();
 
     if (ws) {
-      console.log('disconnect')
-      ws.disconnect();
-      setWs(null);
-      setSessionId(null);
+      if (orderConfirmInfo) {
+        ws.emit("unlock seat", orderConfirmInfo);
+      } else {
+        ws.disconnect();
+        setWs(null);
+        setSessionId(null);
+      }
+
+      ws.on("finish unlock", () => {
+        ws.disconnect();
+        setWs(null);
+        setSessionId(null);
+      });
+
+      return () => {
+        ws.off("finish unlock");
+      };
     }
   }, []);
 

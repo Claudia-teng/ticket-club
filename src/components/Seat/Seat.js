@@ -6,7 +6,7 @@ import SeatIcon from "../SeatIcon/SeatIcon";
 import arrowIcon from "../../assets/arrow.png";
 import ErrorModal from "../../components/Modal/Modal";
 
-function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInfo, ws, timer, setStep }) {
+function Seat({ sessionId, seats, setSeats, selectedAreaInfo, orderConfirmInfo, setOrderConfirmInfo, ws, timer, setStep }) {
   let navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [msg, setMsg] = useState("");
@@ -32,7 +32,6 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
   }
 
   function onSelectSeat(event, rowIndex, columnIndex) {
-    // check only seats limit
     const seatInfo = {
       rowIndex,
       columnIndex,
