@@ -68,7 +68,7 @@ function OrderConfirm({ orderConfirmInfo }) {
             <span>總張數：</span> <span>{orderConfirmInfo?.tickets.length}張</span>
           </div>
           <div>
-            <span>總價：</span> <span>${orderConfirmInfo?.total}張</span>
+            <span>總價：</span> <span>${orderConfirmInfo?.total}</span>
           </div>
         </div>
       </div>

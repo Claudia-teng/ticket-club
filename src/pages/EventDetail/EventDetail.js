@@ -42,6 +42,7 @@ function EventDetail({
     );
     setSessionId(session.session_id);
     session.title = detail.title;
+    session.loading = true;
     setSessionInfo(session);
   }
 
@@ -49,6 +50,7 @@ function EventDetail({
     getEventDetail();
 
     if (ws) {
+      console.log('disconnect')
       ws.disconnect();
       setWs(null);
       setSessionId(null);
