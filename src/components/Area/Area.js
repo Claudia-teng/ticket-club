@@ -3,7 +3,18 @@ import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg, setStep }) {
+function Area({
+  sessionId,
+  selectedAreaInfo,
+  setSelectedAreaInfo,
+  ws,
+  setWs,
+  timer,
+  setImg,
+  setStep,
+  selectedSeats,
+  setSelectedSeats,
+}) {
   let navigate = useNavigate();
   const [areas, setAreas] = useState([]);
   const colors = ["#FFF500", "#FF7A00", "#F93131"];
@@ -37,6 +48,25 @@ function Area({ sessionId, setSelectedAreaInfo, ws, setWs, timer, setImg, setSte
 
   useEffect(() => {
     if (!ws) return;
+    if (selectedSeats.length) {
+      console.log("selectedSeats", selectedSeats);
+      const seatInfo = {
+        sessionId,
+        areaId: selectedAreaInfo.area.id,
+      };
+      seatInfo.tickets = [];
+      for (const seat of selectedSeats) {
+        const info = {
+          row: seat.rowIndex + 1,
+          column: seat.columnIndex + 1,
+          rowIndex: seat.rowIndex,
+          columnIndex: seat.columnIndex,
+        };
+        seatInfo.tickets.push(info);
+      }
+      ws.emit("unselect seat", seatInfo);
+      setSelectedSeats([]);
+    }
     getArea();
   }, []);
 

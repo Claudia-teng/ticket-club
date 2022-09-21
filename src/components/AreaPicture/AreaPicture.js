@@ -19,6 +19,7 @@ function AreaPicture({
 }) {
   const [img, setImg] = useState(null);
   const [step, setStep] = useState(1);
+  const [selectedSeats, setSelectedSeats] = useState([]);
 
   useEffect(() => {
     if (orderConfirmInfo) {
@@ -34,8 +35,11 @@ function AreaPicture({
         </div>
         {step === 1 && (
           <Area
+            selectedSeats={selectedSeats}
+            setSelectedSeats={setSelectedSeats}
             sessionId={sessionId}
             setSelectedAreaInfo={setSelectedAreaInfo}
+            selectedAreaInfo={selectedAreaInfo}
             ws={ws}
             setWs={setWs}
             timer={timer}
@@ -45,6 +49,8 @@ function AreaPicture({
         )}
         {step === 2 && (
           <Seat
+            selectedSeats={selectedSeats}
+            setSelectedSeats={setSelectedSeats}
             sessionId={sessionId}
             seats={seats}
             setSeats={setSeats}

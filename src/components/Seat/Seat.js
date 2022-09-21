@@ -6,12 +6,21 @@ import SeatIcon from "../SeatIcon/SeatIcon";
 import arrowIcon from "../../assets/arrow.png";
 import ErrorModal from "../../components/Modal/Modal";
 
-function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInfo, ws, timer, setStep }) {
+function Seat({
+  sessionId,
+  seats,
+  setSeats,
+  selectedSeats,
+  setSelectedSeats,
+  selectedAreaInfo,
+  setOrderConfirmInfo,
+  ws,
+  timer,
+  setStep,
+}) {
   let navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [msg, setMsg] = useState("");
-
-  const [selectedSeats, setSelectedSeats] = useState([]);
   const colors = {
     1: "#ffffff",
     2: "#F93131",
@@ -48,11 +57,16 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
     const seatInfo = {
       sessionId,
       areaId: selectedAreaInfo.area.id,
-      row: rowIndex + 1,
-      column: columnIndex + 1,
-      rowIndex,
-      columnIndex,
     };
+    seatInfo.tickets = [
+      {
+        row: rowIndex + 1,
+        column: columnIndex + 1,
+        rowIndex,
+        columnIndex,
+      },
+    ];
+    console.log("seatInfo", seatInfo);
     setSelectedSeats((current) => {
       return current.filter((item) => item.rowIndex !== rowIndex || item.columnIndex !== columnIndex);
     });
@@ -63,12 +77,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
   }
 
   async function onSubmitSeats(event) {
-    if (selectedSeats > 4) {
-      setModal(true);
-      setMsg("一次最多只能購買四張！");
-      return;
-    }
-    // console.log("selectedSeats", selectedSeats);
+    console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId,
       areaId: selectedAreaInfo.area.id,
@@ -153,9 +162,17 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
 
       ws.on("unselect seat", (data) => {
         console.log("unselect seat", data);
-        const _seats = JSON.parse(JSON.stringify(seats));
-        _seats[data.rowIndex][data.columnIndex].status_id = 1;
-        setSeats(_seats);
+        if (!data.error) {
+          const _seats = JSON.parse(JSON.stringify(seats));
+          for (let seat of data.tickets) {
+            console.log("seat", seat);
+            _seats[seat.row - 1][seat.column - 1].status_id = 1;
+          }
+          setSeats(_seats);
+        } else {
+          setModal(true);
+          setMsg(data.error);
+        }
       });
 
       ws.on("unlock seat", (data) => {
@@ -165,13 +182,14 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data.tickets) {
           console.log("seat", seat);
-          _seats[seat.row - 1][seat.column - 1].status_id = 5;
+          _seats[seat.row - 1][seat.column - 1].status_id = 1;
         }
         setSeats(_seats);
       });
 
       return () => {
-        ws.off("select seat");
+        ws.off("self select seat");
+        ws.off("other select seat");
         ws.off("lock seat");
         ws.off("book seat");
         ws.off("unselect seat");
@@ -273,7 +291,7 @@ function Seat({ sessionId, seats, setSeats, selectedAreaInfo, setOrderConfirmInf
         </div>
         <div className={styles.arrow} onClick={(event) => navigateToArea(event)}>
           <img alt="arrow" src={arrowIcon} />
-          <p>選擇其他區座位</p>
+          <p>重新選擇區域</p>
         </div>
         <button
           className={!selectedSeats.length ? styles.disabled : ""}
