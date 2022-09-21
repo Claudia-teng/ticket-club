@@ -10,30 +10,9 @@ function Index({ ws, setWs, setSessionId, orderConfirmInfo }) {
   const [searchText, setSearchText] = useState("");
   const [events, setEvents] = useState([]);
 
-  function onInputChange(event) {
-    setSearchText(event.target.value);
-  }
-
-  async function onSearchInput(event) {
-    try {
-      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event?search=${searchText}`);
-      setEvents(data.data);
-    } catch (err) {
-      console.log("err", err);
-    }
-  }
-
-  function onClickEvent(e, id) {
-    navigate(`/event/${id}`);
-  }
-
   async function getEvents() {
-    try {
-      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event`);
-      setEvents(data.data);
-    } catch (err) {
-      console.log("err", err);
-    }
+    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event`);
+    setEvents(data.data);
   }
 
   useEffect(() => {

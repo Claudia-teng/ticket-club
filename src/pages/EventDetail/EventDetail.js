@@ -47,6 +47,10 @@ function EventDetail({
     setSessionInfo(session);
   }
 
+  function resetButton() {
+    detail?.sessions?.map((detail) => (detail.loading = false));
+  }
+
   useEffect(() => {
     getEventDetail();
 
@@ -62,6 +66,7 @@ function EventDetail({
       console.log("success connect!");
 
       ws.on("connect_error", (err) => {
+        resetButton();
         setModal(true);
         setMsg("伺服器錯誤，請稍後再試！");
         ws.disconnect();
@@ -71,12 +76,14 @@ function EventDetail({
       ws.on("check limit", (data) => {
         console.log("data", data);
         if (data === "Not login") {
+          resetButton();
           setModal(true);
           setMsg("請先登入！");
           ws.disconnect();
           return;
         }
         if (data === "Duplicate") {
+          resetButton();
           setModal(true);
           setMsg("此帳號已在購票頁面 / 隊伍中！");
           ws.disconnect();
@@ -104,15 +111,6 @@ function EventDetail({
   useEffect(() => {
     if (ws && sessionId) {
       ws.emit("check limit", sessionId);
-      // let _detail = JSON.parse(JSON.stringify(detail));
-      // _detail.sessions.map((session) => {
-      //   if (session.session_id === sessionId) {
-      //     return (session.loading = true);
-      //   } else {
-      //     return (session.loading = false);
-      //   }
-      // });
-      // setEventDetail(_detail);
     }
   }, [ws, sessionId]);
 

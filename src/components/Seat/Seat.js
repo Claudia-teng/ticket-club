@@ -10,8 +10,9 @@ function Seat({
   sessionId,
   seats,
   setSeats,
+  selectedSeats,
+  setSelectedSeats,
   selectedAreaInfo,
-  orderConfirmInfo,
   setOrderConfirmInfo,
   ws,
   timer,
@@ -20,13 +21,12 @@ function Seat({
   let navigate = useNavigate();
   const [modal, setModal] = useState(false);
   const [msg, setMsg] = useState("");
-
-  const [selectedSeats, setSelectedSeats] = useState([]);
   const colors = {
     1: "#ffffff",
     2: "#F93131",
     3: "#292929",
     4: "#FFF500",
+    5: "#3453F2",
   };
 
   async function getSeats() {
@@ -35,41 +35,54 @@ function Seat({
       areaId: selectedAreaInfo.area.id,
     };
     let token = localStorage.getItem("jwt");
-    const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setSeats(data.data);
+    try {
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSeats(data.data);
+    } catch (err) {
+      localStorage.removeItem("jwt");
+      navigate("/login");
+    }
   }
 
   function onSelectSeat(event, rowIndex, columnIndex) {
     const seatInfo = {
+      sessionId,
+      areaId: selectedAreaInfo.area.id,
+      row: rowIndex + 1,
+      column: columnIndex + 1,
       rowIndex,
       columnIndex,
     };
-    const _seats = JSON.parse(JSON.stringify(seats));
-    if (_seats[rowIndex][columnIndex].status_id === 1) {
-      _seats[rowIndex][columnIndex].status_id = 4;
-      seatInfo.status_id = 4;
-      setSelectedSeats((current) => [...current, Object.assign(_seats[rowIndex][columnIndex], seatInfo)]);
-    } else {
-      _seats[rowIndex][columnIndex].status_id = 1;
-      seatInfo.status_id = 1;
-      setSelectedSeats((current) => {
-        return current.filter((item) => item.rowIndex !== rowIndex || item.columnIndex !== columnIndex);
-      });
-      // console.log("selectedSeats", selectedSeats);
-    }
-    setSeats(_seats);
     ws.emit("select seat", seatInfo);
   }
 
+  function onUnselectSeat(event, rowIndex, columnIndex) {
+    const seatInfo = {
+      sessionId,
+      areaId: selectedAreaInfo.area.id,
+    };
+    seatInfo.tickets = [
+      {
+        row: rowIndex + 1,
+        column: columnIndex + 1,
+        rowIndex,
+        columnIndex,
+      },
+    ];
+    console.log("seatInfo", seatInfo);
+    setSelectedSeats((current) => {
+      return current.filter((item) => item.rowIndex !== rowIndex || item.columnIndex !== columnIndex);
+    });
+    const _seats = JSON.parse(JSON.stringify(seats));
+    _seats[rowIndex][columnIndex].status_id = 1;
+    setSeats(_seats);
+    ws.emit("unselect seat", seatInfo);
+  }
+
   async function onSubmitSeats(event) {
-    if (selectedSeats > 4) {
-      setModal(true);
-      setMsg("一次最多只能購買四張！");
-      return;
-    }
-    // console.log("selectedSeats", selectedSeats);
+    console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId,
       areaId: selectedAreaInfo.area.id,
@@ -99,27 +112,38 @@ function Seat({
   }
 
   useEffect(() => {
-    // todo - handle refresh then unselect
-    // window.addEventListener("beforeunload", unlockSeats);
-    // return () => {
-    //   ws.emit("unselect seat", orderConfirmInfo);
-    //   window.removeEventListener("beforeunload", unlockSeats);
-    // };
-
     if (!ws) return;
     getSeats();
   }, []);
 
   useEffect(() => {
     if (ws && seats.length) {
-      ws.on("select seat", (data) => {
-        console.log("select seat data", data);
-        const _seats = JSON.parse(JSON.stringify(seats));
-        _seats[data.rowIndex][data.columnIndex].status_id = data.status_id;
-        console.log("_seats", _seats);
-        for (const seat of selectedSeats) {
-          if (seat.columnIndex === data.columnIndex && seat.rowIndex === data.rowIndex) return;
+      ws.on("self select seat", (data) => {
+        console.log("self select seat", data);
+        if (!data.error) {
+          const seatInfo = {
+            rowIndex: data.rowIndex,
+            columnIndex: data.columnIndex,
+          };
+          const _seats = JSON.parse(JSON.stringify(seats));
+          _seats[data.rowIndex][data.columnIndex].status_id = 4;
+          setSelectedSeats((current) => [...current, Object.assign(_seats[data.rowIndex][data.columnIndex], seatInfo)]);
+          setSeats(_seats);
+        } else {
+          setModal(true);
+          setMsg(data.error);
         }
+      });
+
+      ws.on("other select seat", (data) => {
+        console.log("other select seat", data);
+        const seatInfo = {
+          rowIndex: data.rowIndex,
+          columnIndex: data.columnIndex,
+        };
+        const _seats = JSON.parse(JSON.stringify(seats));
+        _seats[data.rowIndex][data.columnIndex].status_id = 5;
+        setSelectedSeats((current) => [...current, Object.assign(_seats[data.rowIndex][data.columnIndex], seatInfo)]);
         setSeats(_seats);
       });
 
@@ -143,14 +167,21 @@ function Seat({
 
       ws.on("unselect seat", (data) => {
         console.log("unselect seat", data);
-        const _seats = JSON.parse(JSON.stringify(seats));
-        for (let seat of data) {
-          _seats[seat.rowIndex][seat.columnIndex].status_id = 1;
+        if (!data.error) {
+          const _seats = JSON.parse(JSON.stringify(seats));
+          for (let seat of data.tickets) {
+            console.log("seat", seat);
+            _seats[seat.row - 1][seat.column - 1].status_id = 1;
+          }
+          setSeats(_seats);
+        } else {
+          setModal(true);
+          setMsg(data.error);
         }
-        setSeats(_seats);
       });
 
       ws.on("unlock seat", (data) => {
+        // todo - check self unlock(4) or other unlock (5)
         console.log("unlock seat", data);
         if (data.error) return;
         const _seats = JSON.parse(JSON.stringify(seats));
@@ -162,7 +193,8 @@ function Seat({
       });
 
       return () => {
-        ws.off("select seat");
+        ws.off("self select seat");
+        ws.off("other select seat");
         ws.off("lock seat");
         ws.off("book seat");
         ws.off("unselect seat");
@@ -191,16 +223,20 @@ function Seat({
             <p>空位</p>
           </div>
           <div>
+            <SeatIcon color={colors[4]} />
+            <p>目前選位</p>
+          </div>
+          <div>
+            <SeatIcon color={colors[5]} />
+            <p>已被選位</p>
+          </div>
+          <div>
             <SeatIcon color={colors[2]} />
             <p>已鎖定</p>
           </div>
           <div>
             <SeatIcon color={colors[3]} />
             <p>已售出</p>
-          </div>
-          <div>
-            <SeatIcon color={colors[4]} />
-            <p>目前選位</p>
           </div>
         </div>
         <div className={styles.seatMap}>
@@ -225,7 +261,7 @@ function Seat({
                       return (
                         <>
                           <Link
-                            onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                            onClick={(event) => onUnselectSeat(event, rowIndex, columnIndex)}
                             to=""
                             key={`${rowIndex}-${columnIndex}`}
                           >
@@ -236,14 +272,14 @@ function Seat({
                     } else if (seats[rowIndex][columnIndex].status_id === 5) {
                       return (
                         <>
-                          <SeatIcon color={colors[1]} />
+                          <SeatIcon color={colors[5]} />
                         </>
                       );
                     } else {
                       return (
                         <>
                           <Link
-                            onClick={(event) => onSelectSeat(event, rowIndex, columnIndex)}
+                            onClick={(event) => onSelectSeat(event, rowIndex, columnIndex, 1)}
                             to=""
                             key={`${rowIndex}-${columnIndex}`}
                           >
@@ -260,7 +296,7 @@ function Seat({
         </div>
         <div className={styles.arrow} onClick={(event) => navigateToArea(event)}>
           <img alt="arrow" src={arrowIcon} />
-          <p>選擇其他區座位</p>
+          <p>重新選擇區域</p>
         </div>
         <button
           className={!selectedSeats.length ? styles.disabled : ""}

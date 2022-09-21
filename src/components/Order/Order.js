@@ -34,7 +34,8 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
       ws.emit("book seat", soldSeats);
       navigate("/success");
     } catch (err) {
-      console.log(err.response.data.error);
+      localStorage.removeItem("jwt");
+      navigate("/login");
     }
   }
 
