@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./BuyTicket.module.sass";
 
-function BuyTicket({ ws, timer, setTimer, leftSeconds, setLeftSeconds, sessionInfo }) {
+function BuyTicket({ ws, timer, setTimer, leftSeconds, setLeftSeconds, sessionInfo, setFromBuyTicket }) {
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -14,7 +14,11 @@ function BuyTicket({ ws, timer, setTimer, leftSeconds, setLeftSeconds, sessionIn
       return navigate("/");
     }
 
+    setFromBuyTicket(true);
     setLeftSeconds(600);
+    return () => {
+      setFromBuyTicket(false);
+    };
   }, []);
 
   return (

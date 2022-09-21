@@ -29,6 +29,7 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [sessionInfo, setSessionInfo] = useState(null);
+  const [fromBuyTicket, setFromBuyTicket] = useState(false);
 
   return (
     <>
@@ -36,12 +37,30 @@ function App() {
         <Navbar isLogin={isLogin} setIsLogin={setIsLogin} />
         <ScrollToTop />
         <Routes>
-          <Route path="/" element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} orderConfirmInfo={orderConfirmInfo}/>}></Route>
-          <Route path="/login" element={<Login setUserInfo={setUserInfo} setIsLogin={setIsLogin} />}></Route>
-          <Route path="/signup" element={<Signup setUserInfo={setUserInfo} setIsLogin={setIsLogin} />}></Route>
+          <Route
+            path="/"
+            element={<Index ws={ws} setWs={setWs} setSessionId={setSessionId} orderConfirmInfo={orderConfirmInfo} />}
+          ></Route>
+          <Route
+            path="/login"
+            element={<Login setUserInfo={setUserInfo} isLogin={isLogin} setIsLogin={setIsLogin} />}
+          ></Route>
+          <Route
+            path="/signup"
+            element={<Signup setUserInfo={setUserInfo} isLogin={isLogin} setIsLogin={setIsLogin} />}
+          ></Route>
           <Route
             path="/profile"
-            element={<Profile ws={ws} setWs={setWs} userInfo={userInfo} setIsLogin={setIsLogin} setSessionId={setSessionId} orderConfirmInfo={orderConfirmInfo}/>}
+            element={
+              <Profile
+                ws={ws}
+                setWs={setWs}
+                userInfo={userInfo}
+                setIsLogin={setIsLogin}
+                setSessionId={setSessionId}
+                orderConfirmInfo={orderConfirmInfo}
+              />
+            }
           ></Route>
           <Route
             path="/event/:id"
@@ -69,6 +88,7 @@ function App() {
                 leftSeconds={leftSeconds}
                 setLeftSeconds={setLeftSeconds}
                 sessionInfo={sessionInfo}
+                setFromBuyTicket={setFromBuyTicket}
               />
             }
           >
@@ -105,7 +125,14 @@ function App() {
           </Route>
           <Route
             path="/success"
-            element={<Success ws={ws} setWs={setWs} orderConfirmInfo={orderConfirmInfo} setOrderConfirmInfo={setOrderConfirmInfo}/>}
+            element={
+              <Success
+                ws={ws}
+                setWs={setWs}
+                orderConfirmInfo={orderConfirmInfo}
+                setOrderConfirmInfo={setOrderConfirmInfo}
+              />
+            }
           ></Route>
           <Route
             path="/wait"
@@ -118,6 +145,7 @@ function App() {
                 queuePeople={queuePeople}
                 leftSeconds={leftSeconds}
                 setLeftSeconds={setLeftSeconds}
+                fromBuyTicket={fromBuyTicket}
               />
             }
           ></Route>

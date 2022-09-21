@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SessionCard from "../../components/SessionCard/SessionCard";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
-function Waiting({ waitPeople, queuePeople, setWaitPeople, ws, leftSeconds, sessionInfo }) {
+function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, sessionInfo, fromBuyTicket }) {
   let navigate = useNavigate();
   const [timer, setTimer] = useState(null);
   const [percentage, setPercentage] = useState(0);
@@ -40,13 +40,13 @@ function Waiting({ waitPeople, queuePeople, setWaitPeople, ws, leftSeconds, sess
         setPercentage(currentPercent);
       } else {
         passSeconds++;
-        console.log('originTime', originTime)
-        console.log('passSeconds', passSeconds)
+        console.log("originTime", originTime);
+        console.log("passSeconds", passSeconds);
         currentPercent = Math.floor((passSeconds / originTime) * 100);
         setPercentage(currentPercent);
       }
 
-      console.log('currentPercent', currentPercent);
+      console.log("currentPercent", currentPercent);
 
       if (--time < 0) {
         passSeconds = 0;
@@ -61,6 +61,13 @@ function Waiting({ waitPeople, queuePeople, setWaitPeople, ws, leftSeconds, sess
       startTimer(leftSeconds, true);
     }
   }, [leftSeconds]);
+
+  useEffect(() => {
+    console.log("fromBuyTicket", fromBuyTicket);
+    if (fromBuyTicket) {
+      return navigate("/");
+    }
+  }, [fromBuyTicket]);
 
   useEffect(() => {
     if (!ws) {

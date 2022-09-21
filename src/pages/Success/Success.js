@@ -20,6 +20,12 @@ function Success({ orderConfirmInfo, setOrderConfirmInfo }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!orderConfirmInfo) {
+      navigate("/");
+    }
+  }, [orderConfirmInfo]);
+
   return (
     <>
       <div className={styles.successContainer}>

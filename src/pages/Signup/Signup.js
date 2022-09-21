@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./Signup.module.sass";
 
-function Signup({ setUserInfo, setIsLogin }) {
+function Signup({ isLogin, setUserInfo, setIsLogin }) {
   let navigate = useNavigate();
   const [init, setInit] = useState(true);
   const [name, setName] = useState("");
@@ -54,7 +54,7 @@ function Signup({ setUserInfo, setIsLogin }) {
   }
 
   function handleKeyDown(event) {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       onSignUp();
     }
   }
@@ -81,8 +81,10 @@ function Signup({ setUserInfo, setIsLogin }) {
   }
 
   useEffect(() => {
-    // navigate to profile if logged in
-  }, []);
+    if (isLogin) {
+      navigate("/profile");
+    }
+  }, [isLogin]);
 
   return (
     <>

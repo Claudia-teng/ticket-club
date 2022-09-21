@@ -11,6 +11,7 @@ function Profile({ ws, setWs, setIsLogin, setSessionId, orderConfirmInfo }) {
   async function getProfileDetail() {
     let token = localStorage.getItem("jwt");
     if (!token) {
+      setIsLogin(false);
       navigate("/login");
     }
     try {
@@ -19,7 +20,8 @@ function Profile({ ws, setWs, setIsLogin, setSessionId, orderConfirmInfo }) {
       });
       setUserInfo(data.data);
     } catch (err) {
-      console.log("err", err);
+      setIsLogin(false);
+      localStorage.removeItem("jwt");
       navigate("/login");
     }
   }
