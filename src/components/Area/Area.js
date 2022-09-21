@@ -21,14 +21,19 @@ function Area({
 
   async function getArea() {
     let token = localStorage.getItem("jwt");
-    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const result = data.data;
-    setImg(result.seatPicture);
-    delete result["seatPicture"];
-    const areaData = data.data;
-    setAreas(areaData);
+    try {
+      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const result = data.data;
+      setImg(result.seatPicture);
+      delete result["seatPicture"];
+      const areaData = data.data;
+      setAreas(areaData);
+    } catch (err) {
+      localStorage.removeItem("jwt");
+      navigate("/login");
+    }
   }
 
   function onSelectArea(e, price, area) {

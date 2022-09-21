@@ -35,10 +35,15 @@ function Seat({
       areaId: selectedAreaInfo.area.id,
     };
     let token = localStorage.getItem("jwt");
-    const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    setSeats(data.data);
+    try {
+      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setSeats(data.data);
+    } catch (err) {
+      localStorage.removeItem("jwt");
+      navigate("/login");
+    }
   }
 
   function onSelectSeat(event, rowIndex, columnIndex) {
