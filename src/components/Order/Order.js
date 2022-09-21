@@ -38,19 +38,6 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
     }
   }
 
-  async function unlockSeats() {
-    await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/unlock`, orderConfirmInfo, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  }
-
-  useEffect(() => {
-    window.addEventListener("beforeunload", unlockSeats);
-    return () => {
-      window.removeEventListener("beforeunload", unlockSeats);
-    };
-  }, []);
-
   useEffect(() => {
     if (timer === "00:00") {
       navigate("/");

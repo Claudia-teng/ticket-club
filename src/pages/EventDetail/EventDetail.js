@@ -61,6 +61,13 @@ function EventDetail({
     if (ws) {
       console.log("success connect!");
 
+      ws.on("connect_error", (err) => {
+        setModal(true);
+        setMsg("伺服器錯誤，請稍後再試！");
+        ws.disconnect();
+        return;
+      });
+
       ws.on("check limit", (data) => {
         console.log("data", data);
         if (data === "Not login") {
