@@ -34,6 +34,7 @@ function EventDetail({
   }
 
   function onBuyTicket(event, session) {
+    console.log("start", new Date().getTime());
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
         auth: {
@@ -75,6 +76,7 @@ function EventDetail({
 
       ws.on("check limit", (data) => {
         console.log("data", data);
+        console.log("end", new Date().getTime());
         if (data === "Not login") {
           resetButton();
           setModal(true);
