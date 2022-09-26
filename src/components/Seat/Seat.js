@@ -137,13 +137,8 @@ function Seat({
 
       ws.on("other select seat", (data) => {
         console.log("other select seat", data);
-        const seatInfo = {
-          rowIndex: data.rowIndex,
-          columnIndex: data.columnIndex,
-        };
         const _seats = JSON.parse(JSON.stringify(seats));
         _seats[data.rowIndex][data.columnIndex].status_id = 5;
-        setSelectedSeats((current) => [...current, Object.assign(_seats[data.rowIndex][data.columnIndex], seatInfo)]);
         setSeats(_seats);
       });
 
