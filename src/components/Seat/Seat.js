@@ -124,18 +124,20 @@ function Seat({
     if (ws && seats.length) {
       ws.on("self select seat", (data) => {
         console.log("self select seat", data);
+        const _seats = JSON.parse(JSON.stringify(seats));
         if (!data.error) {
           const seatInfo = {
             rowIndex: data.rowIndex,
             columnIndex: data.columnIndex,
           };
-          const _seats = JSON.parse(JSON.stringify(seats));
           _seats[data.rowIndex][data.columnIndex].status_id = 4;
           setSelectedSeats((current) => [...current, Object.assign(_seats[data.rowIndex][data.columnIndex], seatInfo)]);
           setSeats(_seats);
         } else {
           setModal(true);
           setMsg(data.error);
+          _seats[data.rowIndex][data.columnIndex].disabled = false;
+          setSeats(_seats);
         }
       });
 
