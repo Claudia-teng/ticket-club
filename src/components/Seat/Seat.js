@@ -1,7 +1,7 @@
 import axios from "axios";
 import styles from "./Seat.module.sass";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SeatIcon from "../SeatIcon/SeatIcon";
 import arrowIcon from "../../assets/arrow.png";
 import ErrorModal from "../../components/Modal/Modal";
@@ -261,13 +261,9 @@ function Seat({
                     } else if (seats[rowIndex][columnIndex].status_id === 4) {
                       return (
                         <>
-                          <Link
-                            onClick={(event) => onUnselectSeat(event, rowIndex, columnIndex)}
-                            to=""
-                            key={`${rowIndex}-${columnIndex}`}
-                          >
+                          <span onClick={(event) => onUnselectSeat(event, rowIndex, columnIndex)}>
                             <SeatIcon color={colors[4]} />
-                          </Link>
+                          </span>
                         </>
                       );
                     } else if (seats[rowIndex][columnIndex].status_id === 5) {
@@ -286,14 +282,9 @@ function Seat({
                       } else {
                         return (
                           <>
-                            <Link
-                              onClick={(event) => onSelectSeat(event, rowIndex, columnIndex, 1)}
-                              to=""
-                              key={`${rowIndex}-${columnIndex}`}
-                              disabled={seats[rowIndex][columnIndex].disabled}
-                            >
+                            <span onClick={(event) => onSelectSeat(event, rowIndex, columnIndex, 1)}>
                               <SeatIcon color={colors[1]} />
-                            </Link>
+                            </span>
                           </>
                         );
                       }
