@@ -16,6 +16,7 @@ function Signup({ isLogin, setUserInfo, setIsLogin }) {
   const [validPassword, setValidPassword] = useState(true);
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function onNameChange(event) {
     setInit(false);
@@ -60,6 +61,7 @@ function Signup({ isLogin, setUserInfo, setIsLogin }) {
   }
 
   async function onSignUp() {
+    setLoading(true);
     const signupInfo = {
       name,
       email,
@@ -75,6 +77,7 @@ function Signup({ isLogin, setUserInfo, setIsLogin }) {
       navigate("/profile");
     } catch (err) {
       console.log("err", err);
+      setLoading(false);
       setIsLogin(false);
       setErrorMsg(err.response.data.error);
     }
@@ -122,7 +125,9 @@ function Signup({ isLogin, setUserInfo, setIsLogin }) {
               <p className={styles.error}>{passwordErrorMsg}</p>
               <button
                 onClick={(event) => onSignUp(event)}
-                disabled={init || !name || !email || !password || !validName || !validEmail || !validPassword}
+                disabled={
+                  init || !name || !email || !password || !validName || !validEmail || !validPassword || loading
+                }
               >
                 Submit
               </button>

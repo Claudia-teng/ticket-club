@@ -13,6 +13,7 @@ function Login({ isLogin, setUserInfo, setIsLogin }) {
   const [emailErrorMsg, setEmailErrorMsg] = useState("");
   const [passwordErrorMsg, setPasswordErrorMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function onEmailChange(event) {
     setInit(false);
@@ -45,6 +46,7 @@ function Login({ isLogin, setUserInfo, setIsLogin }) {
   }
 
   async function onLogin(event) {
+    setLoading(true);
     const loginInfo = {
       email,
       password,
@@ -58,6 +60,7 @@ function Login({ isLogin, setUserInfo, setIsLogin }) {
       navigate("/profile");
     } catch (err) {
       console.log("err", err);
+      setLoading(false);
       setIsLogin(false);
       setErrorMsg(err.response.data.error);
     }
@@ -96,7 +99,7 @@ function Login({ isLogin, setUserInfo, setIsLogin }) {
               <p className={styles.error}>{passwordErrorMsg}</p>
               <button
                 onClick={(event) => onLogin(event)}
-                disabled={init || !validEmail || !validPassword || !email || !password}
+                disabled={init || !validEmail || !validPassword || !email || !password || loading}
               >
                 Submit
               </button>
