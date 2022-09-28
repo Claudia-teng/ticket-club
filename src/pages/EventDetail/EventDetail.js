@@ -63,6 +63,10 @@ function EventDetail({
       session.title = detail.title;
       setSessionInfo(session);
     } catch (err) {
+      setLoading(false);
+      let _detail = JSON.parse(JSON.stringify(detail));
+      _detail.sessions.map((item) => (item.loading = false));
+      setEventDetail(_detail);
       setModal(true);
       setMsg(err.response.data.error);
     }
