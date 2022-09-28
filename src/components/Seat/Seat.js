@@ -47,6 +47,9 @@ function Seat({
   }
 
   function onSelectSeat(event, rowIndex, columnIndex) {
+    const _seats = JSON.parse(JSON.stringify(seats));
+    _seats[rowIndex][columnIndex].disabled = true;
+    setSeats(_seats);
     const seatInfo = {
       sessionId,
       areaId: selectedAreaInfo.area.id,
@@ -77,6 +80,7 @@ function Seat({
     });
     const _seats = JSON.parse(JSON.stringify(seats));
     _seats[rowIndex][columnIndex].status_id = 1;
+    _seats[rowIndex][columnIndex].disabled = false;
     setSeats(_seats);
     ws.emit("unselect seat", seatInfo);
   }
@@ -271,17 +275,26 @@ function Seat({
                         </>
                       );
                     } else {
-                      return (
-                        <>
-                          <Link
-                            onClick={(event) => onSelectSeat(event, rowIndex, columnIndex, 1)}
-                            to=""
-                            key={`${rowIndex}-${columnIndex}`}
-                          >
+                      if (seats[rowIndex][columnIndex].disabled) {
+                        return (
+                          <>
                             <SeatIcon color={colors[1]} />
-                          </Link>
-                        </>
-                      );
+                          </>
+                        );
+                      } else {
+                        return (
+                          <>
+                            <Link
+                              onClick={(event) => onSelectSeat(event, rowIndex, columnIndex, 1)}
+                              to=""
+                              key={`${rowIndex}-${columnIndex}`}
+                              disabled={seats[rowIndex][columnIndex].disabled}
+                            >
+                              <SeatIcon color={colors[1]} />
+                            </Link>
+                          </>
+                        );
+                      }
                     }
                   })}
                 </div>

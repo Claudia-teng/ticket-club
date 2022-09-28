@@ -22,6 +22,7 @@ function EventDetail({
   const [detail, setEventDetail] = useState(null);
   const [modal, setModal] = useState(false);
   const [msg, setMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function getEventDetail() {
     try {
@@ -33,6 +34,16 @@ function EventDetail({
   }
 
   async function onBuyTicket(event, session) {
+    // disable button
+    setLoading(true);
+    let _detail = JSON.parse(JSON.stringify(detail));
+    for (let item of _detail.sessions) {
+      if (item.session_id === session.session_id) {
+        item.loading = true;
+      }
+    }
+    setEventDetail(_detail);
+
     const info = {
       sessionId: session.session_id,
     };
@@ -50,7 +61,6 @@ function EventDetail({
       );
       setSessionId(session.session_id);
       session.title = detail.title;
-      session.loading = true;
       setSessionInfo(session);
     } catch (err) {
       setModal(true);
@@ -59,7 +69,9 @@ function EventDetail({
   }
 
   function resetButton() {
-    detail?.sessions?.map((detail) => (detail.loading = false));
+    let _detail = JSON.parse(JSON.stringify(detail));
+    _detail = _detail?.sessions?.map((detail) => (detail.loading = false));
+    setEventDetail(_detail);
   }
 
   useEffect(() => {
@@ -192,7 +204,8 @@ function EventDetail({
                         className={
                           new Date(detail.onSale).getTime() > new Date().getTime() ||
                           new Date(session.time).getTime() <= new Date().getTime() ||
-                          session.loading
+                          session.loading ||
+                          loading
                             ? styles.disabled
                             : ""
                         }
@@ -200,6 +213,7 @@ function EventDetail({
                         disabled={
                           new Date(detail.onSale).getTime() > new Date().getTime() ||
                           new Date(session.time).getTime() <= new Date().getTime() ||
+                          loading ||
                           session.loading
                         }
                       >
