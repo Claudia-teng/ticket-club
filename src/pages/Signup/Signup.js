@@ -20,7 +20,7 @@ function Signup({ isLogin, setUserInfo, setIsLogin }) {
   function onNameChange(event) {
     setInit(false);
     setName(event.target.value);
-    if (!event.target.value) {
+    if (!event.target.value.trim()) {
       setValidName(false);
       setNameErrorMsg("請輸入使用者名稱");
     } else {

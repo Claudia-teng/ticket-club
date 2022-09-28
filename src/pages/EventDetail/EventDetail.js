@@ -16,7 +16,6 @@ function EventDetail({
   setLeftSeconds,
   setSessionInfo,
   setQueuePeople,
-  orderConfirmInfo,
 }) {
   let navigate = useNavigate();
   let { id } = useParams();
@@ -33,19 +32,30 @@ function EventDetail({
     }
   }
 
-  function onBuyTicket(event, session) {
-    console.log("start", new Date().getTime());
-    setWs(
-      io(`${process.env.REACT_APP_SOCKET}`, {
-        auth: {
-          token: localStorage.getItem("jwt"),
-        },
-      })
-    );
-    setSessionId(session.session_id);
-    session.title = detail.title;
-    session.loading = true;
-    setSessionInfo(session);
+  async function onBuyTicket(event, session) {
+    const info = {
+      sessionId: session.session_id,
+    };
+    let token = localStorage.getItem("jwt");
+    try {
+      await axios.post(`${process.env.REACT_APP_DOMAIN}/session/duplicate`, info, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setWs(
+        io(`${process.env.REACT_APP_SOCKET}`, {
+          auth: {
+            token: `Bearer ${token}`,
+          },
+        })
+      );
+      setSessionId(session.session_id);
+      session.title = detail.title;
+      session.loading = true;
+      setSessionInfo(session);
+    } catch (err) {
+      setModal(true);
+      setMsg(err.response.data.error);
+    }
   }
 
   function resetButton() {
@@ -76,18 +86,10 @@ function EventDetail({
 
       ws.on("check limit", (data) => {
         console.log("data", data);
-        console.log("end", new Date().getTime());
-        if (data === "Not login") {
+        if (data.error) {
           resetButton();
           setModal(true);
-          setMsg("請先登入！");
-          ws.disconnect();
-          return;
-        }
-        if (data === "Duplicate") {
-          resetButton();
-          setModal(true);
-          setMsg("此帳號已在購票頁面 / 隊伍中！");
+          setMsg(data.error);
           ws.disconnect();
           return;
         }
