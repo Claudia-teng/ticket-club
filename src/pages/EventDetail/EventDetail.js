@@ -6,6 +6,7 @@ import io from "socket.io-client";
 import styles from "./EventDetail.module.sass";
 import placeIcon from "../../assets/place.png";
 import ErrorModal from "../../components/Modal/Modal";
+import Modal from "react-bootstrap/Modal";
 
 function EventDetail({
   sessionId,
@@ -21,8 +22,11 @@ function EventDetail({
   let { id } = useParams();
   const [detail, setEventDetail] = useState(null);
   const [modal, setModal] = useState(false);
+  const [warningModal, setWarningModal] = useState(false);
   const [msg, setMsg] = useState("");
+  const [warningMsg, setWarningMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const [selectedSession, setSelectedSession] = useState(null);
 
   async function getEventDetail() {
     try {
@@ -49,7 +53,7 @@ function EventDetail({
     };
     let token = localStorage.getItem("jwt");
     try {
-      await axios.post(`${process.env.REACT_APP_DOMAIN}/session/duplicate`, info, {
+      await axios.post(`${process.env.REACT_APP_DOMAIN}/session/validation`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWs(
@@ -63,19 +67,46 @@ function EventDetail({
       session.title = detail.title;
       setSessionInfo(session);
     } catch (err) {
+      // console.log("err", err);
       setLoading(false);
       let _detail = JSON.parse(JSON.stringify(detail));
       _detail.sessions.map((item) => (item.loading = false));
       setEventDetail(_detail);
-      setModal(true);
-      setMsg(err.response.data.error);
+
+      if (err.response.data.warning) {
+        setSelectedSession(session);
+        setWarningModal(true);
+        setWarningMsg(err.response.data.error);
+      } else {
+        setModal(true);
+        setMsg(err.response.data.error);
+      }
     }
+  }
+
+  function connectSocket() {
+    console.log("selectedSession", selectedSession);
+    let token = localStorage.getItem("jwt");
+    setWs(
+      io(`${process.env.REACT_APP_SOCKET}`, {
+        auth: {
+          token: `Bearer ${token}`,
+        },
+      })
+    );
+    setSessionId(selectedSession.session_id);
+    selectedSession.title = detail.title;
+    setSessionInfo(selectedSession);
   }
 
   function resetButton() {
     let _detail = JSON.parse(JSON.stringify(detail));
     _detail = _detail?.sessions?.map((detail) => (detail.loading = false));
     setEventDetail(_detail);
+  }
+
+  function handleClose() {
+    setWarningModal(false);
   }
 
   useEffect(() => {
@@ -238,6 +269,13 @@ function EventDetail({
         </div>
       )}
       <ErrorModal modal={modal} setModal={setModal} msg={msg} />
+      <Modal show={warningModal} onHide={handleClose} className={styles.model}>
+        <Modal.Body>{warningMsg}</Modal.Body>
+        <Modal.Footer>
+          <button onClick={() => setWarningModal(false)}>取消</button>
+          <button onClick={() => connectSocket()}>繼續購票</button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }
