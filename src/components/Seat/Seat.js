@@ -249,13 +249,17 @@ function Seat({
                     if (seats[rowIndex][columnIndex].status_id === 2) {
                       return (
                         <>
-                          <SeatIcon color={colors[2]} />
+                          <span>
+                            <SeatIcon color={colors[2]} />
+                          </span>
                         </>
                       );
                     } else if (seats[rowIndex][columnIndex].status_id === 3) {
                       return (
                         <>
-                          <SeatIcon color={colors[3]} />
+                          <span>
+                            <SeatIcon color={colors[3]} />
+                          </span>
                         </>
                       );
                     } else if (seats[rowIndex][columnIndex].status_id === 4) {
@@ -269,14 +273,18 @@ function Seat({
                     } else if (seats[rowIndex][columnIndex].status_id === 5) {
                       return (
                         <>
-                          <SeatIcon color={colors[5]} />
+                          <span>
+                            <SeatIcon color={colors[5]} />
+                          </span>
                         </>
                       );
                     } else {
                       if (seats[rowIndex][columnIndex].disabled) {
                         return (
                           <>
-                            <SeatIcon color={colors[1]} />
+                            <span>
+                              <SeatIcon color={colors[1]} />
+                            </span>
                           </>
                         );
                       } else {
