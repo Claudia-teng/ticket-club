@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import styles from "./SeatIcon.module.sass";
 
 function SeatIcon({ color }) {

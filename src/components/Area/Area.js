@@ -1,7 +1,7 @@
 import axios from "axios";
 import styles from "./Area.module.sass";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Area({
   sessionId,

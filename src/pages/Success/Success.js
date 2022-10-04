@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import OrderConfirm from "../../components/OrderConfirm/OrderConfirm";
 import styles from "./Success.module.sass";
 

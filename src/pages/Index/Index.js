@@ -2,12 +2,9 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./Index.module.sass";
-import { useNavigate } from "react-router-dom";
 import IndexImg from "../../assets/index.png";
 
 function Index({ ws, setWs, setSessionId, orderConfirmInfo }) {
-  let navigate = useNavigate();
-  const [searchText, setSearchText] = useState("");
   const [events, setEvents] = useState([]);
 
   async function getEvents() {
@@ -60,10 +57,6 @@ function Index({ ws, setWs, setSessionId, orderConfirmInfo }) {
           </div>
         </div>
       </div>
-      {/* <div className={styles.input}>
-        <input value={searchText} onChange={(event) => onInputChange(event)} />
-        <button onClick={(event) => onSearchInput(event)}>搜尋</button>
-      </div> */}
     </>
   );
 }
