@@ -101,7 +101,7 @@ function EventDetail({
 
   function resetButton() {
     let _detail = JSON.parse(JSON.stringify(detail));
-    _detail = _detail?.sessions?.map((detail) => (detail.loading = false));
+    _detail?.sessions?.map((session) => Object.assign(session, { loading: false }));
     setEventDetail(_detail);
   }
 
@@ -128,6 +128,7 @@ function EventDetail({
         setModal(true);
         setMsg("伺服器錯誤，請稍後再試！");
         ws.disconnect();
+        setLoading(false);
         return;
       });
 
