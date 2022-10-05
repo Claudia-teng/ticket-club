@@ -30,7 +30,7 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
           status_id: 3,
         });
       }
-      ws.emit("book seat", soldSeats);
+      ws.emit("sold seat", soldSeats);
       navigate("/success");
     } catch (err) {
       localStorage.removeItem("jwt");

@@ -152,16 +152,16 @@ function Seat({
         console.log("lock seat data", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data) {
-          _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
+          _seats[seat.rowIndex][seat.columnIndex].status_id = 2;
         }
         setSeats(_seats);
       });
 
-      ws.on("book seat", (data) => {
-        console.log("book seat data", data);
+      ws.on("sold seat", (data) => {
+        console.log("sold seat data", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data) {
-          _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
+          _seats[seat.rowIndex][seat.columnIndex].status_id = 3;
         }
         setSeats(_seats);
       });
@@ -171,7 +171,6 @@ function Seat({
         if (!data.error) {
           const _seats = JSON.parse(JSON.stringify(seats));
           for (let seat of data.tickets) {
-            console.log("seat", seat);
             _seats[seat.row - 1][seat.column - 1].status_id = 1;
           }
           setSeats(_seats);
