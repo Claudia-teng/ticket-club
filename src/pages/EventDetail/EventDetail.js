@@ -85,7 +85,7 @@ function EventDetail({
   }
 
   function connectSocket() {
-    console.log("selectedSession", selectedSession);
+    // console.log("selectedSession", selectedSession);
     let token = localStorage.getItem("jwt");
     setWs(
       io(`${process.env.REACT_APP_SOCKET}`, {
@@ -121,7 +121,7 @@ function EventDetail({
 
   useEffect(() => {
     if (ws) {
-      console.log("success connect!");
+      // console.log("success connect!");
 
       ws.on("connect_error", (err) => {
         resetButton();
@@ -132,7 +132,7 @@ function EventDetail({
       });
 
       ws.on("check limit", (data) => {
-        console.log("data", data);
+        // console.log("data", data);
         if (data.error) {
           resetButton();
           setModal(true);
@@ -145,9 +145,9 @@ function EventDetail({
         if (data.pass) {
           navigate("/ticket/select");
         } else {
-          console.log("data", data);
+          // console.log("data", data);
           setWaitPeople(data.waitPeople);
-          console.log("seconds", data.seconds);
+          // console.log("seconds", data.seconds);
           setLeftSeconds(data.seconds);
           navigate("/wait");
         }

@@ -74,7 +74,7 @@ function Seat({
         columnIndex,
       },
     ];
-    console.log("seatInfo", seatInfo);
+    // console.log("seatInfo", seatInfo);
     setSelectedSeats((current) => {
       return current.filter((item) => item.rowIndex !== rowIndex || item.columnIndex !== columnIndex);
     });
@@ -86,13 +86,13 @@ function Seat({
   }
 
   async function onSubmitSeats(event) {
-    console.log("selectedSeats", selectedSeats);
+    // console.log("selectedSeats", selectedSeats);
     const info = {
       sessionId,
       areaId: selectedAreaInfo.area.id,
       tickets: selectedSeats,
     };
-    console.log("info", info);
+    // console.log("info", info);
     try {
       let token = localStorage.getItem("jwt");
       const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/lock`, info, {
@@ -105,7 +105,7 @@ function Seat({
       // console.log("lockedSeats", lockedSeats);
       ws.emit("lock seat", lockedSeats);
     } catch (err) {
-      console.log("err", err.response.data.error);
+      // console.log("err", err.response.data.error);
       setModal(true);
       setMsg(err.response.data.error);
     }
@@ -123,7 +123,7 @@ function Seat({
   useEffect(() => {
     if (ws && seats.length) {
       ws.on("self select seat", (data) => {
-        console.log("self select seat", data);
+        // console.log("self select seat", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         if (!data.error) {
           const seatInfo = {
@@ -142,14 +142,14 @@ function Seat({
       });
 
       ws.on("other select seat", (data) => {
-        console.log("other select seat", data);
+        // console.log("other select seat", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         _seats[data.rowIndex][data.columnIndex].status_id = 5;
         setSeats(_seats);
       });
 
       ws.on("lock seat", (data) => {
-        console.log("lock seat data", data);
+        // console.log("lock seat data", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data) {
           _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
@@ -158,7 +158,7 @@ function Seat({
       });
 
       ws.on("book seat", (data) => {
-        console.log("book seat data", data);
+        // console.log("book seat data", data);
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data) {
           _seats[seat.rowIndex][seat.columnIndex].status_id = seat.status_id;
@@ -167,11 +167,11 @@ function Seat({
       });
 
       ws.on("unselect seat", (data) => {
-        console.log("unselect seat", data);
+        // console.log("unselect seat", data);
         if (!data.error) {
           const _seats = JSON.parse(JSON.stringify(seats));
           for (let seat of data.tickets) {
-            console.log("seat", seat);
+            // console.log("seat", seat);
             _seats[seat.row - 1][seat.column - 1].status_id = 1;
           }
           setSeats(_seats);
@@ -182,12 +182,11 @@ function Seat({
       });
 
       ws.on("unlock seat", (data) => {
-        // todo - check self unlock(4) or other unlock (5)
-        console.log("unlock seat", data);
+        // console.log("unlock seat", data);
         if (data.error) return;
         const _seats = JSON.parse(JSON.stringify(seats));
         for (let seat of data.tickets) {
-          console.log("seat", seat);
+          // console.log("seat", seat);
           _seats[seat.row - 1][seat.column - 1].status_id = 1;
         }
         setSeats(_seats);

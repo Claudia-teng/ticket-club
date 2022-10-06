@@ -9,7 +9,7 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
   let navigate = useNavigate();
 
   async function onSubmitOrder(event) {
-    console.log("orderConfirmInfo", orderConfirmInfo);
+    // console.log("orderConfirmInfo", orderConfirmInfo);
     const seatIds = [];
     orderConfirmInfo.tickets.map((ticket) => seatIds.push(ticket.seatId));
     const info = {
@@ -22,7 +22,7 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
       const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/order`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(data.data.ok);
+      // console.log(data.data.ok);
       const soldSeats = [];
       for (let seat of orderConfirmInfo.tickets) {
         soldSeats.push({

@@ -40,13 +40,13 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, sessionInfo, from
         setPercentage(currentPercent);
       } else {
         passSeconds++;
-        console.log("originTime", originTime);
-        console.log("passSeconds", passSeconds);
+        // console.log("originTime", originTime);
+        // console.log("passSeconds", passSeconds);
         currentPercent = Math.floor((passSeconds / originTime) * 100);
         setPercentage(currentPercent);
       }
 
-      console.log("currentPercent", currentPercent);
+      // console.log("currentPercent", currentPercent);
 
       if (--time < 0) {
         passSeconds = 0;
@@ -63,7 +63,7 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, sessionInfo, from
   }, [leftSeconds]);
 
   useEffect(() => {
-    console.log("fromBuyTicket", fromBuyTicket);
+    // console.log("fromBuyTicket", fromBuyTicket);
     if (fromBuyTicket) {
       return navigate("/");
     }
@@ -79,7 +79,7 @@ function Waiting({ waitPeople, setWaitPeople, ws, leftSeconds, sessionInfo, from
     });
     ws.on("minus waiting people", (data) => {
       setWaitPeople((current) => current - 1);
-      console.log("seconds", data.seconds);
+      // console.log("seconds", data.seconds);
       clearInterval(interval);
       startTimer(data.seconds, false);
     });

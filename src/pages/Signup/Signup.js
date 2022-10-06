@@ -70,13 +70,13 @@ function Signup({ isLogin, setUserInfo, setIsLogin }) {
 
     try {
       const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/user/signup`, signupInfo);
-      console.log("data", data.data.data);
+      // console.log("data", data.data.data);
       setIsLogin(true);
       setUserInfo(data.data.data);
       localStorage.setItem("jwt", data.data.data.access_token);
       navigate("/profile");
     } catch (err) {
-      console.log("err", err);
+      // console.log("err", err);
       setLoading(false);
       setIsLogin(false);
       setErrorMsg(err.response.data.error);

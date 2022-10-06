@@ -54,7 +54,7 @@ function Area({
   useEffect(() => {
     if (!ws) return;
     if (selectedSeats.length) {
-      console.log("selectedSeats", selectedSeats);
+      // console.log("selectedSeats", selectedSeats);
       const seatInfo = {
         sessionId,
         areaId: selectedAreaInfo.area.id,
