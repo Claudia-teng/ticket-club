@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import Table from "react-bootstrap/Table";
 import styles from "./OrderConfirm.module.sass";
 
@@ -19,9 +16,14 @@ function OrderConfirm({ orderConfirmInfo }) {
             <div>
               <h1>日期</h1>
               <div>
-                <p>{new Date(orderConfirmInfo?.tickets[0].time).getFullYear().toString()}.
-                  {(new Date(orderConfirmInfo?.tickets[0].time).getMonth() + 1).toString()}.{new Date(orderConfirmInfo?.tickets[0].time).getDate().toString()} {new Date(orderConfirmInfo?.tickets[0].time).getHours().toString()}:
-                  {(new Date(orderConfirmInfo?.tickets[0].time).getMinutes() < 10 ? "0" : "") + new Date(orderConfirmInfo?.tickets[0].time).getMinutes()}</p>
+                <p>
+                  {new Date(orderConfirmInfo?.tickets[0].time).getFullYear().toString()}.
+                  {(new Date(orderConfirmInfo?.tickets[0].time).getMonth() + 1).toString()}.
+                  {new Date(orderConfirmInfo?.tickets[0].time).getDate().toString()}{" "}
+                  {new Date(orderConfirmInfo?.tickets[0].time).getHours().toString()}:
+                  {(new Date(orderConfirmInfo?.tickets[0].time).getMinutes() < 10 ? "0" : "") +
+                    new Date(orderConfirmInfo?.tickets[0].time).getMinutes()}
+                </p>
               </div>
             </div>
             <div>

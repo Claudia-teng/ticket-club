@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useEffect } from "react";
 import styles from "./SessionCard.module.sass";
 import placeIcon from "../../assets/place.png";
 

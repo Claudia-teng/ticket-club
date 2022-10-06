@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Countdown from "../../components/Countdown/Countdown";
 import SessionCard from "../../components/SessionCard/SessionCard";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./BuyTicket.module.sass";
 

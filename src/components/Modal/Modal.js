@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 
 function ErrorModal({ modal, setModal, msg }) {

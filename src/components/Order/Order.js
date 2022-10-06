@@ -1,11 +1,10 @@
 import styles from "./Order.module.sass";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import OrderConfirm from "../OrderConfirm/OrderConfirm";
 
 function Order({ sessionId, orderConfirmInfo, ws, timer }) {
-  const token = localStorage.getItem("jwt");
   let navigate = useNavigate();
 
   async function onSubmitOrder(event) {
@@ -31,7 +30,7 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
           status_id: 3,
         });
       }
-      ws.emit("book seat", soldSeats);
+      ws.emit("sold seat", soldSeats);
       navigate("/success");
     } catch (err) {
       localStorage.removeItem("jwt");
