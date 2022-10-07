@@ -118,6 +118,7 @@ function Seat({
   useEffect(() => {
     if (!ws) return;
     getSeats();
+    setSelectedSeats([]);
   }, []);
 
   useEffect(() => {
