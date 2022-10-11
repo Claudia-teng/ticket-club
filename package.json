@@ -19,7 +19,7 @@
   },
   "scripts": {
     "start": "PORT=5000 react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI=false && react-scripts build",
     "test": "react-scripts test",
     "deploy": "aws s3 sync build/ s3://ticket-club-react",
     "eject": "react-scripts eject"
