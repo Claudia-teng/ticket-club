@@ -30,7 +30,7 @@ function EventDetail({
 
   async function getEventDetail() {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event/${id}`);
+      const data = await axios.get(`https://claudia-teng.com/event/${id}`);
       setEventDetail(data.data);
     } catch (err) {
       navigate("/");
@@ -53,7 +53,7 @@ function EventDetail({
     };
     let token = localStorage.getItem("jwt");
     try {
-      await axios.post(`${process.env.REACT_APP_DOMAIN}/session/validation`, info, {
+      await axios.post(`https://claudia-teng.com/session/validation`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setWs(

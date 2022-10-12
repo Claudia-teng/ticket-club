@@ -8,7 +8,7 @@ function Index({ ws, setWs, setSessionId, orderConfirmInfo }) {
   const [events, setEvents] = useState([]);
 
   async function getEvents() {
-    const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/event`);
+    const data = await axios.get(`https://claudia-teng.com/event`);
     setEvents(data.data);
   }
 

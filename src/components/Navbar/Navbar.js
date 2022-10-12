@@ -15,7 +15,7 @@ function Navbar({ isLogin, setIsLogin }) {
     <>
       <div className={styles.navber}>
         <Link className={styles.logo} to="/">
-          TICKETCLUBS
+          TICKETCLUBBB
         </Link>
         {isLogin ? (
           <Link className={styles.member} to="/profile">

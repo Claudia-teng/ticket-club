@@ -36,7 +36,7 @@ function Seat({
     };
     let token = localStorage.getItem("jwt");
     try {
-      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat`, info, {
+      const data = await axios.post(`https://claudia-teng.com/seat`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setSeats(data.data);
@@ -95,7 +95,7 @@ function Seat({
     // console.log("info", info);
     try {
       let token = localStorage.getItem("jwt");
-      const data = await axios.post(`${process.env.REACT_APP_DOMAIN}/seat/lock`, info, {
+      const data = await axios.post(`https://claudia-teng.com/seat/lock`, info, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrderConfirmInfo(data.data);

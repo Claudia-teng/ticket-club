@@ -22,7 +22,7 @@ function Area({
   async function getArea() {
     let token = localStorage.getItem("jwt");
     try {
-      const data = await axios.get(`${process.env.REACT_APP_DOMAIN}/area/${sessionId}`, {
+      const data = await axios.get(`https://claudia-teng.com/area/${sessionId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const result = data.data;
