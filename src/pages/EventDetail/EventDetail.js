@@ -57,7 +57,7 @@ function EventDetail({
         headers: { Authorization: `Bearer ${token}` },
       });
       setWs(
-        io(`${process.env.REACT_APP_SOCKET}`, {
+        io(`https://claudia-teng.com`, {
           auth: {
             token: `Bearer ${token}`,
           },
@@ -88,7 +88,7 @@ function EventDetail({
     // console.log("selectedSession", selectedSession);
     let token = localStorage.getItem("jwt");
     setWs(
-      io(`${process.env.REACT_APP_SOCKET}`, {
+      io(`https://claudia-teng.com`, {
         auth: {
           token: `Bearer ${token}`,
         },
