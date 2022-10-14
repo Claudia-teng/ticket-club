@@ -5,7 +5,7 @@ import styles from "./Login.module.sass";
 
 function Login({ isLogin, setUserInfo, setIsLogin }) {
   let navigate = useNavigate();
-  const [init, setInit] = useState(true);
+  const [init, setInit] = useState(false);
   const [email, setEmail] = useState("demo@test.com");
   const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
