@@ -39,6 +39,12 @@ function Order({ sessionId, orderConfirmInfo, ws, timer }) {
   }
 
   useEffect(() => {
+    if (!ws) {
+      navigate("/");
+    }
+  }, []);
+
+  useEffect(() => {
     if (timer === "00:00") {
       navigate("/");
     }

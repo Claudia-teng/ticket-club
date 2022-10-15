@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import OrderConfirm from "../../components/OrderConfirm/OrderConfirm";
 import styles from "./Success.module.sass";
 
-function Success({ orderConfirmInfo, setOrderConfirmInfo }) {
+function Success({ ws, setWs, orderConfirmInfo, setOrderConfirmInfo }) {
   let navigate = useNavigate();
 
   function navigateToProfile() {
@@ -14,6 +14,8 @@ function Success({ orderConfirmInfo, setOrderConfirmInfo }) {
   }
 
   useEffect(() => {
+    ws.disconnect();
+    setWs(null);
     return () => {
       setOrderConfirmInfo(null);
     };
